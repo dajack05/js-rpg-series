@@ -30,3 +30,12 @@ declare module '*.png' {
 - Implement same design while using the src/dst drawImage mode
 
 - Draw frame 1 by using width and height of 16px
+
+## Make game loop
+- Make loop function which uses `requestAnimationFrame(`
+- Get keyboard input
+- Move player
+- Clear screen
+- Fix stutter (is_w_pressed, ...)
+- Add keyup event
+- Move update stuff to `update()`

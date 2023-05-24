@@ -7,28 +7,70 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 document.body.append(canvas);
 
-const img_size = 400;
+let dst_x = window.innerWidth / 2 - 64;
+let dst_y = window.innerHeight / 2 - 64;
+
+let is_w_pressed = false;
+let is_s_pressed = false;
+let is_a_pressed = false;
+let is_d_pressed = false;
+
+document.addEventListener('keydown',(evt)=>{
+    if(evt.key == 'd'){
+        is_d_pressed = true;
+    }
+    if(evt.key == 'a'){
+        is_a_pressed = true;
+    }
+    if(evt.key == 'w'){
+        is_w_pressed = true;
+    }
+    if(evt.key == 's'){
+        is_s_pressed = true;
+    }
+});
+
+document.addEventListener('keyup',(evt)=>{
+    if(evt.key == 'd'){
+        is_d_pressed = false;
+    }
+    if(evt.key == 'a'){
+        is_a_pressed = false;
+    }
+    if(evt.key == 'w'){
+        is_w_pressed = false;
+    }
+    if(evt.key == 's'){
+        is_s_pressed = false;
+    }
+});
+
 const img = new Image();
-img.onload = () => draw();
+img.onload = () => loop();
 img.src = old_hero;
 
 ctx.imageSmoothingEnabled = false;
 
-ctx.fillStyle = "#cccccc";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+function update(){
+    if(is_d_pressed) dst_x += 10;
+    if(is_a_pressed) dst_x -= 10;
+    if(is_w_pressed) dst_y -= 10;
+    if(is_s_pressed) dst_y += 10;
+}
 
 function draw() {
+    ctx.fillStyle = "#cccccc";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     const scale = 8;
 
-    const src_w = img.width;
-    const src_h = img.height;
+    const src_w = 16;
+    const src_h = 16;
     const src_x = 0;
     const src_y = 0;
 
-    const dst_w = img.width * scale;
-    const dst_h = img.height * scale;
-    const dst_x = window.innerWidth / 2 - dst_w / 2;
-    const dst_y = window.innerHeight / 2 - dst_h / 2;
+    const dst_w = src_w * scale;
+    const dst_h = src_h * scale;
     ctx.drawImage(
         img,
         src_x,
@@ -40,4 +82,11 @@ function draw() {
         dst_w,
         dst_h
     );
+}
+
+function loop(){
+    update();
+    draw();
+
+    requestAnimationFrame(()=>loop());
 }
