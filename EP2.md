@@ -25,3 +25,8 @@ declare module '*.png' {
 - Correct image scaling interpolation `ctx.imageSmoothingEnabled = false;`
 
 ## Show a subsection of the image
+[Mozilla Ref](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage)
+
+- Implement same design while using the src/dst drawImage mode
+
+- Draw frame 1 by using width and height of 16px

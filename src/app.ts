@@ -19,9 +19,25 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 function draw() {
     const scale = 8;
-    const w = img.width * scale;
-    const h = img.height * scale;
-    const x = window.innerWidth / 2 - w / 2;
-    const y = window.innerHeight / 2 - h / 2;
-    ctx.drawImage(img, x, y, w, h);
+
+    const src_w = img.width;
+    const src_h = img.height;
+    const src_x = 0;
+    const src_y = 0;
+
+    const dst_w = img.width * scale;
+    const dst_h = img.height * scale;
+    const dst_x = window.innerWidth / 2 - dst_w / 2;
+    const dst_y = window.innerHeight / 2 - dst_h / 2;
+    ctx.drawImage(
+        img,
+        src_x,
+        src_y,
+        src_w,
+        src_h,
+        dst_x,
+        dst_y,
+        dst_w,
+        dst_h
+    );
 }
