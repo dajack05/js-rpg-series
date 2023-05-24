@@ -10,39 +10,14 @@ document.body.append(canvas);
 let dst_x = window.innerWidth / 2 - 64;
 let dst_y = window.innerHeight / 2 - 64;
 
-let is_w_pressed = false;
-let is_s_pressed = false;
-let is_a_pressed = false;
-let is_d_pressed = false;
+const down_keys: Map<string, boolean> = new Map<string, boolean>();
 
-document.addEventListener('keydown',(evt)=>{
-    if(evt.key == 'd'){
-        is_d_pressed = true;
-    }
-    if(evt.key == 'a'){
-        is_a_pressed = true;
-    }
-    if(evt.key == 'w'){
-        is_w_pressed = true;
-    }
-    if(evt.key == 's'){
-        is_s_pressed = true;
-    }
+document.addEventListener('keydown', (evt) => {
+    down_keys.set(evt.key, true);
 });
 
-document.addEventListener('keyup',(evt)=>{
-    if(evt.key == 'd'){
-        is_d_pressed = false;
-    }
-    if(evt.key == 'a'){
-        is_a_pressed = false;
-    }
-    if(evt.key == 'w'){
-        is_w_pressed = false;
-    }
-    if(evt.key == 's'){
-        is_s_pressed = false;
-    }
+document.addEventListener('keyup', (evt) => {
+    down_keys.set(evt.key, false);
 });
 
 const img = new Image();
@@ -51,11 +26,11 @@ img.src = old_hero;
 
 ctx.imageSmoothingEnabled = false;
 
-function update(){
-    if(is_d_pressed) dst_x += 10;
-    if(is_a_pressed) dst_x -= 10;
-    if(is_w_pressed) dst_y -= 10;
-    if(is_s_pressed) dst_y += 10;
+function update() {
+    if (down_keys.get('d')) dst_x += 10;
+    if (down_keys.get('a')) dst_x -= 10;
+    if (down_keys.get('w')) dst_y -= 10;
+    if (down_keys.get('s')) dst_y += 10;
 }
 
 function draw() {
@@ -84,9 +59,9 @@ function draw() {
     );
 }
 
-function loop(){
+function loop() {
     update();
     draw();
 
-    requestAnimationFrame(()=>loop());
+    requestAnimationFrame(() => loop());
 }
