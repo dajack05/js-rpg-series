@@ -10,3 +10,7 @@
 - Add a `isKeyDown` method
 - Refactor main code
 - Refactor into static code (only runs one place)
+
+## Refactor engine into its own class
+- Create engine source
+- Move canvas and ctx into engine

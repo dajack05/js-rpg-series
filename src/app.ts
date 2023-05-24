@@ -1,41 +1,26 @@
+import { Engine } from "./Engine";
+import { InputManager } from "./InputManager";
 import old_hero from "./resources/images/old_hero[16x16].png";
 
-const canvas = document.createElement('canvas') as HTMLCanvasElement;
-const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-document.body.append(canvas);
+const engine = new Engine();
 
 let dst_x = window.innerWidth / 2 - 64;
 let dst_y = window.innerHeight / 2 - 64;
-
-const down_keys: Map<string, boolean> = new Map<string, boolean>();
-
-document.addEventListener('keydown', (evt) => {
-    down_keys.set(evt.key, true);
-});
-
-document.addEventListener('keyup', (evt) => {
-    down_keys.set(evt.key, false);
-});
 
 const img = new Image();
 img.onload = () => loop();
 img.src = old_hero;
 
-ctx.imageSmoothingEnabled = false;
 
 function update() {
-    if (down_keys.get('d')) dst_x += 10;
-    if (down_keys.get('a')) dst_x -= 10;
-    if (down_keys.get('w')) dst_y -= 10;
-    if (down_keys.get('s')) dst_y += 10;
+    if (InputManager.IsKeyDown('d')) dst_x += 10;
+    if (InputManager.IsKeyDown('a')) dst_x -= 10;
+    if (InputManager.IsKeyDown('w')) dst_y -= 10;
+    if (InputManager.IsKeyDown('s')) dst_y += 10;
 }
 
 function draw() {
-    ctx.fillStyle = "#cccccc";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    engine.clear();
 
     const scale = 8;
 
@@ -46,7 +31,7 @@ function draw() {
 
     const dst_w = src_w * scale;
     const dst_h = src_h * scale;
-    ctx.drawImage(
+    engine.drawImage(
         img,
         src_x,
         src_y,
