@@ -1,4 +1,4 @@
-# Episode 1
+# Episode I
 
 ## Init node env
 `npm init`
