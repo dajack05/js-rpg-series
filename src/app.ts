@@ -1,3 +1,5 @@
+import old_hero from "./resources/images/old_hero[16x16].png";
+
 const canvas = document.createElement('canvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
@@ -7,15 +9,19 @@ document.body.append(canvas);
 
 const img_size = 400;
 const img = new Image();
-img.src = `https://picsum.photos/${img_size}`;
+img.onload = () => draw();
+img.src = old_hero;
+
+ctx.imageSmoothingEnabled = false;
 
 ctx.fillStyle = "#cccccc";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-setInterval(() => {
-    const x = -img_size + Math.random() * (canvas.width + img_size * 2);
-    const y = -img_size + Math.random() * (canvas.height + img_size * 2);
-    const w = Math.random() * img_size;
-    const h = Math.random() * img_size;
+function draw() {
+    const scale = 8;
+    const w = img.width * scale;
+    const h = img.height * scale;
+    const x = window.innerWidth / 2 - w / 2;
+    const y = window.innerHeight / 2 - h / 2;
     ctx.drawImage(img, x, y, w, h);
-}, 1);
+}
