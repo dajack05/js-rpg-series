@@ -14,3 +14,12 @@
 ## Refactor engine into its own class
 - Create engine source
 - Move canvas and ctx into engine
+
+## Refactor Sprite
+- Constructor has image_path which can be set
+- load loads the image
+- has flag for isLoaded
+- add draw(engine) method
+- add setPosition
+- add translate(x,y)
+- add SubSize

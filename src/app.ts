@@ -1,47 +1,28 @@
 import { Engine } from "./Engine";
 import { InputManager } from "./InputManager";
+import { Sprite } from "./Sprite";
 import old_hero from "./resources/images/old_hero[16x16].png";
 
 const engine = new Engine();
 
-let dst_x = window.innerWidth / 2 - 64;
-let dst_y = window.innerHeight / 2 - 64;
+const sprite = new Sprite(old_hero);
+sprite.setScale(4);
+sprite.setSubSize(16);
 
-const img = new Image();
-img.onload = () => loop();
-img.src = old_hero;
+sprite.setPosition(window.innerWidth / 2 - 64, window.innerHeight / 2 - 64);
 
+loop();
 
 function update() {
-    if (InputManager.IsKeyDown('d')) dst_x += 10;
-    if (InputManager.IsKeyDown('a')) dst_x -= 10;
-    if (InputManager.IsKeyDown('w')) dst_y -= 10;
-    if (InputManager.IsKeyDown('s')) dst_y += 10;
+    if (InputManager.IsKeyDown('d')) sprite.translate(10, 0);
+    if (InputManager.IsKeyDown('a')) sprite.translate(-10, 0);
+    if (InputManager.IsKeyDown('w')) sprite.translate(0, -10);
+    if (InputManager.IsKeyDown('s')) sprite.translate(0, 10);
 }
 
 function draw() {
     engine.clear();
-
-    const scale = 8;
-
-    const src_w = 16;
-    const src_h = 16;
-    const src_x = 0;
-    const src_y = 0;
-
-    const dst_w = src_w * scale;
-    const dst_h = src_h * scale;
-    engine.drawImage(
-        img,
-        src_x,
-        src_y,
-        src_w,
-        src_h,
-        dst_x,
-        dst_y,
-        dst_w,
-        dst_h
-    );
+    sprite.draw(engine);
 }
 
 function loop() {
