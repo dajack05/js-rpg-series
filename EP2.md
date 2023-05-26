@@ -21,6 +21,7 @@ declare module '*.png' {
 }
 ```
 - Add image onLoad function to trigger drawing
+- Only draw IF image is loaded
 - Refactor drawing code to draw image in middle of screen
 - Correct image scaling interpolation `ctx.imageSmoothingEnabled = false;`
 
@@ -28,7 +29,6 @@ declare module '*.png' {
 [Mozilla Ref](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage)
 
 - Implement same design while using the src/dst drawImage mode
-
 - Draw frame 1 by using width and height of 16px
 
 ## Make game loop

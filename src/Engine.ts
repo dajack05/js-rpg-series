@@ -1,3 +1,5 @@
+import { Rect } from "./Vec";
+
 export class Engine {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
@@ -18,7 +20,10 @@ export class Engine {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    drawImage(image: HTMLImageElement, source_x: number, source_y: number, source_w: number, source_h: number, dest_x: number, dest_y: number, dest_w: number, dest_h: number) {
-        this.ctx.drawImage(image, source_x, source_y, source_w, source_h, dest_x, dest_y, dest_w, dest_h);
+    drawImage(image: HTMLImageElement, source: Rect, dest: Rect) {
+        this.ctx.drawImage(image,
+            source.origin.x, source.origin.y, source.size.x, source.size.y,
+            dest.origin.x, dest.origin.y, dest.size.x, dest.size.y,
+        );
     }
 }
