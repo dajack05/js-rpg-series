@@ -1,4 +1,4 @@
-import { Rect } from "./Vec";
+import { Rect, Vec } from "./Vec";
 
 export class Engine {
     private canvas: HTMLCanvasElement;
@@ -25,5 +25,10 @@ export class Engine {
             source.origin.x, source.origin.y, source.size.x, source.size.y,
             dest.origin.x, dest.origin.y, dest.size.x, dest.size.y,
         );
+    }
+
+    strokeRect(rect: Rect, color: string) {
+        this.ctx.strokeStyle = color;
+        this.ctx.strokeRect(rect.origin.x, rect.origin.y, rect.size.x, rect.size.y);
     }
 }

@@ -70,6 +70,10 @@ export class Sprite {
         this.position = position;
     }
 
+    getPosition():Vec{
+        return this.position;
+    }
+
     translate(translation: Vec) {
         this.position = this.position.add(translation);
     }
