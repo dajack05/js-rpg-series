@@ -1,5 +1,5 @@
 import { Engine } from "./Engine";
-import { Rect } from "./Vec";
+import { Rect, Vec } from "./Vec";
 
 export class Collider extends Rect {
     overlaps(other: Collider): boolean {
@@ -10,5 +10,9 @@ export class Collider extends Rect {
 
     draw(engine: Engine) {
         engine.strokeRect(this, "#FF0000");
+    }
+
+    translate(translation:Vec){
+        this.origin = this.origin.add(translation);
     }
 }

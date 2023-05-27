@@ -7,12 +7,12 @@ import old_hero from "./resources/images/old_hero[16x16].png";
 
 const engine = new Engine();
 
-const collider = new Collider(new Vec(20, 20), new Vec(100, 100));
+const collider = new Collider(new Vec(0, 600), new Vec(1500, 50));
 
 const sprite = new Sprite(old_hero);
 sprite.setScale(4);
 sprite.setSubSize(16);
-const player_collider = new Collider(new Vec(), new Vec(16 * 4, 16 * 4));
+const player_collider = new Collider(new Vec(500,500), new Vec(16 * 4, 16 * 4));
 
 const anim_idle = new Animation(0, 3, 1);
 const anim_walk_left = new Animation(6, 11, 10);
@@ -26,23 +26,36 @@ loop();
 
 function update() {
     sprite.setAnimation(anim_idle);
+
+    let move_vec = new Vec();
+
     if (InputManager.IsKeyDown('d')) {
-        sprite.translate(new Vec(2, 0));
+        move_vec = move_vec.add(new Vec(2, 0))
         sprite.setAnimation(anim_walk_right);
     }
     if (InputManager.IsKeyDown('a')) {
-        sprite.translate(new Vec(-2, 0));
+        move_vec = move_vec.add(new Vec(-2, 0))
         sprite.setAnimation(anim_walk_left);
     }
     if (InputManager.IsKeyDown('w')) {
-        sprite.translate(new Vec(0, -2));
+        move_vec = move_vec.add(new Vec(0, -2))
         sprite.setAnimation(anim_jump);
     }
     if (InputManager.IsKeyDown('s')) {
-        sprite.translate(new Vec(0, 2));
+        move_vec = move_vec.add(new Vec(0, 2))
     }
 
-    player_collider.origin = sprite.getPosition();
+    player_collider.translate(move_vec.mult(new Vec(0, 1)));
+    if (player_collider.overlaps(collider)) {
+        player_collider.translate(move_vec.mult(new Vec(0, -1)));
+    }
+
+    player_collider.translate(move_vec.mult(new Vec(1, 0)));
+    if (player_collider.overlaps(collider)) {
+        player_collider.translate(move_vec.mult(new Vec(-1, 0)));
+    }
+
+    sprite.setPosition(player_collider.origin);
 }
 
 function draw() {
@@ -56,7 +69,7 @@ function loop() {
     update();
     draw();
 
-    if(player_collider.overlaps(collider)){
+    if (player_collider.overlaps(collider)) {
         console.log("Touch!");
     }
 
