@@ -1,8 +1,10 @@
+import { CollisionWorld } from "./Collision";
 import { Rect, Vec } from "./Vec";
 
 export class Engine {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
+    collisionWorld = new CollisionWorld();
     constructor() {
 
         this.canvas = document.createElement('canvas') as HTMLCanvasElement;
