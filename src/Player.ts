@@ -30,6 +30,8 @@ export class Player extends Node {
         this.sprite.setScale(4);
         this.sprite.setSubSize(16);
         engine.collisionWorld.addCollider(this.collider);
+
+        this.addChild(this.sprite);
     }
 
     override update(engine: Engine) {
@@ -75,7 +77,5 @@ export class Player extends Node {
 
     override draw(engine: Engine): void {
         super.draw(engine);
-
-        this.sprite.draw(engine);
     }
 }

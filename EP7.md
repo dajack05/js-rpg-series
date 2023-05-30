@@ -12,3 +12,7 @@
   - Move `world.update` and `world.draw` into `Engine.ts`
 
 ## Make `Sprite` a `Node`
+- Make `Sprite` extend `Node`
+- Remove redundant private vars
+- Modify override draw
+- `addChild` instead of one-off updates in `Player`

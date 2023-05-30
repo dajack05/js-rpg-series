@@ -1,4 +1,5 @@
 import { Engine } from "./Engine";
+import { Node } from "./Scene/Node";
 import { Rect, Vec } from "./Vec";
 
 export class Animation {
@@ -26,18 +27,18 @@ export class Animation {
     }
 }
 
-export class Sprite {
+export class Sprite extends Node {
     private image = new Image();
     private isLoaded = false;
 
     private source = new Rect();
     private subSize = 0;
 
-    private position = new Vec(0, 0);
-    private scale = 1.0;
     private animation = new Animation();
 
     constructor(image_path: string = "") {
+        super();
+
         this.image.onload = () => {
             console.log(`Loaded "${this.image.src}"`);
             this.isLoaded = true;
@@ -78,7 +79,9 @@ export class Sprite {
         this.position = this.position.add(translation);
     }
 
-    draw(engine: Engine) {
+    override draw(engine: Engine) {
+        super.draw(engine);
+        
         if (!this.isLoaded) return;
         
         // Update frame if needed
