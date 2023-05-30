@@ -1,6 +1,6 @@
-import { Engine } from "./Engine";
-import { Node } from "./Scene/Node";
-import { Rect, Vec } from "./Vec";
+import { Engine } from "../Engine";
+import { Node } from "./Node";
+import { Rect, Vec } from "../Vec";
 
 export class Animation {
     frame: number;

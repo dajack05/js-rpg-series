@@ -1,8 +1,8 @@
-import { Collider, CollisionWorld } from "./Collision";
 import { Engine } from "./Engine";
 import { InputManager } from "./InputManager";
+import { Collider } from "./Scene/Collider";
 import { Node } from "./Scene/Node";
-import { Animation, Sprite } from "./Sprite";
+import { Animation, Sprite } from "./Scene/Sprite";
 import { Vec } from "./Vec";
 import old_hero from "./resources/images/old_hero[16x16].png";
 

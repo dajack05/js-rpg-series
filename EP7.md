@@ -32,3 +32,8 @@
 - Create `root` node in `Engine`
 - Add `player` from `app.ts` to `root`
 - Clear `update()` and `draw()` code in `app.ts`
+
+## Tidy
+- Move `Collider` to `Scene` folder
+- Move `Sprite` to `Scene` folder
+- Refacting and red-squigglies lol

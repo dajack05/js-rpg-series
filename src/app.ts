@@ -1,6 +1,6 @@
-import { Collider, CollisionWorld } from "./Collision";
 import { Engine } from "./Engine";
 import { Player } from "./Player";
+import { Collider } from "./Scene/Collider";
 import { Vec } from "./Vec";
 
 const engine = new Engine();
