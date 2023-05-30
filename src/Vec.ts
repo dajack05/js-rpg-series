@@ -30,6 +30,10 @@ export class Vec {
     divScalar(scalar: number): Vec {
         return new Vec(this.x / scalar, this.y / scalar);
     }
+
+    clone(): Vec {
+        return new Vec(this.x, this.y);
+    }
 }
 
 export class Rect {

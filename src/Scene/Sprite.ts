@@ -32,9 +32,8 @@ export class Sprite extends Node {
     private isLoaded = false;
 
     private source = new Rect();
-    private subSize = 0;
-
-    private animation = new Animation();
+    protected subSize = 0;
+    protected animation = new Animation();
 
     constructor(image_path: string = "") {
         super();
@@ -71,7 +70,7 @@ export class Sprite extends Node {
         this.position = position;
     }
 
-    getPosition():Vec{
+    getPosition(): Vec {
         return this.position;
     }
 
@@ -79,11 +78,17 @@ export class Sprite extends Node {
         this.position = this.position.add(translation);
     }
 
+    calculateSource() {
+        const cols = this.image.width / this.subSize;
+        this.source.origin.x = this.animation.frame % cols * this.subSize;
+        this.source.origin.y = Math.floor(this.animation.frame / cols) * this.subSize;
+    }
+
     override draw(engine: Engine) {
         super.draw(engine);
-        
+
         if (!this.isLoaded) return;
-        
+
         // Update frame if needed
         if (!this.animation.isStatic()) {
             const now = Date.now();
@@ -101,10 +106,7 @@ export class Sprite extends Node {
 
                 this.animation.last_frame_time = now;
 
-                // Reevaluate source rect
-                const cols = this.image.width / this.subSize;
-                this.source.origin.x = this.animation.frame % cols * this.subSize;
-                this.source.origin.y = Math.floor(this.animation.frame / cols) * this.subSize;
+                this.calculateSource();
             }
         }
 
