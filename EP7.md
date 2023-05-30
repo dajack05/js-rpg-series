@@ -16,3 +16,16 @@
 - Remove redundant private vars
 - Modify override draw
 - `addChild` instead of one-off updates in `Player`
+
+## Make `Collider` a `Node`
+- Make `Collider` extend `Node`
+- Add constructor to set offset and size
+- Make an `offset` variable to allow changed origin
+- Make conviencence function to get origin
+- update `overlaps`
+- Override and update `draw`
+- Move `translate` into `Node`
+- `Player` needs to get and set position NOT origin
+- Trim `Player.collider` to fit `Player.sprite`
+
+## Create Root Node in Engine
