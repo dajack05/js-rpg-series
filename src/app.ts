@@ -4,28 +4,14 @@ import { Collider } from "./Scene/Collider";
 import { Map } from "./Scene/Map";
 import { Vec } from "./Vec";
 import ground_tiles from './resources/images/ground_tiles.png';
+import map_01 from './resources/maps/map_01.json'
 
 const engine = new Engine();
 
-const map = new Map(ground_tiles, 16);
+// const map = new Map(ground_tiles, 16);
+const map = Map.FromJson(map_01);
 map.setPosition(new Vec(300,200));
 map.setScale(4);
-map.addTileLayer({
-    data: [
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 2, 2, 2, 2, 2, 2, 2, 2, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    ],
-    width: 10,
-    height: 10,
-})
 engine.root.addChild(map);
 
 const player = new Player(engine, new Vec(500, 200));

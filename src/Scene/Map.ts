@@ -1,11 +1,35 @@
 import { Engine } from "../Engine";
 import { Sprite } from "./Sprite";
 
+import tileset from '../resources/images/ground_tiles.png'
 
 interface TileLayer {
     data: number[],
     width: number;
     height: number;
+}
+
+interface MapJsonStructure {
+    height: number,
+    width: number,
+
+    tileheight: number,
+    tilewidth: number,
+
+    tilesets: any[],
+    layers: LayerJsonStructure[],
+}
+
+interface LayerJsonStructure {
+    data: number[],
+    height: number,
+    id: number,
+    name: string,
+    type: string,
+    visible: boolean,
+    width: number,
+    x: number,
+    y: number,
 }
 
 export class Map extends Sprite {
@@ -35,5 +59,20 @@ export class Map extends Sprite {
                 }
             }
         }
+    }
+
+    static FromJson(json: any): Map {
+        const map_data = json as MapJsonStructure;
+        const map = new Map(tileset, map_data.tilewidth);
+
+        for (const layer_data of map_data.layers) {
+            map.addTileLayer({
+                data: layer_data.data,
+                height: layer_data.height,
+                width: layer_data.width,
+            });
+        }
+
+        return map;
     }
 }
