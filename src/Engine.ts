@@ -1,6 +1,6 @@
 import { CollisionWorld } from "./Collision";
 import { Node } from "./Scene/Node";
-import { Rect } from "./Vec";
+import { Rect, Vec } from "./Vec";
 
 export class Engine {
     private canvas: HTMLCanvasElement;
@@ -11,6 +11,10 @@ export class Engine {
 
     root = new Node();
     collisionWorld = new CollisionWorld();
+
+    smoothCamera = true;
+    smoothSpeed = 0.1;
+    private cameraTarget = new Vec(0, 0);
 
     constructor() {
         this.canvas = document.createElement('canvas') as HTMLCanvasElement;
@@ -47,7 +51,17 @@ export class Engine {
         this.userDraw = userDraw;
     }
 
+    setCameraPosition(position: Vec) {
+        this.cameraTarget = position.sub(new Vec(this.canvas.width / 2, this.canvas.height / 2)).multScalar(-1);
+    }
+
     private loop() {
+        if (this.smoothCamera) {
+            this.root.translate(this.cameraTarget.sub(this.root.position).multScalar(this.smoothSpeed));
+        } else {
+            this.root.position = this.cameraTarget;
+        }
+
         this.collisionWorld.update();
         this.root.update(this);
         this.userUpdate(this);
@@ -56,7 +70,7 @@ export class Engine {
         this.root.draw(this);
         this.userDraw(this);
         this.collisionWorld.draw(this);
-        
+
         requestAnimationFrame(this.loop.bind(this));
     }
 }

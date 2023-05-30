@@ -113,7 +113,7 @@ export class Sprite extends Node {
 
             this.source,
 
-            new Rect(this.position, new Vec(this.source.size.x * this.scale, this.source.size.y * this.scale))
+            new Rect(this.world_position, new Vec(this.source.size.x * this.world_scale, this.source.size.y * this.world_scale))
         );
     }
 

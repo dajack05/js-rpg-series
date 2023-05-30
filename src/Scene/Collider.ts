@@ -15,13 +15,17 @@ export class Collider extends Node {
         this.size = size;
     }
 
-    getOrigin(): Vec {
-        return this.position.add(this.offset);
+    getOrigin(world_origin = false): Vec {
+        if (world_origin) {
+            return this.world_position.add(this.offset);
+        } else {
+            return this.position.add(this.offset);
+        }
     }
 
     overlaps(other: Collider): boolean {
-        const origin = this.getOrigin();
-        const otherOrigin = other.getOrigin();
+        const origin = this.getOrigin(false);
+        const otherOrigin = other.getOrigin(false);
         const is_in_x = origin.x < otherOrigin.x + other.size.x && origin.x + this.size.x > otherOrigin.x;
         const is_in_y = origin.y < otherOrigin.y + other.size.y && origin.y + this.size.y > otherOrigin.y;
         return is_in_x && is_in_y;
@@ -29,6 +33,6 @@ export class Collider extends Node {
 
     override draw(engine: Engine) {
         super.draw(engine);
-        engine.strokeRect(new Rect(this.getOrigin(), this.size), this.isColliding ? "#00FF00" : "#FF0000");
+        engine.strokeRect(new Rect(this.getOrigin(true), this.size), this.isColliding ? "#00FF00" : "#FF0000");
     }
 }
