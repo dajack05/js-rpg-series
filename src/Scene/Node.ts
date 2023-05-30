@@ -31,4 +31,8 @@ export class Node {
             child.draw(engine);
         }
     }
+
+    translate(translation: Vec) {
+        this.position = this.position.add(translation);
+    }
 }

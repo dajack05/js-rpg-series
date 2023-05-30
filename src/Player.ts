@@ -14,7 +14,7 @@ const PlayerAnims = {
 };
 
 export class Player extends Node {
-    collider = new Collider(new Vec(0, 0), new Vec(16 * 4, 16 * 4));
+    collider = new Collider(new Vec(8, 0), new Vec(48, 64));
     sprite = new Sprite(old_hero);
 
     is_grounded = false;
@@ -25,7 +25,7 @@ export class Player extends Node {
         super();
 
         this.position = start_position;
-        this.collider.origin = this.position;
+        this.collider.position = this.position;
 
         this.sprite.setScale(4);
         this.sprite.setSubSize(16);
@@ -72,7 +72,7 @@ export class Player extends Node {
             this.collider.translate(move_vec.mult(new Vec(-1, 0)));
         }
 
-        this.sprite.setPosition(this.collider.origin);
+        this.sprite.setPosition(this.collider.position);
     }
 
     override draw(engine: Engine): void {
