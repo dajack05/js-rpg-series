@@ -33,3 +33,5 @@ if (player_collider.isColliding) {
     player_collider.translate(move_vec.mult(new Vec(0, -1)));
 }
 ```
+- Make the jump big enough to matter 😅
+- We'll fix the whole velocity thing soon

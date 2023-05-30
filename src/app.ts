@@ -50,7 +50,7 @@ function update() {
     }
     if (InputManager.IsKeyDown(' ') && player_is_grounded) {
         player_is_grounded = false;
-        move_vec = move_vec.add(new Vec(0, -4))
+        move_vec = move_vec.add(new Vec(0, -100))
         sprite.setAnimation(anim_jump);
     }
 
