@@ -62,22 +62,6 @@ export class Sprite extends Node {
         this.subSize = sub_size;
     }
 
-    setScale(scale: number) {
-        this.scale = scale;
-    }
-
-    setPosition(position: Vec) {
-        this.position = position;
-    }
-
-    getPosition(): Vec {
-        return this.position;
-    }
-
-    translate(translation: Vec) {
-        this.position = this.position.add(translation);
-    }
-
     calculateSource() {
         const cols = this.image.width / this.subSize;
         this.source.origin.x = this.animation.frame % cols * this.subSize;

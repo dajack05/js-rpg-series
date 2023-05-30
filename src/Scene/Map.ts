@@ -2,6 +2,9 @@ import { Engine } from "../Engine";
 import { Sprite } from "./Sprite";
 
 import tileset from '../resources/images/ground_tiles.png'
+import { Collider } from "./Collider";
+import { Vec } from "../Vec";
+import { CollisionWorld } from "../Collision";
 
 interface TileLayer {
     data: number[],
@@ -24,19 +27,35 @@ interface MapJsonStructure {
     tilewidth: number,
 
     tilesets: TilesetJsonStructure[],
-    layers: LayerJsonStructure[],
+    layers: (TileLayerJsonStructure | ObjectLayerJsonStructure)[],
 }
 
-interface LayerJsonStructure {
-    data: number[],
-    height: number,
+interface TileLayerJsonStructure {
     id: number,
+    width: number,
+    height: number,
     name: string,
     type: string,
+    data: number[],
     visible: boolean,
-    width: number,
+}
+
+interface MapObjectJsonStructure {
+    id: null,
+    name: string,
     x: number,
     y: number,
+    width: number,
+    height: number,
+    type: string,
+}
+
+interface ObjectLayerJsonStructure {
+    id: number,
+    name: string,
+    objects: MapObjectJsonStructure[],
+    visible: boolean,
+    type: string,
 }
 
 interface TilesetJsonStructure {
@@ -51,13 +70,27 @@ interface TilesetJsonStructure {
     tilewidth: number,
 }
 
+const LayerTypes = {
+    Tile: "tilelayer",
+    Object: "objectgroup",
+};
+
 export class Map extends Sprite {
     private tilesets: Tileset[] = [];
     private tileLayers: TileLayer[] = [];
+    private colliders: Collider[] = [];
 
     constructor(tileset_image_path: string, tile_size: number) {
         super(tileset_image_path);
         this.subSize = tile_size;
+    }
+
+    override setScale(scale: number): void {
+        super.setScale(scale);
+        for(const collider of this.colliders){
+            collider.offset = collider.offset.multScalar(this.scale);
+            collider.size = collider.size.multScalar(this.scale);
+        }
     }
 
     addTileLayer(layer: TileLayer) {
@@ -68,6 +101,11 @@ export class Map extends Sprite {
         tileset.sprite.setSubSize(tileset.tilesize);
         this.addChild(tileset.sprite);
         this.tilesets.push(tileset);
+    }
+
+    addCollider(collider: Collider) {
+        this.addChild(collider);
+        this.colliders.push(collider);
     }
 
     override draw(engine: Engine): void {
@@ -92,16 +130,30 @@ export class Map extends Sprite {
         }
     }
 
-    static FromJson(json: any): Map {
+    static FromJson(json: any, world: CollisionWorld): Map {
         const map_data = json as MapJsonStructure;
         const map = new Map(tileset, map_data.tilewidth);
 
-        for (const layer_data of map_data.layers) {
-            map.addTileLayer({
-                data: layer_data.data,
-                height: layer_data.height,
-                width: layer_data.width,
-            });
+        for (let layer_data of map_data.layers) {
+            if (layer_data.type == LayerTypes.Tile) {
+                layer_data = layer_data as TileLayerJsonStructure;
+                map.addTileLayer({
+                    data: layer_data.data,
+                    height: layer_data.height,
+                    width: layer_data.width,
+                });
+            } else if (layer_data.type == LayerTypes.Object) {
+                layer_data = layer_data as ObjectLayerJsonStructure;
+                for (const object of layer_data.objects) {
+                    const collider = new Collider(
+                        new Vec(object.x, object.y),
+                        new Vec(object.width, object.height)
+                    );
+                    world.addCollider(collider);
+                    map.addCollider(collider);
+                    console.log(collider);
+                }
+            }
         }
 
         for (const tileset_data of map_data.tilesets) {

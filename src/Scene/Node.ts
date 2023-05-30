@@ -26,6 +26,19 @@ export class Node {
         }
     }
 
+    setScale(scale: number) {
+        this.scale = scale;
+    }
+
+    setPosition(position: Vec) {
+        this.position = position;
+    }
+
+    getPosition(): Vec {
+        return this.position;
+    }
+
+
     update(engine: Engine) {
         // If we have a parent
         if (this.parent !== null) {
