@@ -4,9 +4,13 @@ import { Rect, Vec } from "./Vec";
 export class Engine {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
-    collisionWorld = new CollisionWorld();
-    constructor() {
 
+    private userUpdate = (engine: Engine) => { };
+    private userDraw = (engine: Engine) => { };
+
+    collisionWorld = new CollisionWorld();
+
+    constructor() {
         this.canvas = document.createElement('canvas') as HTMLCanvasElement;
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
@@ -15,6 +19,8 @@ export class Engine {
         this.ctx.imageSmoothingEnabled = false;
 
         document.body.append(this.canvas);
+
+        this.loop();
     }
 
     clear() {
@@ -32,5 +38,21 @@ export class Engine {
     strokeRect(rect: Rect, color: string) {
         this.ctx.strokeStyle = color;
         this.ctx.strokeRect(rect.origin.x, rect.origin.y, rect.size.x, rect.size.y);
+    }
+
+    setUserFunctions(userUpdate: (engine: Engine) => void = () => { }, userDraw: (engine: Engine) => void = () => { }) {
+        this.userUpdate = userUpdate;
+        this.userDraw = userDraw;
+    }
+
+    private loop() {
+        this.collisionWorld.update();
+        this.userUpdate(this);
+
+        this.clear();
+        this.userDraw(this);
+        this.collisionWorld.draw(this);
+        
+        requestAnimationFrame(this.loop.bind(this));
     }
 }

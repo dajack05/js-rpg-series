@@ -21,8 +21,11 @@ export class Player extends Node {
 
     gravity = 2;
 
-    constructor(engine: Engine) {
+    constructor(engine: Engine, start_position: Vec = new Vec(0, 0)) {
         super();
+
+        this.position = start_position;
+        this.collider.origin = this.position;
 
         this.sprite.setScale(4);
         this.sprite.setSubSize(16);
@@ -46,7 +49,7 @@ export class Player extends Node {
         }
         if (InputManager.IsKeyDown(' ') && this.is_grounded) {
             this.is_grounded = false;
-            move_vec = move_vec.add(new Vec(0, -100))
+            move_vec = move_vec.add(new Vec(0, -80))
             this.sprite.setAnimation(PlayerAnims.Jump);
         }
 
