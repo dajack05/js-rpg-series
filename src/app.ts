@@ -21,7 +21,8 @@ world.addCollider(collider3);
 const sprite = new Sprite(old_hero);
 sprite.setScale(4);
 sprite.setSubSize(16);
-const player_collider = new Collider(new Vec(500,500), new Vec(16 * 4, 16 * 4));
+const player_collider = new Collider(new Vec(500, 500), new Vec(16 * 4, 16 * 4));
+let player_is_grounded = false;
 world.addCollider(player_collider);
 
 const anim_idle = new Animation(0, 3, 1);
@@ -47,7 +48,8 @@ function update() {
         move_vec = move_vec.add(new Vec(-2, 0))
         sprite.setAnimation(anim_walk_left);
     }
-    if (InputManager.IsKeyDown(' ')) {
+    if (InputManager.IsKeyDown(' ') && player_is_grounded) {
+        player_is_grounded = false;
         move_vec = move_vec.add(new Vec(0, -4))
         sprite.setAnimation(anim_jump);
     }
@@ -55,6 +57,11 @@ function update() {
     player_collider.translate(move_vec.mult(new Vec(0, 1)));
     world.checkCollider(player_collider);
     if (player_collider.isColliding) {
+        // Player is colliding on the Y axis.
+        if (move_vec.y > 0) {
+            // Player was decending. Must be ground
+            player_is_grounded = true;
+        }
         player_collider.translate(move_vec.mult(new Vec(0, -1)));
     }
 
