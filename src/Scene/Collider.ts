@@ -2,11 +2,21 @@ import { Engine } from "../Engine";
 import { Rect, Vec } from "../Vec";
 import { Node } from "./Node";
 
+export enum PassthroughDirection{
+    FromBottom,
+    FromTop,
+    FromLeft,
+    FromRight,
+    None,
+}
+
 export class Collider extends Node {
     isColliding = false;
 
     offset: Vec = new Vec(0, 0);
     size: Vec = new Vec(10, 10);
+
+    passthrough = PassthroughDirection.None;
 
     constructor(offset = new Vec(0, 0), size = new Vec(10, 10)) {
         super();

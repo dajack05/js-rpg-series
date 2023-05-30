@@ -115,7 +115,7 @@
                  "id":7,
                  "name":"",
                  "rotation":0,
-                 "type":"",
+                 "type":"one-way",
                  "visible":true,
                  "width":16,
                  "x":160,
