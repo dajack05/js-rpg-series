@@ -1,5 +1,6 @@
 import { CollisionWorld } from "./Collision";
-import { Rect, Vec } from "./Vec";
+import { Node } from "./Scene/Node";
+import { Rect } from "./Vec";
 
 export class Engine {
     private canvas: HTMLCanvasElement;
@@ -8,6 +9,7 @@ export class Engine {
     private userUpdate = (engine: Engine) => { };
     private userDraw = (engine: Engine) => { };
 
+    root = new Node();
     collisionWorld = new CollisionWorld();
 
     constructor() {
@@ -47,9 +49,11 @@ export class Engine {
 
     private loop() {
         this.collisionWorld.update();
+        this.root.update(this);
         this.userUpdate(this);
 
         this.clear();
+        this.root.draw(this);
         this.userDraw(this);
         this.collisionWorld.draw(this);
         

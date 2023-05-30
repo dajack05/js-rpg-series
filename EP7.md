@@ -29,3 +29,6 @@
 - Trim `Player.collider` to fit `Player.sprite`
 
 ## Create Root Node in Engine
+- Create `root` node in `Engine`
+- Add `player` from `app.ts` to `root`
+- Clear `update()` and `draw()` code in `app.ts`

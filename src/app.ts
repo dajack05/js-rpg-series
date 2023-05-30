@@ -6,6 +6,7 @@ import { Vec } from "./Vec";
 const engine = new Engine();
 
 const player = new Player(engine, new Vec(500, 200));
+engine.root.addChild(player);
 
 const collider = new Collider(new Vec(0, 600), new Vec(1500, 50));
 engine.collisionWorld.addCollider(collider);
@@ -23,11 +24,9 @@ const collider5 = new Collider(new Vec(250, 472), new Vec(64, 64));
 engine.collisionWorld.addCollider(collider5);
 
 function update(engine: Engine) {
-    player.update(engine);
 }
 
 function draw(engine: Engine) {
-    player.draw(engine);
 }
 
 engine.setUserFunctions(update, draw);
