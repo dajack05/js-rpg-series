@@ -9,13 +9,12 @@ export class CollisionWorld {
     }
 
     checkCollider(collider: Collider) {
-        collider.isColliding = false;
+        collider.collidingWith = null;
         for (const other of this.colliders) {
             if (collider === other) continue;
 
             if (collider.overlaps(other)) {
-                collider.isColliding = true;
-                other.isColliding = true;
+                collider.collidingWith = other;
             }
         }
     }

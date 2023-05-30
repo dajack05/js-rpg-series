@@ -1,6 +1,6 @@
 import { Engine } from "./Engine";
 import { InputManager } from "./InputManager";
-import { Collider } from "./Scene/Collider";
+import { Collider, PassthroughDirection } from "./Scene/Collider";
 import { Animation, Sprite } from "./Scene/Sprite";
 import { Vec } from "./Vec";
 import old_hero from "./resources/images/old_hero[16x16].png";
@@ -9,7 +9,7 @@ const PlayerAnims = {
     Idle: new Animation(0, 3, 1),
     WalkLeft: new Animation(6, 11, 10),
     WalkRight: new Animation(12, 17, 10),
-    Jump: new Animation(18, 20, 2),
+    Jump: new Animation(18),
 };
 
 const Gravity = 10;
@@ -54,6 +54,9 @@ export class Player extends Collider {
         if (InputManager.IsKeyDown(' ') && this.is_grounded) {
             this.is_grounded = false;
             move_vec = move_vec.add(new Vec(0, -JumpSpeed))
+        }
+
+        if(!this.is_grounded){
             this.sprite.setAnimation(PlayerAnims.Jump);
         }
 
@@ -61,27 +64,34 @@ export class Player extends Collider {
 
         this.translate(this.velocity.mult(new Vec(0, 1)));
         engine.collisionWorld.checkCollider(this);
-        if (this.isColliding) {
-            // Player is colliding on the Y axis.
-            if (this.velocity.y > 0) {
-                // Player was decending. Must be ground
-                this.is_grounded = true;
+        if (this.collidingWith) {
+            if (this.collidingWith.passthrough == PassthroughDirection.FromTop && this.velocity.y > 0) {
+            } else if (this.collidingWith.passthrough == PassthroughDirection.FromBottom && this.velocity.y < 0) {
+            } else {
+                // Player is colliding on the Y axis.
+                if (this.velocity.y > 0) {
+                    // Player was decending. Must be ground
+                    this.is_grounded = true;
+                }
+
+                this.translate(this.velocity.mult(new Vec(0, -1)));
+                this.velocity.y = 0;
             }
-            this.translate(this.velocity.mult(new Vec(0, -1)));
-            this.velocity.y = 0;
+        }else{
+            this.is_grounded = false;
         }
 
         this.translate(this.velocity.mult(new Vec(1, 0)));
         engine.collisionWorld.checkCollider(this);
-        if (this.isColliding) {
-            this.translate(this.velocity.mult(new Vec(-1, 0)));
-            this.velocity.x = 0;
+        if (this.collidingWith) {
+            if (this.collidingWith.passthrough == PassthroughDirection.FromLeft && this.velocity.x > 0) {
+            } else if (this.collidingWith.passthrough == PassthroughDirection.FromRight && this.velocity.x < 0) {
+            } else {
+                this.translate(this.velocity.mult(new Vec(-1, 0)));
+                this.velocity.x = 0;
+            }
         }
 
         this.velocity = this.velocity.mult(new Vec(Damping, 1));
-    }
-
-    override draw(engine: Engine): void {
-        super.draw(engine);
     }
 }

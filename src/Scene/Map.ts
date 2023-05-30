@@ -2,7 +2,7 @@ import { Engine } from "../Engine";
 import { Sprite } from "./Sprite";
 
 import tileset from '../resources/images/ground_tiles.png'
-import { Collider } from "./Collider";
+import { Collider, PassthroughDirection } from "./Collider";
 import { Vec } from "../Vec";
 import { CollisionWorld } from "../Collision";
 
@@ -40,6 +40,12 @@ interface TileLayerJsonStructure {
     visible: boolean,
 }
 
+interface MapObjectProperyStructure {
+    name: string,
+    type: string,
+    value: string,
+}
+
 interface MapObjectJsonStructure {
     id: null,
     name: string,
@@ -48,6 +54,7 @@ interface MapObjectJsonStructure {
     width: number,
     height: number,
     type: string,
+    properties?: MapObjectProperyStructure[],
 }
 
 interface ObjectLayerJsonStructure {
@@ -87,7 +94,7 @@ export class Map extends Sprite {
 
     override setScale(scale: number): void {
         super.setScale(scale);
-        for(const collider of this.colliders){
+        for (const collider of this.colliders) {
             collider.offset = collider.offset.multScalar(this.scale);
             collider.size = collider.size.multScalar(this.scale);
         }
@@ -149,6 +156,25 @@ export class Map extends Sprite {
                         new Vec(object.x, object.y),
                         new Vec(object.width, object.height)
                     );
+                    if(object.properties){
+                        for(const property of object.properties){
+                            if(property.name.toLowerCase() === "pass"){
+                                const value = property.value.toLowerCase();
+                                if(value.includes('top')){
+                                    collider.passthrough = PassthroughDirection.FromTop;
+                                }
+                                if(value.includes('bottom')){
+                                    collider.passthrough = PassthroughDirection.FromBottom
+                                }
+                                if(value.includes('left')){
+                                    collider.passthrough = PassthroughDirection.FromLeft;
+                                }
+                                if(value.includes('right')){
+                                    collider.passthrough = PassthroughDirection.FromRight;
+                                }
+                            }
+                        }
+                    }
                     world.addCollider(collider);
                     map.addCollider(collider);
                     console.log(collider);

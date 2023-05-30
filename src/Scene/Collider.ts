@@ -2,7 +2,7 @@ import { Engine } from "../Engine";
 import { Rect, Vec } from "../Vec";
 import { Node } from "./Node";
 
-export enum PassthroughDirection{
+export enum PassthroughDirection {
     FromBottom,
     FromTop,
     FromLeft,
@@ -11,7 +11,7 @@ export enum PassthroughDirection{
 }
 
 export class Collider extends Node {
-    isColliding = false;
+    collidingWith: Collider | null = null;
 
     offset: Vec = new Vec(0, 0);
     size: Vec = new Vec(10, 10);
@@ -43,6 +43,6 @@ export class Collider extends Node {
 
     override draw(engine: Engine) {
         super.draw(engine);
-        engine.strokeRect(new Rect(this.getOrigin(true), this.size), this.isColliding ? "#00FF00" : "#FF0000");
+        engine.strokeRect(new Rect(this.getOrigin(true), this.size), this.collidingWith ? "#00FF00" : "#FF0000");
     }
 }
