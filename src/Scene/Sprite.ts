@@ -33,7 +33,7 @@ export class Sprite extends Node {
 
     private source = new Rect();
     protected subSize = 0;
-    protected animation = new Animation();
+    animation = new Animation();
 
     constructor(image_path: string = "") {
         super();
