@@ -13,13 +13,18 @@ const PlayerAnims = {
     Jump: new Animation(18, 20, 2),
 };
 
+const Gravity = 10;
+const Damping = 0.8;
+const MoveSpeed = 10;
+const JumpSpeed = 150;
+
 export class Player extends Node {
     collider = new Collider(new Vec(8, 0), new Vec(48, 64));
     sprite = new Sprite(old_hero);
 
     is_grounded = false;
 
-    gravity = 2;
+    velocity = new Vec(0, 0);
 
     constructor(engine: Engine, start_position: Vec = new Vec(0, 0)) {
         super();
@@ -39,40 +44,46 @@ export class Player extends Node {
 
         this.sprite.setAnimation(PlayerAnims.Idle);
 
-        let move_vec = new Vec(0, this.gravity);
+        let move_vec = new Vec(0, Gravity);
 
         if (InputManager.IsKeyDown('d')) {
-            move_vec = move_vec.add(new Vec(2, 0))
+            move_vec = move_vec.add(new Vec(MoveSpeed, 0))
             this.sprite.setAnimation(PlayerAnims.WalkRight);
         }
         if (InputManager.IsKeyDown('a')) {
-            move_vec = move_vec.add(new Vec(-2, 0))
+            move_vec = move_vec.add(new Vec(-MoveSpeed, 0))
             this.sprite.setAnimation(PlayerAnims.WalkLeft);
         }
         if (InputManager.IsKeyDown(' ') && this.is_grounded) {
             this.is_grounded = false;
-            move_vec = move_vec.add(new Vec(0, -80))
+            move_vec = move_vec.add(new Vec(0, -JumpSpeed))
             this.sprite.setAnimation(PlayerAnims.Jump);
         }
 
-        this.collider.translate(move_vec.mult(new Vec(0, 1)));
+        this.velocity = this.velocity.add(move_vec.divScalar(10));
+
+        this.collider.translate(this.velocity.mult(new Vec(0, 1)));
         engine.collisionWorld.checkCollider(this.collider);
         if (this.collider.isColliding) {
             // Player is colliding on the Y axis.
-            if (move_vec.y > 0) {
+            if (this.velocity.y > 0) {
                 // Player was decending. Must be ground
                 this.is_grounded = true;
             }
-            this.collider.translate(move_vec.mult(new Vec(0, -1)));
+            this.collider.translate(this.velocity.mult(new Vec(0, -1)));
+            this.velocity.y = 0;
         }
 
-        this.collider.translate(move_vec.mult(new Vec(1, 0)));
+        this.collider.translate(this.velocity.mult(new Vec(1, 0)));
         engine.collisionWorld.checkCollider(this.collider);
         if (this.collider.isColliding) {
-            this.collider.translate(move_vec.mult(new Vec(-1, 0)));
+            this.collider.translate(this.velocity.mult(new Vec(-1, 0)));
+            this.velocity.x = 0;
         }
 
         this.sprite.setPosition(this.collider.position);
+
+        this.velocity = this.velocity.mult(new Vec(Damping, 1));
     }
 
     override draw(engine: Engine): void {

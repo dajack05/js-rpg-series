@@ -19,8 +19,16 @@ export class Vec {
         return new Vec(this.x * other.x, this.y * other.y);
     }
 
+    multScalar(scalar: number): Vec {
+        return new Vec(this.x * scalar, this.y * scalar);
+    }
+
     div(other: Vec): Vec {
         return new Vec(this.x / other.x, this.y / other.y);
+    }
+
+    divScalar(scalar: number): Vec {
+        return new Vec(this.x / scalar, this.y / scalar);
     }
 }
 
