@@ -6,12 +6,45 @@ import map_01 from './resources/maps/map_01.json'
 import bg_music from './resources/sound/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg'
 
 const engine = new Engine({
-    muteSound: true
+    debug: true,
+    muteSound: true,
+    parallax: {
+        x: 1,
+        y: 0.1,
+    }
 });
 
-const map = Map.FromJson(map_01, engine.collisionWorld);
-map.setScale(4);
-engine.root.addChild(map);
+engine.root.setScale(4);
+
+{
+    const map = Map.FromJson(map_01, null);
+    map.layer = -2;
+    engine.root.addChild(map);
+}
+
+
+{
+    const map = Map.FromJson(map_01, null);
+    map.layer = -1;
+    engine.root.addChild(map);
+}
+
+{
+    const map = Map.FromJson(map_01, engine.collisionWorld);
+    engine.root.addChild(map);
+}
+
+{
+    const map = Map.FromJson(map_01, null);
+    map.layer = 1;
+    engine.root.addChild(map);
+}
+
+{
+    const map = Map.FromJson(map_01, null);
+    map.layer = 2;
+    engine.root.addChild(map);
+}
 
 const player = new Player(engine);
 engine.root.addChild(player);

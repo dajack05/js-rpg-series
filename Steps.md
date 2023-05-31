@@ -455,3 +455,7 @@ window.addEventListener("blur", () => {
 # Episode XII
 
 ## Parallax Map Scrolling
+- Add layer number to `Node`
+- Take layer number into account when calculating world_position
+- Set X and Y parallax speed in Engine
+- Set "ignore" flag for collision when loading maps (mainly for dev)

@@ -137,13 +137,13 @@ export class Map extends Sprite {
         }
     }
 
-    static FromJson(json: any, world: CollisionWorld): Map {
+    static FromJson(json: any, world: CollisionWorld | null): Map {
         const map_data = json as MapJsonStructure;
         const map = new Map(tileset, map_data.tilewidth);
 
         for (let layer_data of map_data.layers) {
-            if(!layer_data.visible) continue;
-            
+            if (!layer_data.visible) continue;
+
             if (layer_data.type == LayerTypes.Tile) {
                 layer_data = layer_data as TileLayerJsonStructure;
                 map.addTileLayer({
@@ -152,33 +152,36 @@ export class Map extends Sprite {
                     width: layer_data.width,
                 });
             } else if (layer_data.type == LayerTypes.Object) {
-                layer_data = layer_data as ObjectLayerJsonStructure;
-                for (const object of layer_data.objects) {
-                    const collider = new Collider(
-                        new Vec(object.x, object.y),
-                        new Vec(object.width, object.height)
-                    );
-                    if(object.properties){
-                        for(const property of object.properties){
-                            if(property.name.toLowerCase() === "pass"){
-                                const value = property.value.toLowerCase();
-                                if(value.includes('top')){
-                                    collider.passthrough = PassthroughDirection.FromTop;
-                                }
-                                if(value.includes('bottom')){
-                                    collider.passthrough = PassthroughDirection.FromBottom
-                                }
-                                if(value.includes('left')){
-                                    collider.passthrough = PassthroughDirection.FromLeft;
-                                }
-                                if(value.includes('right')){
-                                    collider.passthrough = PassthroughDirection.FromRight;
+                if (world) {
+                    layer_data = layer_data as ObjectLayerJsonStructure;
+                    for (const object of layer_data.objects) {
+                        const collider = new Collider(
+                            new Vec(object.x, object.y),
+                            new Vec(object.width, object.height)
+                        );
+                        if (object.properties) {
+                            for (const property of object.properties) {
+                                if (property.name.toLowerCase() === "pass") {
+                                    const value = property.value.toLowerCase();
+                                    if (value.includes('top')) {
+                                        collider.passthrough = PassthroughDirection.FromTop;
+                                    }
+                                    if (value.includes('bottom')) {
+                                        collider.passthrough = PassthroughDirection.FromBottom
+                                    }
+                                    if (value.includes('left')) {
+                                        collider.passthrough = PassthroughDirection.FromLeft;
+                                    }
+                                    if (value.includes('right')) {
+                                        collider.passthrough = PassthroughDirection.FromRight;
+                                    }
                                 }
                             }
                         }
+
+                        world.addCollider(collider);
+                        map.addCollider(collider);
                     }
-                    world.addCollider(collider);
-                    map.addCollider(collider);
                 }
             }
         }

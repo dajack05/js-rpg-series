@@ -5,9 +5,15 @@ import { Rect, Vec } from "./Vec";
 
 export interface EngineConfig {
     debug?: boolean,
-    smoothCamera?: boolean,
-    smoothSpeed?: number,
+    camera?: {
+        smooth?: boolean,
+        speed?: number,
+    }
     muteSound?: boolean,
+    parallax?: {
+        x: number,
+        y: number
+    }
 }
 
 export class Engine {
@@ -22,11 +28,17 @@ export class Engine {
     root = new Node();
     collisionWorld = new CollisionWorld();
 
-    private config: EngineConfig = {
+    readonly config: EngineConfig = {
         debug: false,
-        smoothCamera: true,
-        smoothSpeed: 0.1,
+        camera: {
+            smooth: true,
+            speed: 0.1,
+        },
         muteSound: false,
+        parallax: {
+            x: 1.0,
+            y: 0.5,
+        }
     };
     private cameraTarget = new Vec(0, 0);
 
@@ -82,8 +94,9 @@ export class Engine {
         );
     }
 
-    strokeRect(rect: Rect, color: string) {
+    strokeRect(rect: Rect, color: string, thickness = 2) {
         this.ctx.strokeStyle = color;
+        this.ctx.lineWidth = thickness;
         this.ctx.strokeRect(rect.origin.x, rect.origin.y, rect.size.x, rect.size.y);
     }
 
@@ -109,8 +122,8 @@ export class Engine {
     }
 
     private loop() {
-        if (this.config.smoothCamera) {
-            this.root.translate(this.cameraTarget.sub(this.root.position).multScalar(this.config.smoothSpeed!));
+        if (this.config.camera?.smooth) {
+            this.root.translate(this.cameraTarget.sub(this.root.position).multScalar(this.config.camera.speed!));
         } else {
             this.root.position = this.cameraTarget;
         }

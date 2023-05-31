@@ -9,6 +9,8 @@ export class Node {
     scale = 1.0;
     world_scale = 1.0;
 
+    layer = 0;
+
     children: Node[] = [];
 
     addChild(child: Node) {
@@ -49,6 +51,11 @@ export class Node {
             this.world_position = this.position;
             this.world_scale = this.scale;
         }
+
+        const parallax_mult = new Vec(engine.config.parallax!.x / 10, engine.config.parallax!.y / 10)
+            .multScalar(this.layer);
+        this.world_position = this.world_position.add(this.world_position.mult(parallax_mult));
+
         for (const child of this.children) {
             child.update(engine);
         }

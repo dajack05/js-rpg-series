@@ -34,7 +34,6 @@ export class Player extends Collider {
 
         this.position = start_position;
 
-        this.sprite.setScale(4);
         this.sprite.setSubSize(16);
         engine.collisionWorld.addCollider(this);
 
