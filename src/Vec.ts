@@ -34,6 +34,10 @@ export class Vec {
     clone(): Vec {
         return new Vec(this.x, this.y);
     }
+
+    round(): Vec {
+        return new Vec(Math.round(this.x), Math.round(this.y));
+    }
 }
 
 export class Rect {

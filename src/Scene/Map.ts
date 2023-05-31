@@ -92,14 +92,6 @@ export class Map extends Sprite {
         this.subSize = tile_size;
     }
 
-    override setScale(scale: number): void {
-        super.setScale(scale);
-        for (const collider of this.colliders) {
-            collider.offset = collider.offset.multScalar(this.scale);
-            collider.size = collider.size.multScalar(this.scale);
-        }
-    }
-
     addTileLayer(layer: TileLayer) {
         this.tileLayers.push(layer);
     }
@@ -128,6 +120,7 @@ export class Map extends Sprite {
                     if (!tileset) continue; // Unable to find tileset...
 
                     tileset.sprite.animation.frame = tile - tileset.firstgid;
+                    tileset.sprite.setScale(this.world_scale);
                     tileset.sprite.calculateSource();
                     tileset.sprite.world_position.x = Math.floor(old_world_position.x + (x * this.subSize * this.scale));
                     tileset.sprite.world_position.y = Math.floor(old_world_position.y + (y * this.subSize * this.scale));
