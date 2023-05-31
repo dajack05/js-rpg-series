@@ -179,7 +179,6 @@ export class Map extends Sprite {
                     }
                     world.addCollider(collider);
                     map.addCollider(collider);
-                    console.log(collider);
                 }
             }
         }

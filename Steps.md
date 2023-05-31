@@ -447,3 +447,11 @@ window.addEventListener("blur", () => {
     SoundRegistry.Pause();
 });
 ```
+- Engine based mute flag (mainly for dev)
+  - Track mute state during pause so that any new sounds do not start
+  - Add `Resume()` to `SoundRegistry`
+  - Check if `SoundRegistry` is paused on update
+
+# Episode XII
+
+## Parallax Map Scrolling

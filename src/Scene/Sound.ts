@@ -1,17 +1,29 @@
 import { Engine } from "../Engine";
 import { Node } from "./Node";
 
-export class SoundRegistry{
-    static sounds:HTMLAudioElement[]=[];
-    static Register(sound:HTMLAudioElement){
-        if(!this.sounds.includes(sound)){
+export class SoundRegistry {
+    static sounds: HTMLAudioElement[] = [];
+    static currently_paused = false;
+    static Register(sound: HTMLAudioElement) {
+        if (this.currently_paused === true) {
+            sound.pause();
+        }
+        if (!this.sounds.includes(sound)) {
             this.sounds.push(sound);
         }
     }
 
-    static Pause(){
-        for(const sound of this.sounds){
+    static Pause() {
+        this.currently_paused = true;
+        for (const sound of this.sounds) {
             sound.pause();
+        }
+    }
+
+    static Resume() {
+        this.currently_paused = false;
+        for (const sound of this.sounds) {
+            sound.play();
         }
     }
 }
@@ -38,21 +50,20 @@ export class Sound extends Node {
     override update(engine: Engine): void {
         super.update(engine);
 
-        if (this.sound.paused && this.playing) {
-            this.sound.play();
-        } else if (!this.sound.paused && !this.playing) {
-            this.sound.pause();
+        if (SoundRegistry.currently_paused) {
+            if (!this.sound.paused) {
+                this.sound.pause();
+            }
+        } else {
+            if (this.sound.paused && this.playing) {
+                this.sound.play();
+            } else if (!this.sound.paused && !this.playing) {
+                this.sound.pause();
+            }
         }
     }
 
-    override draw(engine: Engine): void {
-        super.draw(engine);
-        if (engine.isPaused()) {
-            this.sound.pause();
-        }
-    }
-
-    setPlaybackSpeed(speed:number){
+    setPlaybackSpeed(speed: number) {
         this.sound.playbackRate = Math.min(Math.max(speed, 0.08), 10);
     }
 

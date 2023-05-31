@@ -7,6 +7,7 @@ export interface EngineConfig {
     debug?: boolean,
     smoothCamera?: boolean,
     smoothSpeed?: number,
+    muteSound?: boolean,
 }
 
 export class Engine {
@@ -25,6 +26,7 @@ export class Engine {
         debug: false,
         smoothCamera: true,
         smoothSpeed: 0.1,
+        muteSound: false,
     };
     private cameraTarget = new Vec(0, 0);
 
@@ -42,9 +44,16 @@ export class Engine {
             this.config = { ...this.config, ...config };
         }
 
+        if (this.config.muteSound === true) {
+            SoundRegistry.Pause();
+        }
+
         document.addEventListener('click', () => {
             if (this.paused) {
                 this.paused = false;
+                if (this.config.muteSound === false) {
+                    SoundRegistry.Resume();
+                }
             }
         });
 

@@ -6,6 +6,7 @@ import map_01 from './resources/maps/map_01.json'
 import bg_music from './resources/sound/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg'
 
 const engine = new Engine({
+    muteSound: true
 });
 
 const map = Map.FromJson(map_01, engine.collisionWorld);
