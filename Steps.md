@@ -406,3 +406,44 @@ override setScale(scale: number): void {
 
 ## Loose Ends
 - Add visible check to layers
+
+# Episode XI
+
+## Getting Assets
+- [Music](https://opengameart.org/content/4-chiptunes-adventure)
+- [Jump](https://freesound.org/people/Aesterial-Arts/sounds/633246/)
+- [Walk](https://freesound.org/people/Beetlemuse/sounds/529953/)
+
+## Creasting Sound Node
+- Create `Sound` class
+- add index.d.ts for sound folder
+```ts
+declare module '*.ogg' {
+    const value: string;
+    export = value;
+}
+
+declare module '*.wav' {
+    const value: string;
+    export = value;
+}
+```
+- Create demo BG sound
+- Create pause overlay
+- Add this to .parcelrc
+```json
+"transformers": {
+  "*.{fnt,ogg,mp3,png,wav}": [
+    "@parcel/transformer-raw"
+  ]
+}
+```
+- Have `Sound` play and pause when game plays and pauses
+- Track sound state
+- Create `SoundRegistry` to pause/resume all sounds
+```ts
+window.addEventListener("blur", () => {
+    this.paused = true;
+    SoundRegistry.Pause();
+});
+```
