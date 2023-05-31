@@ -3,7 +3,9 @@ import { Player } from "./Player";
 import { Map } from "./Scene/Map";
 import map_01 from './resources/maps/map_01.json'
 
-const engine = new Engine();
+const engine = new Engine({
+    debug: true,
+});
 
 const map = Map.FromJson(map_01, engine.collisionWorld);
 map.setScale(4);

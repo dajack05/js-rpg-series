@@ -1,6 +1,12 @@
-import { CollisionWorld } from "./Collision";
+import { CollisionWorld } from "./CollisionWorld";
 import { Node } from "./Scene/Node";
 import { Rect, Vec } from "./Vec";
+
+export interface EngineConfig {
+    debug?: boolean,
+    smoothCamera?: boolean,
+    smoothSpeed?: number,
+}
 
 export class Engine {
     private canvas: HTMLCanvasElement;
@@ -12,11 +18,14 @@ export class Engine {
     root = new Node();
     collisionWorld = new CollisionWorld();
 
-    smoothCamera = true;
-    smoothSpeed = 0.1;
+    private config: EngineConfig = {
+        debug: false,
+        smoothCamera: true,
+        smoothSpeed: 0.1,
+    };
     private cameraTarget = new Vec(0, 0);
 
-    constructor() {
+    constructor(config?: EngineConfig) {
         this.canvas = document.createElement('canvas') as HTMLCanvasElement;
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
@@ -25,6 +34,10 @@ export class Engine {
         this.ctx.imageSmoothingEnabled = false;
 
         document.body.append(this.canvas);
+
+        if (config) {
+            this.config = {...this.config, ...config};
+        }
 
         this.loop();
     }
@@ -56,8 +69,8 @@ export class Engine {
     }
 
     private loop() {
-        if (this.smoothCamera) {
-            this.root.translate(this.cameraTarget.sub(this.root.position).multScalar(this.smoothSpeed));
+        if (this.config.smoothCamera) {
+            this.root.translate(this.cameraTarget.sub(this.root.position).multScalar(this.config.smoothSpeed!));
         } else {
             this.root.position = this.cameraTarget;
         }
@@ -69,7 +82,10 @@ export class Engine {
         this.clear();
         this.root.draw(this);
         this.userDraw(this);
-        this.collisionWorld.draw(this);
+
+        if (this.config.debug) {
+            this.collisionWorld.draw(this);
+        }
 
         requestAnimationFrame(this.loop.bind(this));
     }

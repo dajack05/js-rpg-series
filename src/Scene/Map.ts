@@ -4,7 +4,7 @@ import { Sprite } from "./Sprite";
 import tileset from '../resources/images/ground_tiles.png'
 import { Collider, PassthroughDirection } from "./Collider";
 import { Vec } from "../Vec";
-import { CollisionWorld } from "../Collision";
+import { CollisionWorld } from "../CollisionWorld";
 
 interface TileLayer {
     data: number[],

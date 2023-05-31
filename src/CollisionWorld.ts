@@ -27,7 +27,7 @@ export class CollisionWorld {
 
     draw(engine: Engine) {
         for (const collider of this.colliders) {
-            collider.draw(engine);
+            collider.debugDraw(engine);
         }
     }
 }

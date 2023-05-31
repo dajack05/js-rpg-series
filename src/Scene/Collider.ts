@@ -41,8 +41,7 @@ export class Collider extends Node {
         return is_in_x && is_in_y;
     }
 
-    override draw(engine: Engine) {
-        super.draw(engine);
+    debugDraw(engine: Engine) {
         engine.strokeRect(new Rect(this.getOrigin(true), this.size), this.collidingWith ? "#00FF00" : "#FF0000");
     }
 }
