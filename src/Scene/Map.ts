@@ -142,6 +142,8 @@ export class Map extends Sprite {
         const map = new Map(tileset, map_data.tilewidth);
 
         for (let layer_data of map_data.layers) {
+            if(!layer_data.visible) continue;
+            
             if (layer_data.type == LayerTypes.Tile) {
                 layer_data = layer_data as TileLayerJsonStructure;
                 map.addTileLayer({
