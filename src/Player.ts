@@ -48,6 +48,12 @@ export class Player extends Collider {
     override update(engine: Engine) {
         super.update(engine);
 
+        if (this.getWorldPosition().y > 1000) {
+            this.setPosition(new Vec(0, 0));
+        } else if (this.getWorldPosition().y < -1000) {
+            this.setPosition(new Vec(0, 0));
+        }
+
         this.sprite.setAnimation(PlayerAnims.Idle);
 
         let move_vec = new Vec(0, Gravity);
@@ -66,14 +72,14 @@ export class Player extends Collider {
             this.jump_sound.play();
         }
 
-        if(!this.is_grounded){
+        if (!this.is_grounded) {
             this.sprite.setAnimation(PlayerAnims.Jump);
         }
 
         this.velocity = this.velocity.add(move_vec.divScalar(10));
-        if(Math.abs(this.velocity.x) > 0.2 && this.is_grounded){
+        if (Math.abs(this.velocity.x) > 0.2 && this.is_grounded) {
             this.walk_sound.play();
-        }else{
+        } else {
             this.walk_sound.stop();
         }
 
@@ -92,7 +98,7 @@ export class Player extends Collider {
                 this.translate(this.velocity.mult(new Vec(0, -1)));
                 this.velocity.y = 0;
             }
-        }else{
+        } else {
             this.is_grounded = false;
         }
 

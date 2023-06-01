@@ -486,6 +486,8 @@ window.addEventListener("blur", () => {
 - Add `getCanvasSize` to `Engine`
 - Position BG based on camera position, canvas size, and bg size
 
+## Safety Nets
+- If player drops too far, reset position
 
 Todo: Refactor transform stuff into it's own class
 Todo: Cull offscreen tiles

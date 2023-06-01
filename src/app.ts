@@ -27,7 +27,7 @@ const map = Map.FromJson(map_01, engine.collisionWorld);
 engine.root.addChild(map);
 
 const player = new Player(engine);
-player.setPosition(new Vec(1000, 200));
+player.setPosition(new Vec(32, 0));
 engine.root.addChild(player);
 
 const backgroundMusic = new Sound(bg_music);
