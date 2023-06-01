@@ -7,10 +7,11 @@ import { Vec } from "./Vec";
 import map_01 from './resources/maps/map_01.json'
 import bg_music from './resources/sound/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg'
 import bg_image from './resources/images/background.png';
+import { MobileControls } from "./MobileControls";
 
 const engine = new Engine({
     // debug: true,
-    muteSound: true,
+    // muteSound: true,
     parallax: {
         x: 1,
         y: 0,
@@ -18,6 +19,8 @@ const engine = new Engine({
 });
 
 engine.root.transform.setScale(4);
+
+const controls = new MobileControls(engine.getCanvasSize());
 
 const bg = new Sprite(bg_image);
 bg.transform.setScale(1);
@@ -43,9 +46,16 @@ function update(engine: Engine) {
         .sub(bg.getWorldImageSize().divScalar(2))
         .add(engine.getCanvasSize().divScalar(2));
     bg.transform.setPosition(bg_position);
+
+    if (engine.isMobile()) {
+        controls.update(engine);
+    }
 }
 
 function draw(engine: Engine) {
+    if (engine.isMobile()) {
+        controls.draw(engine);
+    }
 }
 
 engine.setUserFunctions(update, draw);

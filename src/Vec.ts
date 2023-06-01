@@ -48,4 +48,8 @@ export class Rect {
         this.origin = origin;
         this.size = size;
     }
+
+    isWithin(point: Vec): boolean {
+        return point.x > this.origin.x && point.x < this.origin.x + this.size.x && point.y > this.origin.y && point.y < this.origin.y + this.size.y;
+    }
 }

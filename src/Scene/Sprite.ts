@@ -62,6 +62,10 @@ export class Sprite extends Node {
         this.subSize = sub_size;
     }
 
+    getSubSize(): number {
+        return this.subSize;
+    }
+
     calculateSource() {
         const cols = this.image.width / this.subSize;
         this.source.origin.x = this.animation.frame % cols * this.subSize;
