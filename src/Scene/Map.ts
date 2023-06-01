@@ -8,6 +8,7 @@ import { CollisionWorld } from "../CollisionWorld";
 
 interface TileLayer {
     data: number[],
+    parallax_layer: number,
     width: number;
     height: number;
 }
@@ -27,20 +28,28 @@ interface MapJsonStructure {
     tilewidth: number,
 
     tilesets: TilesetJsonStructure[],
-    layers: (TileLayerJsonStructure | ObjectLayerJsonStructure)[],
+    layers: MapLayerStructure[],
 }
 
-interface TileLayerJsonStructure {
+interface MapLayerStructure {
     id: number,
-    width: number,
-    height: number,
     name: string,
     type: string,
-    data: number[],
     visible: boolean,
+    properties?: MapProperyStructure[],
 }
 
-interface MapObjectProperyStructure {
+interface TileLayerJsonStructure extends MapLayerStructure {
+    width: number,
+    height: number,
+    data: number[],
+}
+
+interface ObjectLayerJsonStructure extends MapLayerStructure {
+    objects: MapObjectJsonStructure[],
+}
+
+interface MapProperyStructure {
     name: string,
     type: string,
     value: string,
@@ -54,15 +63,7 @@ interface MapObjectJsonStructure {
     width: number,
     height: number,
     type: string,
-    properties?: MapObjectProperyStructure[],
-}
-
-interface ObjectLayerJsonStructure {
-    id: number,
-    name: string,
-    objects: MapObjectJsonStructure[],
-    visible: boolean,
-    type: string,
+    properties?: MapProperyStructure[],
 }
 
 interface TilesetJsonStructure {
@@ -109,6 +110,10 @@ export class Map extends Sprite {
     override draw(engine: Engine): void {
         const old_world_position = this.getWorldPosition();
         for (const layer of this.tileLayers) {
+            const parallax_mult = new Vec(engine.config.parallax!.x / 10, engine.config.parallax!.y / 10)
+            .multScalar(layer.parallax_layer)
+            .mult(this.getWorldPosition());
+
             for (let y = 0; y < layer.height; y++) {
                 for (let x = 0; x < layer.width; x++) {
                     const tile = layer.data[x + y * layer.width];
@@ -122,9 +127,11 @@ export class Map extends Sprite {
                     tileset.sprite.setScale(this.getWorldScale());
                     tileset.sprite.calculateSource();
                     const pos = new Vec(
-                        Math.floor(old_world_position.x + (x * this.subSize * this.getWorldScale())), 
+                        Math.floor(old_world_position.x + (x * this.subSize * this.getWorldScale())),
                         Math.floor(old_world_position.y + (y * this.subSize * this.getWorldScale()))
-                    );
+                    )
+                    .add(parallax_mult)
+                    .round();
                     tileset.sprite.setPosition(pos);
                     tileset.sprite.draw(engine);
                 }
@@ -136,27 +143,38 @@ export class Map extends Sprite {
         const map_data = json as MapJsonStructure;
         const map = new Map(tileset, map_data.tilewidth);
 
-        for (let layer_data of map_data.layers) {
+        for (const layer_data of map_data.layers) {
             if (!layer_data.visible) continue;
 
             if (layer_data.type == LayerTypes.Tile) {
-                layer_data = layer_data as TileLayerJsonStructure;
+                const tile_layer = layer_data as TileLayerJsonStructure;
+                let parallax_layer = 0;
+                if (tile_layer.properties) {
+                    for (const property of tile_layer.properties) {
+                        const name = property.name.toLowerCase();
+                        if (name === "layer") {
+                            parallax_layer = Number.parseFloat(property.value);
+                        }
+                    }
+                }
                 map.addTileLayer({
-                    data: layer_data.data,
-                    height: layer_data.height,
-                    width: layer_data.width,
+                    data: tile_layer.data,
+                    height: tile_layer.height,
+                    width: tile_layer.width,
+                    parallax_layer: parallax_layer,
                 });
             } else if (layer_data.type == LayerTypes.Object) {
                 if (world) {
-                    layer_data = layer_data as ObjectLayerJsonStructure;
-                    for (const object of layer_data.objects) {
+                    const obj_layer = layer_data as ObjectLayerJsonStructure;
+                    for (const object of obj_layer.objects) {
                         const collider = new Collider(
                             new Vec(object.x, object.y),
                             new Vec(object.width, object.height)
                         );
                         if (object.properties) {
                             for (const property of object.properties) {
-                                if (property.name.toLowerCase() === "pass") {
+                                const name = property.name.toLowerCase();
+                                if (name === "pass") {
                                     const value = property.value.toLowerCase();
                                     if (value.includes('top')) {
                                         collider.passthrough = PassthroughDirection.FromTop;

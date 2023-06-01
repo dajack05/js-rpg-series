@@ -464,3 +464,14 @@ window.addEventListener("blur", () => {
 - Add a "recalc" function to `Node`
 - Don't allow nodes position or scale to be controlled manually
 - Recalculate global values in `calculateWorldTransform()`
+  - Specific collider code in `override calculateWorldTransform()`
+
+## Allow map layers to be on different parallax layers
+- Add property to layer "layer = 0,1,2,..."
+- Look for that property in the loader
+  - Refactor structs to allow for layer properties
+  - Check layer properties
+- Add `parallax_layer` to `TileLayer`
+- Use `TileLayer.parallax_layer` to offset layers
+
+Todo: Refactor transform stuff into it's own class

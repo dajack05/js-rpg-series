@@ -13,11 +13,11 @@ export enum PassthroughDirection {
 export class Collider extends Node {
     collidingWith: Collider | null = null;
 
-    offset: Vec = new Vec(0, 0);
-    size: Vec = new Vec(10, 10);
+    private offset: Vec = new Vec(0, 0);
+    private size: Vec = new Vec(10, 10);
 
-    world_offset: Vec = new Vec(0, 0);
-    world_size: Vec = new Vec(10, 10);
+    private world_offset: Vec = new Vec(0, 0);
+    private world_size: Vec = new Vec(10, 10);
 
     passthrough = PassthroughDirection.None;
 
@@ -36,10 +36,9 @@ export class Collider extends Node {
         return this.getWorldPosition().add(this.world_offset);
     }
 
-    override update(engine: Engine): void {
-        super.update(engine);
-
-        this.world_offset = this.offset.multScalar(this.getWorldScale()).round();
+    override calculateWorldTransform(): void {
+        super.calculateWorldTransform();
+        this.world_offset = this.offset.multScalar(this.getWorldScale());
         this.world_size = this.size.multScalar(this.getWorldScale())
     }
 
