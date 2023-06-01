@@ -5,13 +5,14 @@ import { Sound } from "./Scene/Sound";
 import { Sprite } from "./Scene/Sprite";
 import { Vec } from "./Vec";
 import map_01 from './resources/maps/map_01.json'
+import stresstest from './resources/maps/stres_test.json'
 import bg_music from './resources/sound/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg'
 import bg_image from './resources/images/background.png';
 import { MobileControls } from "./MobileControls";
 
 const engine = new Engine({
-    // debug: true,
-    // muteSound: true,
+    debug: true,
+    muteSound: true,
     parallax: {
         x: 1,
         y: 0,
@@ -26,7 +27,7 @@ const bg = new Sprite(bg_image);
 bg.transform.setScale(1);
 engine.root.addChild(bg);
 
-const map = Map.FromJson(map_01, engine.collisionWorld);
+const map = Map.FromJson(stresstest, engine.collisionWorld);
 engine.root.addChild(map);
 
 const player = new Player(engine);

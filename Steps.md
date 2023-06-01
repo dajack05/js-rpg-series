@@ -534,4 +534,17 @@ window.addEventListener("blur", () => {
 ```
 - Add style to not allow selecting of anything (for touch mainly)
 
+## Tile Culling
+- Create a "culling `Rect`"
+  - Set some simple defaults for origin and size
+- Draw it in `debugDraw`
+- Only draw if tile is within that rect
+- Adjust rect to fill screen
+
+### Data
+StressTest map (512x512 tiles filled 4 layers)
+Normal: 750ms
+Culled: 60ms
+12.5X faster 🤘
+
 Todo: Cull offscreen tiles
