@@ -73,7 +73,7 @@ export class Sprite extends Node {
     }
 
     getWorldImageSize(): Vec {
-        return new Vec(this.image.width, this.image.height).multScalar(this.getWorldScale());
+        return new Vec(this.image.width, this.image.height).multScalar(this.transform.getWorldScale());
     }
 
     override draw(engine: Engine) {
@@ -107,7 +107,7 @@ export class Sprite extends Node {
 
             this.source,
 
-            new Rect(this.getWorldPosition(), new Vec(this.source.size.x * this.getWorldScale(), this.source.size.y * this.getWorldScale()))
+            new Rect(this.transform.getWorldPosition(), new Vec(this.source.size.x * this.transform.getWorldScale(), this.source.size.y * this.transform.getWorldScale()))
         );
     }
 

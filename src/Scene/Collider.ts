@@ -24,17 +24,17 @@ export class Collider extends Node {
     }
 
     getOrigin(): Vec {
-        return this.getPosition().add(this.offset);
+        return this.transform.getPosition().add(this.offset);
     }
 
     getWorldOrigin(): Vec {
-        return this.getWorldPosition().add(this.world_offset);
+        return this.transform.getWorldPosition().add(this.world_offset);
     }
 
-    override calculateWorldTransform(): void {
-        super.calculateWorldTransform();
-        this.world_offset = this.offset.multScalar(this.getWorldScale());
-        this.world_size = this.size.multScalar(this.getWorldScale())
+    override update(engine: Engine):void {
+        this.world_offset = this.offset.multScalar(this.transform.getWorldScale());
+        this.world_size = this.size.multScalar(this.transform.getWorldScale())
+        super.update(engine);
     }
 
     overlaps(other: Collider): boolean {
@@ -45,7 +45,8 @@ export class Collider extends Node {
         return is_in_x && is_in_y;
     }
 
-    debugDraw(engine: Engine) {
+    override debugDraw(engine: Engine) {
         engine.strokeRect(new Rect(this.getWorldOrigin(), this.world_size), this.collidingWith ? "#00FF00" : "#FF0000");
+        super.debugDraw(engine);
     }
 }

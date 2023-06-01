@@ -32,7 +32,7 @@ export class Player extends Collider {
     constructor(engine: Engine, start_position: Vec = new Vec(0, 0)) {
         super(new Vec(2, 2), new Vec(12, 14));
 
-        this.setPosition(start_position);
+        this.transform.setPosition(start_position);
 
         this.sprite.setSubSize(16);
         engine.collisionWorld.addCollider(this);
@@ -48,10 +48,10 @@ export class Player extends Collider {
     override update(engine: Engine) {
         super.update(engine);
 
-        if (this.getWorldPosition().y > 1000) {
-            this.setPosition(new Vec(0, 0));
-        } else if (this.getWorldPosition().y < -1000) {
-            this.setPosition(new Vec(0, 0));
+        if (this.transform.getWorldPosition().y > 1000) {
+            this.transform.setPosition(new Vec(0, 0));
+        } else if (this.transform.getWorldPosition().y < -1000) {
+            this.transform.setPosition(new Vec(0, 0));
         }
 
         this.sprite.setAnimation(PlayerAnims.Idle);
@@ -83,7 +83,7 @@ export class Player extends Collider {
             this.walk_sound.stop();
         }
 
-        this.translate(this.velocity.mult(new Vec(0, 1)));
+        this.transform.translate(this.velocity.mult(new Vec(0, 1)));
         engine.collisionWorld.checkCollider(this);
         if (this.collidingWith) {
             if (this.collidingWith.passthrough_top && this.velocity.y > 0) {
@@ -95,20 +95,20 @@ export class Player extends Collider {
                     this.is_grounded = true;
                 }
 
-                this.translate(this.velocity.mult(new Vec(0, -1)));
+                this.transform.translate(this.velocity.mult(new Vec(0, -1)));
                 this.velocity.y = 0;
             }
         } else {
             this.is_grounded = false;
         }
 
-        this.translate(this.velocity.mult(new Vec(1, 0)));
+        this.transform.translate(this.velocity.mult(new Vec(1, 0)));
         engine.collisionWorld.checkCollider(this);
         if (this.collidingWith) {
             if (this.collidingWith.passthrough_left && this.velocity.x > 0) {
             } else if (this.collidingWith.passthrough_right && this.velocity.x < 0) {
             } else {
-                this.translate(this.velocity.mult(new Vec(-1, 0)));
+                this.transform.translate(this.velocity.mult(new Vec(-1, 0)));
                 this.velocity.x = 0;
             }
         }

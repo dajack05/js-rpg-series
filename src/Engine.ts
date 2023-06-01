@@ -82,6 +82,10 @@ export class Engine {
         return this.paused;
     }
 
+    getRenderContext(): CanvasRenderingContext2D {
+        return this.ctx;
+    }
+
     clear() {
         this.ctx.fillStyle = "#cccccc";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -110,7 +114,7 @@ export class Engine {
     }
 
     getCameraPosition(): Vec {
-        return this.root.getWorldPosition().multScalar(-1);
+        return this.root.transform.getWorldPosition().multScalar(-1);
     }
 
     getCanvasSize(): Vec {
@@ -131,9 +135,9 @@ export class Engine {
 
     private loop() {
         if (this.config.camera?.smooth) {
-            this.root.translate(this.cameraTarget.sub(this.root.getPosition()).multScalar(this.config.camera.speed!));
+            this.root.transform.translate(this.cameraTarget.sub(this.root.transform.getPosition()).multScalar(this.config.camera.speed!));
         } else {
-            this.root.setPosition(this.cameraTarget);
+            this.root.transform.setPosition(this.cameraTarget);
         }
 
         if (!this.paused) {
@@ -166,6 +170,7 @@ export class Engine {
 
         if (this.config.debug) {
             this.collisionWorld.draw(this);
+            this.root.debugDraw(this);
         }
 
         requestAnimationFrame(this.loop.bind(this));

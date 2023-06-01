@@ -108,11 +108,11 @@ export class Map extends Sprite {
     }
 
     override draw(engine: Engine): void {
-        const old_world_position = this.getWorldPosition();
+        const old_world_position = this.transform.getWorldPosition();
         for (const layer of this.tileLayers) {
             const parallax_mult = new Vec(engine.config.parallax!.x / 10, engine.config.parallax!.y / 10)
             .multScalar(layer.parallax_layer)
-            .mult(this.getWorldPosition());
+            .mult(this.transform.getWorldPosition());
 
             for (let y = 0; y < layer.height; y++) {
                 for (let x = 0; x < layer.width; x++) {
@@ -124,15 +124,15 @@ export class Map extends Sprite {
                     if (!tileset) continue; // Unable to find tileset...
 
                     tileset.sprite.animation.frame = tile - tileset.firstgid;
-                    tileset.sprite.setScale(this.getWorldScale());
+                    tileset.sprite.transform.setScale(this.transform.getWorldScale());
                     tileset.sprite.calculateSource();
                     const pos = new Vec(
-                        Math.floor(old_world_position.x + (x * this.subSize * this.getWorldScale())),
-                        Math.floor(old_world_position.y + (y * this.subSize * this.getWorldScale()))
+                        Math.floor(old_world_position.x + (x * this.subSize * this.transform.getWorldScale())),
+                        Math.floor(old_world_position.y + (y * this.subSize * this.transform.getWorldScale()))
                     )
                     .add(parallax_mult)
                     .round();
-                    tileset.sprite.setPosition(pos);
+                    tileset.sprite.transform.setPosition(pos);
                     tileset.sprite.draw(engine);
                 }
             }

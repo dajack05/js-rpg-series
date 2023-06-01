@@ -9,7 +9,7 @@ import bg_music from './resources/sound/Juhani Junkala [Chiptune Adventures] 1. 
 import bg_image from './resources/images/background.png';
 
 const engine = new Engine({
-    debug: true,
+    // debug: true,
     muteSound: true,
     parallax: {
         x: 1,
@@ -17,17 +17,17 @@ const engine = new Engine({
     }
 });
 
-engine.root.setScale(4);
+engine.root.transform.setScale(4);
 
 const bg = new Sprite(bg_image);
-bg.setScale(1);
+bg.transform.setScale(1);
 engine.root.addChild(bg);
 
 const map = Map.FromJson(map_01, engine.collisionWorld);
 engine.root.addChild(map);
 
 const player = new Player(engine);
-player.setPosition(new Vec(32, 0));
+player.transform.setPosition(new Vec(32, 0));
 engine.root.addChild(player);
 
 const backgroundMusic = new Sound(bg_music);
@@ -37,12 +37,12 @@ backgroundMusic.setPlaybackSpeed(0.9);
 engine.root.addChild(backgroundMusic);
 
 function update(engine: Engine) {
-    engine.setCameraPosition(player.getPosition());
+    engine.setCameraPosition(player.transform.getPosition());
 
     const bg_position = engine.getCameraPosition()
         .sub(bg.getWorldImageSize().divScalar(2))
         .add(engine.getCanvasSize().divScalar(2));
-    bg.setPosition(bg_position);
+    bg.transform.setPosition(bg_position);
 }
 
 function draw(engine: Engine) {

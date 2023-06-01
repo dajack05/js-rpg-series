@@ -489,5 +489,19 @@ window.addEventListener("blur", () => {
 ## Safety Nets
 - If player drops too far, reset position
 
-Todo: Refactor transform stuff into it's own class
+## Refactor Transfom into it's own class
+- Create `Transform` class
+  - Should have local and world position and scale
+  - Should take a `Node` as a constructor element (save for later)
+  - Create update function which uses the owning `Node`
+- Refactor transform based things from `Node` -> `Transform`
+- Update `transform` in `Node::update()`
+- Fix Parallax offset
+- Fix missing references (there are a LOT...)
+  - Refactor `Collider::calculateWorldTransform()` to `Collider::update`
+- Add `debugDraw` method to `Node` and `Transform`
+  - Add `debugDraw` call in Engine loop
+  - Add `getRenderContext` to Engine
+  - Make sure to override/call `super.debugdraw` in `Collider`
+
 Todo: Cull offscreen tiles
