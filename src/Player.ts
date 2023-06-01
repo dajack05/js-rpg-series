@@ -1,6 +1,6 @@
 import { Engine } from "./Engine";
 import { InputManager } from "./InputManager";
-import { Collider, PassthroughDirection } from "./Scene/Collider";
+import { Collider } from "./Scene/Collider";
 import { Sound } from "./Scene/Sound";
 import { Animation, Sprite } from "./Scene/Sprite";
 import { Vec } from "./Vec";
@@ -80,8 +80,8 @@ export class Player extends Collider {
         this.translate(this.velocity.mult(new Vec(0, 1)));
         engine.collisionWorld.checkCollider(this);
         if (this.collidingWith) {
-            if (this.collidingWith.passthrough == PassthroughDirection.FromTop && this.velocity.y > 0) {
-            } else if (this.collidingWith.passthrough == PassthroughDirection.FromBottom && this.velocity.y < 0) {
+            if (this.collidingWith.passthrough_top && this.velocity.y > 0) {
+            } else if (this.collidingWith.passthrough_bottom && this.velocity.y < 0) {
             } else {
                 // Player is colliding on the Y axis.
                 if (this.velocity.y > 0) {
@@ -99,8 +99,8 @@ export class Player extends Collider {
         this.translate(this.velocity.mult(new Vec(1, 0)));
         engine.collisionWorld.checkCollider(this);
         if (this.collidingWith) {
-            if (this.collidingWith.passthrough == PassthroughDirection.FromLeft && this.velocity.x > 0) {
-            } else if (this.collidingWith.passthrough == PassthroughDirection.FromRight && this.velocity.x < 0) {
+            if (this.collidingWith.passthrough_left && this.velocity.x > 0) {
+            } else if (this.collidingWith.passthrough_right && this.velocity.x < 0) {
             } else {
                 this.translate(this.velocity.mult(new Vec(-1, 0)));
                 this.velocity.x = 0;

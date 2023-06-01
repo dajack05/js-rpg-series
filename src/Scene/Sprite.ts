@@ -68,6 +68,14 @@ export class Sprite extends Node {
         this.source.origin.y = Math.floor(this.animation.frame / cols) * this.subSize;
     }
 
+    getImageSize(): Vec {
+        return new Vec(this.image.width, this.image.height);
+    }
+
+    getWorldImageSize(): Vec {
+        return new Vec(this.image.width, this.image.height).multScalar(this.getWorldScale());
+    }
+
     override draw(engine: Engine) {
         super.draw(engine);
 

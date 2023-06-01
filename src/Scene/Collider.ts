@@ -2,14 +2,6 @@ import { Engine } from "../Engine";
 import { Rect, Vec } from "../Vec";
 import { Node } from "./Node";
 
-export enum PassthroughDirection {
-    FromBottom,
-    FromTop,
-    FromLeft,
-    FromRight,
-    None,
-}
-
 export class Collider extends Node {
     collidingWith: Collider | null = null;
 
@@ -19,7 +11,10 @@ export class Collider extends Node {
     private world_offset: Vec = new Vec(0, 0);
     private world_size: Vec = new Vec(10, 10);
 
-    passthrough = PassthroughDirection.None;
+    passthrough_top = false;
+    passthrough_bottom = false;
+    passthrough_left = false;
+    passthrough_right = false;
 
     constructor(offset = new Vec(0, 0), size = new Vec(10, 10)) {
         super();

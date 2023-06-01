@@ -2,7 +2,7 @@ import { Engine } from "../Engine";
 import { Sprite } from "./Sprite";
 
 import tileset from '../resources/images/ground_tiles.png'
-import { Collider, PassthroughDirection } from "./Collider";
+import { Collider } from "./Collider";
 import { Vec } from "../Vec";
 import { CollisionWorld } from "../CollisionWorld";
 
@@ -176,18 +176,10 @@ export class Map extends Sprite {
                                 const name = property.name.toLowerCase();
                                 if (name === "pass") {
                                     const value = property.value.toLowerCase();
-                                    if (value.includes('top')) {
-                                        collider.passthrough = PassthroughDirection.FromTop;
-                                    }
-                                    if (value.includes('bottom')) {
-                                        collider.passthrough = PassthroughDirection.FromBottom
-                                    }
-                                    if (value.includes('left')) {
-                                        collider.passthrough = PassthroughDirection.FromLeft;
-                                    }
-                                    if (value.includes('right')) {
-                                        collider.passthrough = PassthroughDirection.FromRight;
-                                    }
+                                    collider.passthrough_top = value.includes('top');
+                                    collider.passthrough_bottom = value.includes('bottom');
+                                    collider.passthrough_left = value.includes('left');
+                                    collider.passthrough_right = value.includes('right');
                                 }
                             }
                         }

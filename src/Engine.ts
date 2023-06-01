@@ -109,6 +109,14 @@ export class Engine {
         this.cameraTarget = position.sub(new Vec(this.canvas.width / 2, this.canvas.height / 2)).multScalar(-1);
     }
 
+    getCameraPosition(): Vec {
+        return this.root.getWorldPosition().multScalar(-1);
+    }
+
+    getCanvasSize(): Vec {
+        return new Vec(this.canvas.width, this.canvas.height);
+    }
+
     private update() {
         this.collisionWorld.update();
         this.root.update(this);

@@ -390,6 +390,7 @@ override setScale(scale: number): void {
 
 ## One-way blocks
 - Add 'oneway' flag and with proper direction to Collider
+    - ALERT: Change to 4 bools instead of enum. Allows multi-select
     - add `MapObjectProperyStructure`
     - Add array of `MapObjectProperyStructure` to `MapObjectJsonStructure`
 - Set type to "one-way" in Tiled Class
@@ -474,4 +475,17 @@ window.addEventListener("blur", () => {
 - Add `parallax_layer` to `TileLayer`
 - Use `TileLayer.parallax_layer` to offset layers
 
+## For fun, add background
+- Create new 480x270 image in Gimp
+- Create gradient
+- Create Sun
+- Index to 8 colors
+- Create and load sprite for BG
+- Create `Engine::getCameraPosition`
+- Add `getImageSize` to `Sprite`
+- Add `getCanvasSize` to `Engine`
+- Position BG based on camera position, canvas size, and bg size
+
+
 Todo: Refactor transform stuff into it's own class
+Todo: Cull offscreen tiles
