@@ -99,7 +99,7 @@ export class Sprite extends Node {
 
             this.source,
 
-            new Rect(this.world_position, new Vec(this.source.size.x * this.world_scale, this.source.size.y * this.world_scale))
+            new Rect(this.getWorldPosition(), new Vec(this.source.size.x * this.getWorldScale(), this.source.size.y * this.getWorldScale()))
         );
     }
 

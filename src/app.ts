@@ -7,10 +7,10 @@ import bg_music from './resources/sound/Juhani Junkala [Chiptune Adventures] 1. 
 
 const engine = new Engine({
     debug: true,
-    muteSound: true,
+    muteSound: false,
     parallax: {
         x: 1,
-        y: 0.1,
+        y: 0.5,
     }
 });
 
@@ -34,28 +34,17 @@ engine.root.setScale(4);
     engine.root.addChild(map);
 }
 
-{
-    const map = Map.FromJson(map_01, null);
-    map.layer = 1;
-    engine.root.addChild(map);
-}
-
-{
-    const map = Map.FromJson(map_01, null);
-    map.layer = 2;
-    engine.root.addChild(map);
-}
-
 const player = new Player(engine);
 engine.root.addChild(player);
 
 const backgroundMusic = new Sound(bg_music);
 backgroundMusic.play();
-backgroundMusic.setPlaybackSpeed(0.8);
+backgroundMusic.setLooping(true);
+backgroundMusic.setPlaybackSpeed(0.9);
 engine.root.addChild(backgroundMusic);
 
 function update(engine: Engine) {
-    engine.setCameraPosition(player.position);
+    engine.setCameraPosition(player.getPosition());
 }
 
 function draw(engine: Engine) {

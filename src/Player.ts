@@ -15,7 +15,7 @@ const PlayerAnims = {
     Jump: new Animation(18),
 };
 
-const Gravity = 1;
+const Gravity = 10;
 const Damping = 0.8;
 const MoveSpeed = 10;
 const JumpSpeed = 150;
@@ -30,9 +30,9 @@ export class Player extends Collider {
     velocity = new Vec(0, 0);
 
     constructor(engine: Engine, start_position: Vec = new Vec(0, 0)) {
-        super(new Vec(2, 0), new Vec(14, 16));
+        super(new Vec(2, 2), new Vec(12, 14));
 
-        this.position = start_position;
+        this.setPosition(start_position);
 
         this.sprite.setSubSize(16);
         engine.collisionWorld.addCollider(this);
@@ -42,6 +42,7 @@ export class Player extends Collider {
         this.addChild(this.walk_sound);
 
         this.walk_sound.setPlaybackSpeed(0.6);
+        this.jump_sound.setPlaybackSpeed(2);
     }
 
     override update(engine: Engine) {

@@ -98,7 +98,6 @@ export class Map extends Sprite {
 
     addTileset(tileset: Tileset) {
         tileset.sprite.setSubSize(tileset.tilesize);
-        this.addChild(tileset.sprite);
         this.tilesets.push(tileset);
     }
 
@@ -108,7 +107,7 @@ export class Map extends Sprite {
     }
 
     override draw(engine: Engine): void {
-        const old_world_position = this.world_position.clone();
+        const old_world_position = this.getWorldPosition();
         for (const layer of this.tileLayers) {
             for (let y = 0; y < layer.height; y++) {
                 for (let x = 0; x < layer.width; x++) {
@@ -120,10 +119,13 @@ export class Map extends Sprite {
                     if (!tileset) continue; // Unable to find tileset...
 
                     tileset.sprite.animation.frame = tile - tileset.firstgid;
-                    tileset.sprite.setScale(this.world_scale);
+                    tileset.sprite.setScale(this.getWorldScale());
                     tileset.sprite.calculateSource();
-                    tileset.sprite.world_position.x = Math.floor(old_world_position.x + (x * this.subSize * this.scale));
-                    tileset.sprite.world_position.y = Math.floor(old_world_position.y + (y * this.subSize * this.scale));
+                    const pos = new Vec(
+                        Math.floor(old_world_position.x + (x * this.subSize * this.getWorldScale())), 
+                        Math.floor(old_world_position.y + (y * this.subSize * this.getWorldScale()))
+                    );
+                    tileset.sprite.setPosition(pos);
                     tileset.sprite.draw(engine);
                 }
             }

@@ -461,6 +461,6 @@ window.addEventListener("blur", () => {
 - Set "ignore" flag for collision when loading maps (mainly for dev)
 
 ## Refactoring everything to use world_scale
-- Map
-- Collider setScale
-- add round to Vec
+- Add a "recalc" function to `Node`
+- Don't allow nodes position or scale to be controlled manually
+- Recalculate global values in `calculateWorldTransform()`

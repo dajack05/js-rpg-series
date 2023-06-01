@@ -123,9 +123,9 @@ export class Engine {
 
     private loop() {
         if (this.config.camera?.smooth) {
-            this.root.translate(this.cameraTarget.sub(this.root.position).multScalar(this.config.camera.speed!));
+            this.root.translate(this.cameraTarget.sub(this.root.getPosition()).multScalar(this.config.camera.speed!));
         } else {
-            this.root.position = this.cameraTarget;
+            this.root.setPosition(this.cameraTarget);
         }
 
         if (!this.paused) {

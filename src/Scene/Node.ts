@@ -4,10 +4,10 @@ import { Vec } from "../Vec";
 export class Node {
     parent: Node | null = null;
 
-    position = new Vec(0, 0);
-    world_position = new Vec(0, 0);
-    scale = 1.0;
-    world_scale = 1.0;
+    private position = new Vec(0, 0);
+    private world_position = new Vec(0, 0);
+    private scale = 1.0;
+    private world_scale = 1.0;
 
     layer = 0;
 
@@ -17,6 +17,7 @@ export class Node {
         child.parent = this;
         if (!this.children.includes(child)) {
             this.children.push(child);
+            child.calculateWorldTransform();
         }
     }
 
@@ -25,23 +26,37 @@ export class Node {
             const idx = this.children.indexOf(child);
             child.parent = null;
             this.children = this.children.splice(idx, 1);
+            child.calculateWorldTransform();
         }
     }
 
     setScale(scale: number) {
         this.scale = scale;
+        this.calculateWorldTransform();
+    }
+
+    getScale(): number {
+        return this.scale;
+    }
+
+    getWorldScale(): number {
+        return this.world_scale;
     }
 
     setPosition(position: Vec) {
-        this.position = position;
+        this.position = position.clone();
+        this.calculateWorldTransform();
     }
 
     getPosition(): Vec {
-        return this.position;
+        return this.position.clone();
     }
 
+    getWorldPosition(): Vec {
+        return this.world_position.clone();
+    }
 
-    update(engine: Engine) {
+    calculateWorldTransform() {
         // If we have a parent
         if (this.parent !== null) {
             // Update world coords
@@ -51,6 +66,14 @@ export class Node {
             this.world_position = this.position;
             this.world_scale = this.scale;
         }
+
+        for(const child of this.children){
+            child.calculateWorldTransform();
+        }
+    }
+
+    update(engine: Engine) {
+        this.calculateWorldTransform();
 
         const parallax_mult = new Vec(engine.config.parallax!.x / 10, engine.config.parallax!.y / 10)
             .multScalar(this.layer);
@@ -69,5 +92,6 @@ export class Node {
 
     translate(translation: Vec) {
         this.position = this.position.add(translation);
+        this.calculateWorldTransform()
     }
 }
