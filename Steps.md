@@ -1,27 +1,27 @@
 # Episode I
 
-## Init node env
+# Init node env
 `npm init`
 
-## Add TS stuff
+# Add TS stuff
 `npm install --save-dev typescript @types/node parcel`
 
-## Init TS
+# Init TS
 `npx tsc init`
 
-## Create .gitignore
+# Create .gitignore
 ```
 node_modules/
 .parcel-cache/
 dist/
 ```
 
-## Create boilerplate stuff
+# Create boilerplate stuff
 1. Create `src/`
 2. Create `src/index.html`
    - Include `.ts` files in `html` 👍
 
-## Update `package.json` with new scripts
+# Update `package.json` with new scripts
 1. Remove `"main": "index.js",`
 2. Add `"source":"src/index.html",`
 3. Add 
@@ -32,7 +32,7 @@ dist/
 },
 ```
 
-## Simple Proto
+# Simple Proto
 1. Create Canvas
 2. Attach to body
 3. Get context2d
@@ -68,13 +68,13 @@ declare module '*.png' {
 - Refactor drawing code to draw image in middle of screen
 - Correct image scaling interpolation `ctx.imageSmoothingEnabled = false;`
 
-## Show a subsection of the image
+# Show a subsection of the image
 [Mozilla Ref](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage)
 
 - Implement same design while using the src/dst drawImage mode
 - Draw frame 1 by using width and height of 16px
 
-## Make game loop
+# Make game loop
 - Make loop function which uses `requestAnimationFrame(`
 - Get keyboard input
 - Move player
@@ -85,22 +85,22 @@ declare module '*.png' {
 
 # Episode III
 
-## Refactor input system locally
+# Refactor input system locally
 - Move to `Map<string,boolean>` based input flags
 - Simplify keydown and keyup code
 
-## Refactor input system globally
+# Refactor input system globally
 - Create `InputManager` class
 - Set keyup and keydown listeners on construct
 - Add a `isKeyDown` method
 - Refactor main code
 - Refactor into static code (only runs one place)
 
-## Refactor engine into its own class
+# Refactor engine into its own class
 - Create engine source
 - Move canvas and ctx into engine
 
-## Refactor Sprite
+# Refactor Sprite
 - Constructor has image_path which can be set
 - load loads the image
 - has flag for isLoaded
@@ -111,22 +111,22 @@ declare module '*.png' {
 
 # Episode III
 
-## Refactor input system locally
+# Refactor input system locally
 - Move to `Map<string,boolean>` based input flags
 - Simplify keydown and keyup code
 
-## Refactor input system globally
+# Refactor input system globally
 - Create `InputManager` class
 - Set keyup and keydown listeners on construct
 - Add a `isKeyDown` method
 - Refactor main code
 - Refactor into static code (only runs one place)
 
-## Refactor engine into its own class
+# Refactor engine into its own class
 - Create engine source
 - Move canvas and ctx into engine
 
-## Refactor Sprite
+# Refactor Sprite
 - Constructor has image_path which can be set
 - load loads the image
 - has flag for isLoaded
@@ -137,7 +137,7 @@ declare module '*.png' {
 
 # Episode IV
 
-## Animation
+# Animation
 - Create Animation class
 - Track and increment frame
 - Draw selected frame
@@ -152,7 +152,7 @@ const anim_jump = new Animation(18, 20, 2);
 
 # Episode V
 
-## Math Refactor
+# Math Refactor
 - Create Vec class
 - Add Sub Mult Div
 - Replace `Rect` with two `Vec`s
@@ -162,7 +162,7 @@ const anim_jump = new Animation(18, 20, 2);
 - Move `Rect` to `Vec.ts`
 - Constructor for `Rect`
 
-## Collision Detection
+# Collision Detection
 - Create a collider class
 - Add overlaps method
 ```ts
@@ -181,21 +181,21 @@ const anim_jump = new Animation(18, 20, 2);
 
 # Episode VI
 
-## Simple Single-body Collision Solving
+# Simple Single-body Collision Solving
 - Check player collision every frame
     - Store movement in vector
     - Move Collider and attach sprite
     - Check Y collision
     - Check X collision
 
-## Multi-body Solving
+# Multi-body Solving
 - Create `CollisionWorld` class
 - Add "is colliding" flag to `Collider`
 - 2D loop for checking
 - Add `CollisionWorld` to app
 - Add Gravity!
 
-## Only jump IF we're grounded
+# Only jump IF we're grounded
 - Create grounded variable
 - Only jump IF grounded
 ```ts
@@ -219,7 +219,7 @@ if (player_collider.isColliding) {
 
 # Episode VII
 
-## Refactor to Nodes
+# Refactor to Nodes
 - Create `Scene/Node.ts` class
   - Class should have add/remove child, update, and draw.
 - Migrate player to be a `Node`
@@ -230,13 +230,13 @@ if (player_collider.isColliding) {
   - Move `loop` into the engine
   - Move `world.update` and `world.draw` into `Engine.ts`
 
-## Make `Sprite` a `Node`
+# Make `Sprite` a `Node`
 - Make `Sprite` extend `Node`
 - Remove redundant private vars
 - Modify override draw
 - `addChild` instead of one-off updates in `Player`
 
-## Make `Collider` a `Node`
+# Make `Collider` a `Node`
 - Make `Collider` extend `Node`
 - Add constructor to set offset and size
 - Make an `offset` variable to allow changed origin
@@ -247,19 +247,19 @@ if (player_collider.isColliding) {
 - `Player` needs to get and set position NOT origin
 - Trim `Player.collider` to fit `Player.sprite`
 
-## Create Root Node in Engine
+# Create Root Node in Engine
 - Create `root` node in `Engine`
 - Add `player` from `app.ts` to `root`
 - Clear `update()` and `draw()` code in `app.ts`
 
-## Tidy
+# Tidy
 - Move `Collider` to `Scene` folder
 - Move `Sprite` to `Scene` folder
 - Refacting and red-squigglies lol
 
 # Episode IIX
 
-## Move to velocity based movement
+# Move to velocity based movement
 - Use velocity in Player
   - Create the variable
   - Update Velocity instead of collider directly.
@@ -270,7 +270,7 @@ if (player_collider.isColliding) {
     - Add damping
     - Limit damping to X-Axis
 
-## "Camera" movement
+# "Camera" movement
 - Demo movement by offsetting root position
   - Create `world_position` system
     - set and unset `child.parent` on `addChild()` and `removeChild()`
@@ -296,10 +296,10 @@ if (player_collider.isColliding) {
 
   # Episode IX
 
-## Get tileset
+# Get tileset
 [link](https://opengameart.org/content/grafxkids-arcade-platform-assets-new-pallets)
 
-## Map Renderer
+# Map Renderer
 - Create Map class extending sprite
 - Create Layer interfaces
   - TileLayer
@@ -317,14 +317,14 @@ if (player_collider.isColliding) {
   - Call that method
 - Subtract 1 from tile in renderer so we can still reach the first tile
 
-## Setup Tiled
+# Setup Tiled
 https://www.mapeditor.org/
 
 - Create Tileset [link](https://opengameart.org/content/grafxkids-arcade-platform-assets-new-pallets)
   - 16x16
   - Save into `resources/maps/`
 
-## Make Test Map
+# Make Test Map
 - New Map using that tileset
 - Tilesize 16x16
 - Mapsize 16x16
@@ -339,14 +339,14 @@ declare module '*.json' {
 }
 ```
 
-## Map Loader
+# Map Loader
 - Create static `FromJson` method
 - Cast json (any) to `MapJsonStructure` for easy access
 - return map with default tileset to begin with
 - Add each data_layer to map as `TileLayer`
 - Remove dummy layer
 
-## Tileset Loader
+# Tileset Loader
 - Create `TilesetJsonStructure` for easy access
 - Install `parcel-reporter-static-files-copy` via `npm install -D parcel-reporter-static-files-copy`
 - Create `.parcelrc` with
@@ -367,7 +367,7 @@ declare module '*.json' {
 
 # Episode X
 
-## Tiled Collision
+# Tiled Collision
 - Remove all but floor for testing
 - Add object layer with a simple rect
 - Rename `LayerJsonStructure` to `TileLayerJsonStructure`
@@ -388,7 +388,7 @@ override setScale(scale: number): void {
 ```
 - Remove old floor
 
-## One-way blocks
+# One-way blocks
 - Add 'oneway' flag and with proper direction to Collider
     - ALERT: Change to 4 bools instead of enum. Allows multi-select
     - add `MapObjectProperyStructure`
@@ -398,24 +398,24 @@ override setScale(scale: number): void {
 - Allow player to continue jumping if collider has "one-way" tag
     - While checking X and Y collision, check if velocity matches with a one-way condition. If so, ignore that collision
 
-## Hide Debug Stuff
+# Hide Debug Stuff
 - Add a variable to `Engine` called `debug` defaulted to `false`
 - Conditionally draw debug stuff
 - Refactor `Collider::draw` to `Collider::debugDraw`
 - Move config into Interface Engine constructor
 - Overlay config with default config
 
-## Loose Ends
+# Loose Ends
 - Add visible check to layers
 
 # Episode XI
 
-## Getting Assets
+# Getting Assets
 - [Music](https://opengameart.org/content/4-chiptunes-adventure)
 - [Jump](https://freesound.org/people/Aesterial-Arts/sounds/633246/)
 - [Walk](https://freesound.org/people/Beetlemuse/sounds/529953/)
 
-## Creasting Sound Node
+# Creasting Sound Node
 - Create `Sound` class
 - add index.d.ts for sound folder
 ```ts
@@ -455,19 +455,19 @@ window.addEventListener("blur", () => {
 
 # Episode XII
 
-## Parallax Map Scrolling
+# Parallax Map Scrolling
 - Add layer number to `Node`
 - Take layer number into account when calculating world_position
 - Set X and Y parallax speed in Engine
 - Set "ignore" flag for collision when loading maps (mainly for dev)
 
-## Refactoring everything to use world_scale
+# Refactoring everything to use world_scale
 - Add a "recalc" function to `Node`
 - Don't allow nodes position or scale to be controlled manually
 - Recalculate global values in `calculateWorldTransform()`
   - Specific collider code in `override calculateWorldTransform()`
 
-## Allow map layers to be on different parallax layers
+# Allow map layers to be on different parallax layers
 - Add property to layer "layer = 0,1,2,..."
 - Look for that property in the loader
   - Refactor structs to allow for layer properties
@@ -475,7 +475,7 @@ window.addEventListener("blur", () => {
 - Add `parallax_layer` to `TileLayer`
 - Use `TileLayer.parallax_layer` to offset layers
 
-## For fun, add background
+# For fun, add background
 - Create new 480x270 image in Gimp
 - Create gradient
 - Create Sun
@@ -486,10 +486,10 @@ window.addEventListener("blur", () => {
 - Add `getCanvasSize` to `Engine`
 - Position BG based on camera position, canvas size, and bg size
 
-## Safety Nets
+# Safety Nets
 - If player drops too far, reset position
 
-## Refactor Transfom into it's own class
+# Refactor Transfom into it's own class
 - Create `Transform` class
   - Should have local and world position and scale
   - Should take a `Node` as a constructor element (save for later)
@@ -504,7 +504,7 @@ window.addEventListener("blur", () => {
   - Add `getRenderContext` to Engine
   - Make sure to override/call `super.debugdraw` in `Collider`
 
-## Create mobile controls
+# Create mobile controls
 - Create app specific UI control class
 - Create UI asset
 - Create custom render loop (controlled by app not Engine)
@@ -534,14 +534,14 @@ window.addEventListener("blur", () => {
 ```
 - Add style to not allow selecting of anything (for touch mainly)
 
-## Tile Culling
+# Tile Culling
 - Create a "culling `Rect`"
   - Set some simple defaults for origin and size
 - Draw it in `debugDraw`
 - Only draw if tile is within that rect
 - Adjust rect to fill screen
 
-### Data
+## Data
 StressTest map (512x512 tiles filled 4 layers)
 Normal: 750ms
 Culled: 60ms
