@@ -123,7 +123,6 @@ export class Map extends Sprite {
     }
 
     override draw(engine: Engine): void {
-        const start = Date.now();
         const old_world_position = this.transform.getWorldPosition();
         for (const layer of this.tileLayers) {
             const parallax_mult = new Vec(engine.config.parallax!.x / 10, engine.config.parallax!.y / 10)
@@ -155,9 +154,6 @@ export class Map extends Sprite {
                 }
             }
         }
-        const end = Date.now();
-        const diff = end-start;
-        console.log(diff);
     }
 
     override debugDraw(engine: Engine): void {
