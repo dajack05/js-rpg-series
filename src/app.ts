@@ -27,7 +27,7 @@ const bg = new Sprite(bg_image);
 bg.transform.setScale(1);
 engine.root.addChild(bg);
 
-const map = Map.FromJson(stresstest, engine.collisionWorld);
+const map = Map.FromJson(map_01, engine.collisionWorld);
 engine.root.addChild(map);
 
 const player = new Player(engine);

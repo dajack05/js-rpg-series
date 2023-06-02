@@ -497,6 +497,9 @@ Normal: 750ms
 Culled: 60ms
 12.5X faster 🤘
 
+# Fixing `Collider` Position
+- On `Collider::update()` change the world position to be the origin
+
 ---
 
 Todo: `Collider`'s world position should probably be it's origin... Something like `world_position = world_position + offset`

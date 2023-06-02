@@ -23,6 +23,17 @@ export class Collider extends Node {
         this.size = size;
     }
 
+    override update(engine: Engine):void {
+        this.world_offset = this.offset.multScalar(this.transform.getWorldScale());
+        this.world_size = this.size.multScalar(this.transform.getWorldScale())
+        super.update(engine);
+    }
+
+    override debugDraw(engine: Engine) {
+        engine.strokeRect(new Rect(this.getWorldOrigin(), this.world_size), this.collidingWith ? "#00FF00" : "#FF0000");
+        super.debugDraw(engine);
+    }
+
     getOrigin(): Vec {
         return this.transform.getPosition().add(this.offset);
     }
@@ -31,22 +42,11 @@ export class Collider extends Node {
         return this.transform.getWorldPosition().add(this.world_offset);
     }
 
-    override update(engine: Engine):void {
-        this.world_offset = this.offset.multScalar(this.transform.getWorldScale());
-        this.world_size = this.size.multScalar(this.transform.getWorldScale())
-        super.update(engine);
-    }
-
     overlaps(other: Collider): boolean {
         const origin = this.getWorldOrigin();
         const otherOrigin = other.getWorldOrigin();
         const is_in_x = origin.x < otherOrigin.x + other.world_size.x && origin.x + this.world_size.x > otherOrigin.x;
         const is_in_y = origin.y < otherOrigin.y + other.world_size.y && origin.y + this.world_size.y > otherOrigin.y;
         return is_in_x && is_in_y;
-    }
-
-    override debugDraw(engine: Engine) {
-        engine.strokeRect(new Rect(this.getWorldOrigin(), this.world_size), this.collidingWith ? "#00FF00" : "#FF0000");
-        super.debugDraw(engine);
     }
 }
