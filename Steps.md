@@ -1,5 +1,3 @@
-# Episode I
-
 # Init node env
 `npm init`
 
@@ -41,8 +39,6 @@ dist/
 6. Fix Styling
 7. Fill random boxes
 
-# Episode II
-
 # Loading and rendering an image
 - Render an image
     - Create image
@@ -83,8 +79,6 @@ declare module '*.png' {
 - Add keyup event
 - Move update stuff to `update()`
 
-# Episode III
-
 # Refactor input system locally
 - Move to `Map<string,boolean>` based input flags
 - Simplify keydown and keyup code
@@ -108,34 +102,6 @@ declare module '*.png' {
 - add setPosition
 - add translate(x,y)
 - add SubSize
-
-# Episode III
-
-# Refactor input system locally
-- Move to `Map<string,boolean>` based input flags
-- Simplify keydown and keyup code
-
-# Refactor input system globally
-- Create `InputManager` class
-- Set keyup and keydown listeners on construct
-- Add a `isKeyDown` method
-- Refactor main code
-- Refactor into static code (only runs one place)
-
-# Refactor engine into its own class
-- Create engine source
-- Move canvas and ctx into engine
-
-# Refactor Sprite
-- Constructor has image_path which can be set
-- load loads the image
-- has flag for isLoaded
-- add draw(engine) method
-- add setPosition
-- add translate(x,y)
-- add SubSize
-
-# Episode IV
 
 # Animation
 - Create Animation class
@@ -149,8 +115,6 @@ const anim_walk_left = new Animation(6, 11, 10);
 const anim_walk_right = new Animation(12, 17, 10);
 const anim_jump = new Animation(18, 20, 2);
 ```
-
-# Episode V
 
 # Math Refactor
 - Create Vec class
@@ -178,8 +142,6 @@ const anim_jump = new Animation(18, 20, 2);
 - Create player collider
 - Player collider Follows player
 - Check if overlapping
-
-# Episode VI
 
 # Simple Single-body Collision Solving
 - Check player collision every frame
@@ -216,8 +178,6 @@ if (player_collider.isColliding) {
 ```
 - Make the jump big enough to matter 😅
 - We'll fix the whole velocity thing soon
-
-# Episode VII
 
 # Refactor to Nodes
 - Create `Scene/Node.ts` class
@@ -257,8 +217,6 @@ if (player_collider.isColliding) {
 - Move `Sprite` to `Scene` folder
 - Refacting and red-squigglies lol
 
-# Episode IIX
-
 # Move to velocity based movement
 - Use velocity in Player
   - Create the variable
@@ -293,8 +251,6 @@ if (player_collider.isColliding) {
   - Move to target in `loop`
   - Lerp to target if `smoothCamera == true`
   - Add `smoothSpeed` to shape smoothing
-
-  # Episode IX
 
 # Get tileset
 [link](https://opengameart.org/content/grafxkids-arcade-platform-assets-new-pallets)
@@ -365,8 +321,6 @@ declare module '*.json' {
 - Add `Tilesets` as children so they update properly
 - Offset the tile after we've deterimined the Tileset so we get the correct IDX
 
-# Episode X
-
 # Tiled Collision
 - Remove all but floor for testing
 - Add object layer with a simple rect
@@ -407,8 +361,6 @@ override setScale(scale: number): void {
 
 # Loose Ends
 - Add visible check to layers
-
-# Episode XI
 
 # Getting Assets
 - [Music](https://opengameart.org/content/4-chiptunes-adventure)
@@ -452,8 +404,6 @@ window.addEventListener("blur", () => {
   - Track mute state during pause so that any new sounds do not start
   - Add `Resume()` to `SoundRegistry`
   - Check if `SoundRegistry` is paused on update
-
-# Episode XII
 
 # Parallax Map Scrolling
 - Add layer number to `Node`
