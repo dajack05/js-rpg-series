@@ -11,8 +11,8 @@ import bg_image from './resources/images/background.png';
 import { MobileControls } from "./MobileControls";
 
 const engine = new Engine({
-    debug: true,
-    muteSound: true,
+    debug: false,
+    muteSound: false,
     parallax: {
         x: 1,
         y: 0,
