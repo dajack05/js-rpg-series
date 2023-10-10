@@ -1,0 +1,20 @@
+{
+  "name": "rpg-game",
+  "version": "1.0.0",
+  "description": "",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "staticFiles":{
+    "staticPath":"src/assets/"
+  },
+  "author": "Daniel Jackson",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.9.3",
+    "parcel-reporter-static-files-copy": "^1.5.3",
+    "typescript": "^5.2.2"
+  }
+}
