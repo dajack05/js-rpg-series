@@ -3,6 +3,7 @@ import playerSheet from "../assets/player.png";
 
 enum Anim{
     IDLE = 'idle',
+    DIE = 'die',
     N = 'walk_north',
     S = 'walk_south',
     E = 'walk_east',
@@ -24,6 +25,13 @@ export default class Player extends Sprite {
         this.addAnimation(Anim.S, new Animation(19, 27, 1 / 10));
         this.addAnimation(Anim.E, new Animation(28, 36, 1 / 10));
 
+        this.addAnimation(Anim.DIE, new Animation(38, 41, 1 / 20, false));
+
         this.playAnimation(Anim.IDLE);
+    }
+
+    override onUpdate(delta: number): void {
+        super.onUpdate(delta);
+
     }
 }

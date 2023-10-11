@@ -6,12 +6,14 @@ export class Animation {
     fps: number;
     frame: number;
     counter: number = 0.0;
+    loop: boolean;
 
-    constructor(start_frame: number, end_frame: number, fps: number) {
+    constructor(start_frame: number, end_frame: number, fps: number, loop: boolean = true) {
         this.start_frame = start_frame;
         this.end_frame = end_frame;
         this.fps = fps;
         this.frame = start_frame;
+        this.loop = loop;
     }
 };
 
@@ -51,9 +53,19 @@ export class Sprite extends Node {
         this.animations.push(animation);
     }
 
-    playAnimation(name:string):void{
+    playAnimation(name: string): void {
         const i = this.animationNames.indexOf(name);
         this.currentAnimation = i;
+    }
+
+    getPlayingAnimation(): { name: string, animation: Animation } | null {
+        if (this.currentAnimation >= 0) {
+            return {
+                name: this.animationNames[this.currentAnimation],
+                animation: this.animations[this.currentAnimation],
+            }
+        }
+        return null;
     }
 
     override onUpdate(delta: number): void {
@@ -66,7 +78,7 @@ export class Sprite extends Node {
                 anim.frame++;
                 anim.counter = 0.0;
                 if (anim.frame >= anim.end_frame) {
-                    anim.frame = anim.start_frame;
+                    anim.frame = anim.loop ? anim.start_frame : anim.end_frame;
                 }
             }
         }
@@ -83,8 +95,6 @@ export class Sprite extends Node {
 
             const x_offset = frame_x * sub_width;
             const y_offset = frame_y * sub_height;
-
-            console.log(x_offset);
 
             context.drawImage(this.image,
                 x_offset, y_offset,

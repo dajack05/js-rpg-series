@@ -120,3 +120,26 @@ Tileset: https://opengameart.org/content/a-blocky-dungeon
 - Get some sprites!!!
 - Make a Player which extends Sprite
   - Allow subsection rendering
+    ```ts
+    export class Animation {
+        start_frame: number;
+        end_frame: number;
+        fps: number;
+        frame: number;
+        counter: number = 0.0;
+        loop: boolean;
+    
+        constructor(start_frame: number, end_frame: number, fps: number, loop: boolean = true) {
+                this.start_frame = start_frame;
+                this.end_frame = end_frame;
+                this.fps = fps;
+                this.frame = start_frame;
+                this.loop = loop;
+        }
+    };
+    
+    export type SpriteSheetConfig = {
+        cols: number;
+        rows: number;
+    };
+    ```
