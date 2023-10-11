@@ -192,3 +192,27 @@ export class Input {
 
 - Save map as .json or .tmj
   - Take a look at it!
+- Update `.parcelrc` to
+    ```json
+    "transformers": {
+      "*.{fnt,ogg,mp3,png,wav}": [
+        "@parcel/transformer-raw"
+      ],
+      "*.tmj":["@parcel/transformer-inline-string"]
+    }
+    ```
+- Update `assets/index.d.ts`
+    ```ts
+    declare module '*.png' {
+        const value: string;
+        export = value;
+    }
+
+    declare module '*.tmj' {
+        const value: string;
+        export = value;
+    }
+    ```
+- Make a rough approx. of the JSON type in TS
+- Parse map for tilemap image (single tilemap for now)
+- override onDraw to handle the tilemap stuffs

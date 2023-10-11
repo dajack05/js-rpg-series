@@ -1,8 +1,8 @@
 import Player from './Game/Player';
 import Node from './Scene/Node';
-import { Sprite } from './Scene/Sprite';
+import { TiledMap } from './Scene/TiledMap';
 import { Vec } from './Vec';
-import testmap from './assets/images/testmap.png';
+import testmap from './assets/maps/testmap.tmj';
 
 const canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement;
 const ctx: CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -17,9 +17,9 @@ root.position = new Vec(400, 400);
 
 const player = new Player();
 
-const map = new Sprite("Map");
-map.scale = new Vec(4, 4);
-map.load(testmap);
+const map = new TiledMap("Map");
+map.scale = new Vec(2, 2);
+map.loadTMJ(testmap);
 
 root.addChild(map);
 root.addChild(player);

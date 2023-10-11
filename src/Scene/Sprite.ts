@@ -1,4 +1,4 @@
-import Node from "./Node";
+import Node, { Context } from "./Node";
 
 export class Animation {
     start_frame: number;
@@ -84,12 +84,11 @@ export class Sprite extends Node {
         }
     }
 
-    override onDraw(context: CanvasRenderingContext2D): void {
+    drawFrame(context: Context, frame: number) {
         if (this.isReady) {
             const sub_width = this.image.width / this.spriteSheet.cols;
             const sub_height = this.image.height / this.spriteSheet.rows;
 
-            const frame = this.animations[this.currentAnimation]?.frame || 0;
             const frame_x = frame % this.spriteSheet.cols;
             const frame_y = Math.floor(frame / this.spriteSheet.cols);
 
@@ -105,7 +104,10 @@ export class Sprite extends Node {
                 this.global_position.x - draw_width / 2, this.global_position.y - draw_height / 2,
                 draw_width, draw_height);
         }
+    }
 
+    override onDraw(context: Context): void {
+        this.drawFrame(context, this.animations[this.currentAnimation]?.frame || 0);
         super.onDraw(context);
     }
 }

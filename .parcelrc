@@ -9,6 +9,7 @@
   "transformers": {
     "*.{fnt,ogg,mp3,png,wav}": [
       "@parcel/transformer-raw"
-    ]
+    ],
+    "*.tmj":["@parcel/transformer-inline-string"]
   }
 }
