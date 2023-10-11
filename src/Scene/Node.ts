@@ -1,10 +1,10 @@
+import { Vec } from "../Vec";
+
 export default class Node {
     name: string;
 
-    x = 0;
-    y = 0;
-    gx = 0;
-    gy = 0;
+    position = new Vec();
+    global_position = new Vec();
     a = 0.0;
 
     parent: Node | null = null;
@@ -33,8 +33,8 @@ export default class Node {
     }
 
     onUpdate(delta: number) {
-        this.gx = (this.parent?.gx || 0) + this.x;
-        this.gy = (this.parent?.gy || 0) + this.y;
+        this.global_position.x = Math.round((this.parent?.global_position.x || 0) + this.position.x);
+        this.global_position.y = Math.round((this.parent?.global_position.y || 0) + this.position.y);
 
         for (const child of this.children) {
             child.onUpdate(delta);

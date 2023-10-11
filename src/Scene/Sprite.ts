@@ -99,7 +99,7 @@ export class Sprite extends Node {
             context.drawImage(this.image,
                 x_offset, y_offset,
                 sub_width, sub_height,
-                this.gx, this.gy,
+                this.global_position.x, this.global_position.y,
                 sub_width, sub_height);
         }
 

@@ -128,7 +128,7 @@ Tileset: https://opengameart.org/content/a-blocky-dungeon
         frame: number;
         counter: number = 0.0;
         loop: boolean;
-    
+
         constructor(start_frame: number, end_frame: number, fps: number, loop: boolean = true) {
                 this.start_frame = start_frame;
                 this.end_frame = end_frame;
@@ -137,9 +137,45 @@ Tileset: https://opengameart.org/content/a-blocky-dungeon
                 this.loop = loop;
         }
     };
-    
+
     export type SpriteSheetConfig = {
         cols: number;
         rows: number;
     };
     ```
+- Write an input handler
+```ts
+export class Input {
+    private static didInit = false;
+    private static downKeys: Map<string, boolean> = new Map<string, boolean>();
+ 
+    static IsKeyPressed(key: string): boolean {
+        if(!Input.didInit){
+            Input.Init();
+        }
+        return Input.downKeys.get(key) || false;
+    }
+ 
+    static Init() {
+        if(Input.didInit){
+            return;
+        }
+
+        document.addEventListener('keydown', (e) => this.downKeys.set(e.key, true));
+        document.addEventListener('keyup', (e) => this.downKeys.set(e.key, false));
+        
+        Input.didInit = true;
+    }
+}
+```
+
+# Create vector math class
+- Make it!
+  - add
+  - sub
+  - mult
+  - div
+  - len
+  - distanceTo
+- Use it in `Node`
+- Use it to move player

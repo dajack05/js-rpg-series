@@ -1,7 +1,9 @@
+import { Input } from "../Input";
 import { Sprite, Animation } from "../Scene/Sprite";
+import { Vec } from "../Vec";
 import playerSheet from "../assets/player.png";
 
-enum Anim{
+enum Anim {
     IDLE = 'idle',
     DIE = 'die',
     N = 'walk_north',
@@ -33,5 +35,27 @@ export default class Player extends Sprite {
     override onUpdate(delta: number): void {
         super.onUpdate(delta);
 
+        let moveVec = new Vec();
+
+        this.playAnimation(Anim.IDLE);
+
+        if (Input.IsKeyPressed('w')) {
+            this.playAnimation(Anim.N);
+            moveVec.y -= 1;
+        }
+        if (Input.IsKeyPressed('s')) {
+            this.playAnimation(Anim.S);
+            moveVec.y += 1;
+        }
+        if (Input.IsKeyPressed('a')) {
+            this.playAnimation(Anim.W);
+            moveVec.x -= 1;
+        }
+        if (Input.IsKeyPressed('d')) {
+            this.playAnimation(Anim.E);
+            moveVec.x += 1;
+        }
+
+        this.position = this.position.add(moveVec.multScalar(2,1.5));
     }
 }
