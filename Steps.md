@@ -17,6 +17,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RPG Game</title>
+    <style>
+        html, body{
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
     <canvas id="canvas"></canvas>
@@ -100,3 +108,14 @@ Tileset: https://opengameart.org/content/a-blocky-dungeon
   - `load(path:string):void`
   - `override onDraw(ctx)`
     - if ready, draw!
+- Create `Loop()`
+  - Test with sin/cos movement
+  - Realize you need to clear
+  - Clear
+- Use global location and inherit from parent
+
+# Making a player
+
+- Download the spritesheets https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+- Get some sprites!!!
+- Make a Player which extends Sprite

@@ -9,23 +9,41 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const root = new Node("Root");
-const tilesetSprite = new Sprite("Tileset Sprite");
-tilesetSprite.load(dungeon_sheet);
-root.addChild(tilesetSprite);
+const childCount = 20;
+const tilesetSprites:Sprite[] = [];
+
+for (let i = 0; i < childCount; i++) {
+    tilesetSprites.push(new Sprite(`Tileset Sprite ${i + 1}`));
+    tilesetSprites[i].load(dungeon_sheet);
+    if (i == 0) {
+        root.addChild(tilesetSprites[i]);
+    } else {
+        tilesetSprites[i - 1].addChild(tilesetSprites[i]);
+    }
+}
+
+root.x = 400;
+root.y = 400;
 
 let t = 0.0;
+
+root.debugPrint();
 
 loop();
 
 function loop() {
     // Update
     t += 0.01;
-    tilesetSprite.x = 100 + Math.sin(t) * 100;
-    tilesetSprite.y = 100 + Math.cos(t) * 100;
+
+    for (const tilesetSprite of tilesetSprites) {
+        tilesetSprite.x = Math.sin(t) * 20;
+        tilesetSprite.y = Math.cos(t) * 20;
+    }
+
     root.onUpdate();
 
     // Draw
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     root.onDraw(ctx);
 
     window.requestAnimationFrame(loop);

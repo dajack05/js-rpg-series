@@ -19,7 +19,7 @@ export default class Sprite extends Node {
 
     override onDraw(context: CanvasRenderingContext2D): void {
         if (this.isReady) {
-            context.drawImage(this.image, this.x, this.y);
+            context.drawImage(this.image, this.gx, this.gy);
         }
         super.onDraw(context);
     }

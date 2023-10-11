@@ -33,6 +33,9 @@ export default class Node {
     }
 
     onUpdate() {
+        this.gx = (this.parent?.gx || 0) + this.x;
+        this.gy = (this.parent?.gy || 0) + this.y;
+
         for (const child of this.children) {
             child.onUpdate();
         }
