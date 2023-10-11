@@ -8,9 +8,44 @@
     .parcel-cache/
     ```
 - `npm init`
-- `npm install --save-dev parcel parcel-reporter-static-files-copy typescript`
+- `npm install --save-dev parcel@latest @parcel/config-default parcel-reporter-static-files-copy typescript`
 - Create `src/index.html`
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG Game</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script type="module" src="index.ts"></script>
+</body>
+</html>
+```
 - Create `src/index.ts`
+```ts
+import dungeon_sheet from './assets/dungeon_sheet.png';
+
+const canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement;
+const ctx: CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+const tileset = new Image();
+tileset.onload = ()=>{
+    // Do stuff after loading!
+    console.log("BAM!");
+};
+tileset.src = dungeon_sheet;
+```
+- This will produce red squiggly for import
+  - Fix with `index.d.ts` in `assets` folder
+```ts
+declare module '*.png' {
+    const value: string;
+    export = value;
+}
+```
 - Update `package.json` with
     ```json
     "source": "src/index.html",
@@ -19,12 +54,8 @@
         "build":"parcel build"
     },
     "staticFiles":{
-        "staticPath":"src/resources/images/"
+        "staticPath":"src/assets/"
     },
-    ```
-- Include `index.ts`
-    ```html
-    <script src="index.ts"></script>
     ```
 
 # Getting starter assets
@@ -33,3 +64,39 @@ Tileset: https://opengameart.org/content/a-blocky-dungeon
 
 - Download the tileset
 - Create canvas
+  - Set it to `width=window.innerWidth` and `height=window.innerHeight`
+- Load image
+- Draw it onto the screen 1:1
+
+# Create Scenegraph
+- Make `Node` class
+  - x, y for local position
+  - gx, gy for global position
+  - a for angle
+  - children
+    - Add & Remove
+    ```ts
+    addChild(child: Node) {
+        child.parent = this;
+        if (!this.children.includes(child)) {
+            this.children.push(child);
+        }
+    }
+    
+    removeChild(child: Node) {
+        if (this.children.includes(child)) {
+            child.parent = null;
+            this.children = this.children.filter(c => c != child);
+        }
+    }
+    ```
+  - parent
+  - Update recurse
+  - Draw recurse
+- Create `Sprite`
+  - Has image
+  - has private `isReady`
+  - constructor sets `onload`
+  - `load(path:string):void`
+  - `override onDraw(ctx)`
+    - if ready, draw!

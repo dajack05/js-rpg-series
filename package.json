@@ -7,13 +7,14 @@
     "start": "parcel",
     "build": "parcel build"
   },
-  "staticFiles":{
-    "staticPath":"src/assets/"
+  "staticFiles": {
+    "staticPath": "src/assets/"
   },
   "author": "Daniel Jackson",
   "license": "ISC",
   "devDependencies": {
-    "parcel": "^2.9.3",
+    "@parcel/config-default": "^2.10.0",
+    "parcel": "^2.10.0",
     "parcel-reporter-static-files-copy": "^1.5.3",
     "typescript": "^5.2.2"
   }
