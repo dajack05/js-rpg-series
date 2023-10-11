@@ -119,3 +119,4 @@ Tileset: https://opengameart.org/content/a-blocky-dungeon
 - Download the spritesheets https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
 - Get some sprites!!!
 - Make a Player which extends Sprite
+  - Allow subsection rendering

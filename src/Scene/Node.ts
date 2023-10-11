@@ -14,8 +14,8 @@ export default class Node {
         this.name = name;
     }
 
-    debugPrint(){
-        console.log(this);
+    debugPrint() {
+        console.log(this.name, this);
     }
 
     addChild(child: Node) {
@@ -32,12 +32,12 @@ export default class Node {
         }
     }
 
-    onUpdate() {
+    onUpdate(delta: number) {
         this.gx = (this.parent?.gx || 0) + this.x;
         this.gy = (this.parent?.gy || 0) + this.y;
 
         for (const child of this.children) {
-            child.onUpdate();
+            child.onUpdate(delta);
         }
     }
 
