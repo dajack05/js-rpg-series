@@ -55,7 +55,11 @@ export class Vec {
         return other.sub(this).length();
     }
 
-    normalized():Vec{
+    normalized(): Vec {
         return this.divScalar(this.length());
+    }
+
+    rounded(): Vec {
+        return new Vec(Math.round(this.x), Math.round(this.y));
     }
 };

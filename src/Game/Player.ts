@@ -1,7 +1,7 @@
 import { Input } from "../Input";
 import { Sprite, Animation } from "../Scene/Sprite";
 import { Vec } from "../Vec";
-import playerSheet from "../assets/player.png";
+import playerSheet from "../assets/images/player.png";
 
 enum Anim {
     IDLE = 'idle',

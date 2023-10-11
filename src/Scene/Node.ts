@@ -5,7 +5,11 @@ export default class Node {
 
     position = new Vec();
     global_position = new Vec();
+
     a = 0.0;
+
+    scale = new Vec(1, 1);
+    global_scale = new Vec(1, 1);
 
     parent: Node | null = null;
     children: Node[] = [];
@@ -33,8 +37,8 @@ export default class Node {
     }
 
     onUpdate(delta: number) {
-        this.global_position.x = Math.round((this.parent?.global_position.x || 0) + this.position.x);
-        this.global_position.y = Math.round((this.parent?.global_position.y || 0) + this.position.y);
+        this.global_scale = (this.parent?.global_scale || new Vec(1, 1)).mult(this.scale);
+        this.global_position = (this.parent?.global_position || new Vec()).add(this.position.mult(this.global_scale));
 
         for (const child of this.children) {
             child.onUpdate(delta);

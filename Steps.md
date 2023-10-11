@@ -179,3 +179,16 @@ export class Input {
   - distanceTo
 - Use it in `Node`
 - Use it to move player
+
+# Map Stuff pt. 1
+
+- Go get tiled https://www.mapeditor.org/
+- Make a demo map
+  - Export it as an image
+  - Load it as a sprite
+  - Impliment scaling
+
+# Map Loader
+
+- Save map as .json or .tmj
+  - Take a look at it!

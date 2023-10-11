@@ -96,11 +96,14 @@ export class Sprite extends Node {
             const x_offset = frame_x * sub_width;
             const y_offset = frame_y * sub_height;
 
+            const draw_width = sub_width * this.global_scale.x;
+            const draw_height = sub_width * this.global_scale.y;
+
             context.drawImage(this.image,
                 x_offset, y_offset,
                 sub_width, sub_height,
-                this.global_position.x, this.global_position.y,
-                sub_width, sub_height);
+                this.global_position.x - draw_width / 2, this.global_position.y - draw_height / 2,
+                draw_width, draw_height);
         }
 
         super.onDraw(context);
