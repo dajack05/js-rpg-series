@@ -1,7 +1,19 @@
 import { Context, Engine } from "../Core/Engine";
 import { Vec } from "../Core/Vec";
+import { Collider } from "./Collider";
 import Node from "./Node";
 import { Animation, Sprite } from "./Sprite";
+
+type TiledObjectData = {
+    id: number;
+    name: string;
+    type: string;
+    visible: boolean;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+};
 
 type TiledLayerData = {
     id: number;
@@ -12,7 +24,8 @@ type TiledLayerData = {
     name: string;
     type: string;
     visible: boolean;
-    data: number[];
+    data?: number[];
+    objects?: TiledObjectData[];
 };
 
 type TiledTilesetData = {
@@ -40,9 +53,11 @@ type TiledData = {
 export class TiledMap extends Node {
     private tilesetSprite = new Sprite();
     private mapData: TiledData | null = null;
+    colliders: Collider[] = [];
 
     loadTMJ(map: string): void {
         this.mapData = JSON.parse(map) as TiledData;
+        this.colliders = [];
 
         if (this.mapData.tilesets.length <= 0) {
             console.error("No tilesets found in map data...", this.mapData);
@@ -61,15 +76,35 @@ export class TiledMap extends Node {
         };
         this.tilesetSprite.addAnimation("_", new Animation(0, tileset.tilecount, 1.0));
         this.tilesetSprite.playAnimation("_");
+
+        for (const layer of this.mapData.layers) {
+            if (!layer.objects) continue;
+
+            for (const object of layer.objects) {
+                const collider = new Collider(object.name);
+
+                collider.extents = new Vec(object.width, object.height)
+                    .divScalar(2);
+                collider.position = new Vec(object.x, object.y)
+                    .add(collider.extents);
+
+                this.addChild(collider);
+                this.colliders.push(collider);
+            }
+        }
     }
 
     private drawLayer(engine: Engine, layer: TiledLayerData): void {
         if (!this.mapData) return;
 
+        if (!layer.data) return;
+
         const tileset = this.mapData.tilesets[0];
         for (let y = 0; y < layer.height; y++) {
             for (let x = 0; x < layer.width; x++) {
-                this.tilesetSprite.position = new Vec(x, y).multScalar(tileset.tilewidth, tileset.tileheight);
+                this.tilesetSprite.position = new Vec(x, y)
+                    .multScalar(tileset.tilewidth, tileset.tileheight)
+                    .addScalar(tileset.tilewidth / 2, tileset.tileheight / 2);
                 this.tilesetSprite.onUpdate(engine);
                 const tile_id = layer.data[x + y * layer.width];
 

@@ -14,18 +14,15 @@ const engine = new Engine('canvas', {
 engine.root_node.position = new Vec(400, 400);
 
 const player = new Player();
+player.position = new Vec(100, 100);
 
 const map = new TiledMap("Map");
 map.scale = new Vec(2, 2);
 map.loadTMJ(testmap);
+map.colliders.forEach(c => engine.addCollider(c));
 
 engine.root_node.addChild(map);
 engine.root_node.addChild(player);
-
-const simpleBox = new Collider();
-simpleBox.position = new Vec(200, 200);
-simpleBox.extents = new Vec(100, 32);
-engine.root_node.addChild(simpleBox);
 
 engine.userUpdate = (engine: Engine) => {
     engine.camera_position = player.position

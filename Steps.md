@@ -243,5 +243,14 @@ export class Input {
   - Draw colliders! lol
 - auto-add colliders
 - Collder needs a `isColliding`
+- Make sure to consider global_scale!
 - Check X and Y movement seperately
-- 
+
+# Map Colliders
+
+- Make some boxes in Tiled
+- Parse the new found data
+  - Layers can have an `objects` array!
+  - Add that to the types
+  - Check to see if we're in a tile layer or object layer
+  - Create and push all map colliders

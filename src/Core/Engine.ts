@@ -55,15 +55,6 @@ export class Engine {
         }
     }
 
-    private drawColliders(): void {
-        for (const collider of this.colliders) {
-            this.ctx.strokeStyle = collider.isColliding() ? "#00FF00" : "#FF0000";
-            this.ctx.strokeRect(
-                collider.global_position.x - collider.extents.x, collider.global_position.y - collider.extents.y,
-                collider.extents.x * 2, collider.extents.y * 2);
-        }
-    }
-
     private loop(): void {
 
         this.root_node.position = this.camera_position.multScalar(-1);
@@ -74,10 +65,6 @@ export class Engine {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.root_node.onDraw(this);
         this.userDraw(this);
-
-        if(this.settings.debug.collider){
-            this.drawColliders();
-        }
 
         window.requestAnimationFrame(this.loop.bind(this));
     }
