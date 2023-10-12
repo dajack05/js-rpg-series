@@ -235,12 +235,13 @@ export class Input {
 - Refactor `Node::onUpdate` and `Node::onDraw` to use Engine instead of one-off params
 
 # Physics Nodes
-
-- Create a collision world class
-  - Has list of colliders
-  - Has debug boolean to toggle drawing
 - Crate collider Node class
   - has extents vec
-- update and draw world
+- All props to Engine
+  - Including collider debug draw
+- If collider debug draw...
+  - Draw colliders! lol
 - auto-add colliders
-- Collder needs a `isColliding` tag
+- Collder needs a `isColliding`
+- Check X and Y movement seperately
+- 

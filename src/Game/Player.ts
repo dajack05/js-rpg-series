@@ -40,7 +40,6 @@ export class Player extends Collider {
     }
 
     override onUpdate(engine: Engine): void {
-        super.onUpdate(engine);
 
         let moveVec = new Vec();
 
@@ -54,6 +53,14 @@ export class Player extends Collider {
             this.sprite.playAnimation(Anim.S);
             moveVec.y += 1;
         }
+
+        this.global_position = this.global_position.add(moveVec);
+        this.checkCollision(engine);
+        if(this.isColliding()){
+            this.global_position = this.global_position.sub(moveVec);
+            moveVec.y = 0;
+        }
+
         if (Input.IsKeyPressed('a')) {
             this.sprite.playAnimation(Anim.W);
             moveVec.x -= 1;
@@ -63,6 +70,14 @@ export class Player extends Collider {
             moveVec.x += 1;
         }
 
-        this.position = this.position.add(moveVec.multScalar(2, 1.5));
+        this.global_position = this.global_position.add(moveVec);
+        this.checkCollision(engine);
+        if(this.isColliding()){
+            this.global_position = this.global_position.sub(moveVec);
+            moveVec.x = 0;
+        }
+
+        this.position = this.position.add(moveVec);
+        super.onUpdate(engine);
     }
 }

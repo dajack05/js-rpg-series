@@ -5,7 +5,11 @@ import testmap from './assets/maps/testmap.tmj';
 import { Player } from './Game/Player';
 import { Collider } from './Scene/Collider';
 
-const engine = new Engine('canvas');
+const engine = new Engine('canvas', {
+    debug: {
+        collider: true,
+    }
+});
 
 engine.root_node.position = new Vec(400, 400);
 
@@ -22,7 +26,6 @@ const simpleBox = new Collider();
 simpleBox.position = new Vec(200, 200);
 simpleBox.extents = new Vec(100, 32);
 engine.root_node.addChild(simpleBox);
-engine.world.addCollider(simpleBox);
 
 engine.userUpdate = (engine: Engine) => {
     engine.camera_position = player.position
