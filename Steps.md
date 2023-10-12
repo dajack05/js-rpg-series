@@ -177,6 +177,9 @@ export class Input {
   - div
   - len
   - distanceTo
+  - normalized
+  - rounded
+  - clone
 - Use it in `Node`
 - Use it to move player
 
@@ -216,3 +219,15 @@ export class Input {
 - Make a rough approx. of the JSON type in TS
 - Parse map for tilemap image (single tilemap for now)
 - override onDraw to handle the tilemap stuffs
+
+# Camera
+
+- Create "camera" position
+- Set root position to be -camera_position (rounded)
+
+# Collision
+
+- Create a collision world class
+  - Has list of colliders
+- Crate collider class
+  - has 

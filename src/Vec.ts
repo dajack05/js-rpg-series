@@ -62,4 +62,8 @@ export class Vec {
     rounded(): Vec {
         return new Vec(Math.round(this.x), Math.round(this.y));
     }
+
+    clone(): Vec {
+        return new Vec(this.x, this.y);
+    }
 };

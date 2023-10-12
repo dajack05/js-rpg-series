@@ -12,6 +12,8 @@ canvas.height = window.innerHeight;
 
 ctx.imageSmoothingEnabled = false;
 
+let camera_position = new Vec(0, 0);
+
 const root = new Node("Root");
 root.position = new Vec(400, 400);
 
@@ -31,6 +33,11 @@ loop();
 function loop() {
     // Update
     t += 0.01;
+    
+    root.position = camera_position.multScalar(-1);
+    camera_position = player.position
+    .subScalar(canvas.width / 2, canvas.height / 2)
+    .rounded();
 
     root.onUpdate(1 / 60);
 
