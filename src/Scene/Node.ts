@@ -1,6 +1,5 @@
-import { Vec } from "../Vec";
-
-export type Context = CanvasRenderingContext2D;
+import { Context, Engine } from "../Core/Engine";
+import { Vec } from "../Core/Vec";
 
 export default class Node {
     name: string;
@@ -38,18 +37,18 @@ export default class Node {
         }
     }
 
-    onUpdate(delta: number) {
+    onUpdate(engine: Engine) {
         this.global_scale = (this.parent?.global_scale || new Vec(1, 1)).mult(this.scale);
         this.global_position = (this.parent?.global_position || new Vec(0, 0)).add(this.position.mult(this.global_scale));
 
         for (const child of this.children) {
-            child.onUpdate(delta);
+            child.onUpdate(engine);
         }
     }
 
-    onDraw(context: Context) {
+    onDraw(engine: Engine) {
         for (const child of this.children) {
-            child.onDraw(context);
+            child.onDraw(engine);
         }
     }
 }

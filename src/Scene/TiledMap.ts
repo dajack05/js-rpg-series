@@ -1,5 +1,6 @@
-import { Vec } from "../Vec";
-import Node, { Context } from "./Node";
+import { Context, Engine } from "../Core/Engine";
+import { Vec } from "../Core/Vec";
+import Node from "./Node";
 import { Animation, Sprite } from "./Sprite";
 
 type TiledLayerData = {
@@ -62,31 +63,31 @@ export class TiledMap extends Node {
         this.tilesetSprite.playAnimation("_");
     }
 
-    private drawLayer(context: Context, layer: TiledLayerData): void {
+    private drawLayer(engine: Engine, layer: TiledLayerData): void {
         if (!this.mapData) return;
 
         const tileset = this.mapData.tilesets[0];
         for (let y = 0; y < layer.height; y++) {
             for (let x = 0; x < layer.width; x++) {
                 this.tilesetSprite.position = new Vec(x, y).multScalar(tileset.tilewidth, tileset.tileheight);
-                this.tilesetSprite.onUpdate(1);
+                this.tilesetSprite.onUpdate(engine);
                 const tile_id = layer.data[x + y * layer.width];
 
                 if (tile_id == 0)
                     continue;
 
-                this.tilesetSprite.drawFrame(context, tile_id - 1);
+                this.tilesetSprite.drawFrame(engine.ctx, tile_id - 1);
             }
         }
     }
 
-    onDraw(context: Context): void {
+    onDraw(engine: Engine): void {
         if (this.mapData == null) return;
 
         for (const layer of this.mapData.layers) {
-            this.drawLayer(context, layer);
+            this.drawLayer(engine, layer);
         }
 
-        super.onDraw(context);
+        super.onDraw(engine);
     }
 }

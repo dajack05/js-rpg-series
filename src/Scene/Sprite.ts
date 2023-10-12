@@ -1,4 +1,5 @@
-import Node, { Context } from "./Node";
+import { Context, Engine } from "../Core/Engine";
+import Node from "./Node";
 
 export class Animation {
     start_frame: number;
@@ -68,12 +69,12 @@ export class Sprite extends Node {
         return null;
     }
 
-    override onUpdate(delta: number): void {
-        super.onUpdate(delta);
+    override onUpdate(engine: Engine): void {
+        super.onUpdate(engine);
 
         if (this.currentAnimation >= 0 && this.animations.length > 0) {
             const anim = this.animations[this.currentAnimation];
-            anim.counter += delta;
+            anim.counter += engine.getDelta();
             if (anim.counter > anim.fps) {
                 anim.frame++;
                 anim.counter = 0.0;
@@ -106,8 +107,8 @@ export class Sprite extends Node {
         }
     }
 
-    override onDraw(context: Context): void {
-        this.drawFrame(context, this.animations[this.currentAnimation]?.frame || 0);
-        super.onDraw(context);
+    override onDraw(engine: Engine): void {
+        this.drawFrame(engine.ctx, this.animations[this.currentAnimation]?.frame || 0);
+        super.onDraw(engine);
     }
 }

@@ -225,9 +225,22 @@ export class Input {
 - Create "camera" position
 - Set root position to be -camera_position (rounded)
 
-# Collision
+## Refactoring Engine
+
+- Create `Core` folder
+  - Move `Input` and `Vec` into `Core/`
+  - Create `Core/Engine.ts`
+  - Refactor it all! lol
+  - Add `userUpdate` and `userDraw`
+- Refactor `Node::onUpdate` and `Node::onDraw` to use Engine instead of one-off params
+
+# Physics Nodes
 
 - Create a collision world class
   - Has list of colliders
-- Crate collider class
-  - has 
+  - Has debug boolean to toggle drawing
+- Crate collider Node class
+  - has extents vec
+- update and draw world
+- auto-add colliders
+- Collder needs a `isColliding` tag
