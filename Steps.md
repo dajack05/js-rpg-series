@@ -237,6 +237,7 @@ export class Input {
 # Physics Nodes
 - Crate collider Node class
   - has extents vec
+  - Has offset Vec
 - All props to Engine
   - Including collider debug draw
 - If collider debug draw...

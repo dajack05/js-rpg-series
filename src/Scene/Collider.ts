@@ -7,6 +7,7 @@ export class Collider extends Node {
 
     isDynamic = false;
     extents = new Vec(16, 16);
+    offset = new Vec(0, 0);
     collidingWith: Collider | null = null;
 
     onUpdate(engine: Engine): void {
@@ -24,7 +25,7 @@ export class Collider extends Node {
         super.onDraw(engine);
 
         if (engine.settings.debug.collider) {
-            const position = this.global_position.clone();
+            const position = this.global_position.add(this.offset);
             const extents = this.extents.mult(this.global_scale);
             engine.ctx.strokeStyle = this.isColliding() ? "#00FF00" : "#FF0000";
             engine.ctx.strokeRect(
@@ -41,12 +42,12 @@ export class Collider extends Node {
             if (other === this) continue;
 
             const isInX =
-                this.global_position.x - (this.extents.x * this.global_scale.x) < other.global_position.x + (other.extents.x * other.global_scale.x) &&
-                this.global_position.x + (this.extents.x * this.global_scale.x) > other.global_position.x - (other.extents.x * other.global_scale.x);
+                (this.global_position.x + this.offset.x) - (this.extents.x * this.global_scale.x) < other.global_position.x + (other.extents.x * other.global_scale.x) &&
+                (this.global_position.x + this.offset.x) + (this.extents.x * this.global_scale.x) > other.global_position.x - (other.extents.x * other.global_scale.x);
 
             const isInY =
-                this.global_position.y - (this.extents.y * this.global_scale.y) < other.global_position.y + (other.extents.y * other.global_scale.y) &&
-                this.global_position.y + (this.extents.y * this.global_scale.y) > other.global_position.y - (other.extents.y * other.global_scale.y);
+                (this.global_position.y + this.offset.y) - (this.extents.y * this.global_scale.y) < other.global_position.y + (other.extents.y * other.global_scale.y) &&
+                (this.global_position.y + this.offset.y) + (this.extents.y * this.global_scale.y) > other.global_position.y - (other.extents.y * other.global_scale.y);
 
             if (isInX && isInY) {
                 this.collidingWith = other;

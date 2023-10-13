@@ -27,6 +27,7 @@ export class Player extends Collider {
             cols: 9,
             rows: 5,
         };
+        this.offset = new Vec(0, 8);
 
         this.sprite.addAnimation(Anim.IDLE, new Animation(18, 20, 1.5));
         this.sprite.addAnimation(Anim.N, new Animation(1, 9, 1 / 10));
