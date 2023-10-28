@@ -280,3 +280,10 @@ export class Input {
  - Has a list of all know Generators
  - Runs through them until it finds the match
   - Or returns a blank Node
+- Create `Switch` node
+  - Has a Collider and Sprite
+  - Needs a forward and reverse animation
+    - Add support by detecting when end_frame < start_frame
+  - Collider needs to be a trigger
+    - Add ColliderType enum
+    - Replace isDynamic with enum

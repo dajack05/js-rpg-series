@@ -2,8 +2,14 @@ import { Engine } from "../Core/Engine";
 import { Vec } from "../Core/Vec";
 import Node, { NodeProperties } from "./Node";
 
+export enum ColliderType {
+  STATIC,
+  DYNAMIC,
+  TRIGGER,
+}
+
 export type ColliderProperties = NodeProperties & {
-  dynamic?: boolean;
+  collider_type?: ColliderType;
   extents?: Vec;
   offset?: Vec;
 };
@@ -11,14 +17,14 @@ export type ColliderProperties = NodeProperties & {
 export class Collider extends Node {
   private isAddedToWorld = false;
 
-  isDynamic: boolean;
-  extents = new Vec(16, 16);
-  offset = new Vec(0, 0);
+  type: ColliderType;
+  extents: Vec;
+  offset: Vec;
   collidingWith: Collider | null = null;
 
   constructor(properties: ColliderProperties) {
     super(properties);
-    this.isDynamic = properties.dynamic || false;
+    this.type = properties.collider_type || ColliderType.STATIC;
     this.extents = properties.extents || new Vec(16, 16);
     this.offset = properties.offset || new Vec(0, 0);
   }
@@ -28,7 +34,10 @@ export class Collider extends Node {
       engine.addCollider(this);
       this.isAddedToWorld = true;
     }
-    if (this.isDynamic) {
+    if (
+      this.type == ColliderType.DYNAMIC ||
+      this.type == ColliderType.TRIGGER
+    ) {
       this.checkCollision(engine);
     }
     super.onUpdate(engine);
@@ -52,29 +61,22 @@ export class Collider extends Node {
 
   isColliding = () => this.collidingWith != null;
 
-  checkCollision(engine: Engine): void {
+  checkCollision(engine: Engine, at?: Vec): void {
     this.collidingWith = null;
+    const pos = at || this.global_position.clone();
     for (const other of engine.colliders) {
       if (other === this) continue;
 
       const isInX =
-        this.global_position.x +
-          this.offset.x -
-          this.extents.x * this.global_scale.x <
+        pos.x + this.offset.x - this.extents.x * this.global_scale.x <
           other.global_position.x + other.extents.x * other.global_scale.x &&
-        this.global_position.x +
-          this.offset.x +
-          this.extents.x * this.global_scale.x >
+        pos.x + this.offset.x + this.extents.x * this.global_scale.x >
           other.global_position.x - other.extents.x * other.global_scale.x;
 
       const isInY =
-        this.global_position.y +
-          this.offset.y -
-          this.extents.y * this.global_scale.y <
+        pos.y + this.offset.y - this.extents.y * this.global_scale.y <
           other.global_position.y + other.extents.y * other.global_scale.y &&
-        this.global_position.y +
-          this.offset.y +
-          this.extents.y * this.global_scale.y >
+        pos.y + this.offset.y + this.extents.y * this.global_scale.y >
           other.global_position.y - other.extents.y * other.global_scale.y;
 
       if (isInX && isInY) {

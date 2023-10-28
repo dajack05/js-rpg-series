@@ -6,6 +6,7 @@ import { Player } from "./Game/Player";
 import { EntityRegistry } from "./Core/EntityRegistry";
 import { Sprite } from "./Scene/Sprite";
 import img from "./assets/images/player.png";
+import { Switch } from "./Game/Switch";
 
 const engine = new Engine("canvas", {
   debug: {
@@ -15,8 +16,7 @@ const engine = new Engine("canvas", {
 
 EntityRegistry.AddGenerator((objData) => {
   if (objData.type == "switch") {
-    return new Sprite({
-      img_path: img,
+    return new Switch({
       name: objData.name,
       position: new Vec(objData.x, objData.y),
     });

@@ -101,10 +101,19 @@ export class Sprite extends Node {
       const anim = this.animations[this.currentAnimation];
       anim.counter += engine.getDelta();
       if (anim.counter > anim.fps) {
-        anim.frame++;
-        anim.counter = 0.0;
-        if (anim.frame >= anim.end_frame) {
-          anim.frame = anim.loop ? anim.start_frame : anim.end_frame;
+        const is_forward = anim.end_frame >= anim.start_frame;
+        if (is_forward) {
+          anim.frame++;
+          anim.counter = 0.0;
+          if (anim.frame >= anim.end_frame) {
+            anim.frame = anim.loop ? anim.start_frame : anim.end_frame;
+          }
+        }else{
+          anim.frame--;
+          anim.counter = 0.0;
+          if (anim.frame < anim.end_frame) {
+            anim.frame = anim.loop ? anim.start_frame : anim.end_frame;
+          }
         }
       }
     }

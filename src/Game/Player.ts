@@ -1,5 +1,5 @@
 import { Input } from "../Core/Input";
-import { Collider } from "../Scene/Collider";
+import { Collider, ColliderType } from "../Scene/Collider";
 import { Sprite, MakeAnimation } from "../Scene/Sprite";
 import { Vec } from "../Core/Vec";
 import playerSheet from "../assets/images/player.png";
@@ -16,6 +16,8 @@ enum Anim {
 }
 
 export class Player extends Collider {
+  move_speed = 2.0;
+
   sprite = new Sprite({ name: "Player Sprite" });
 
   constructor(properties: NodeProperties = {}) {
@@ -55,10 +57,8 @@ export class Player extends Collider {
       moveVec.y += 1;
     }
 
-    this.global_position = this.global_position.add(moveVec);
-    this.checkCollision(engine);
-    if (this.isColliding()) {
-      this.global_position = this.global_position.sub(moveVec);
+    this.checkCollision(engine, this.global_position.add(moveVec));
+    if (this.isColliding() && this.collidingWith?.type != ColliderType.TRIGGER) {
       moveVec.y = 0;
     }
 
@@ -71,10 +71,8 @@ export class Player extends Collider {
       moveVec.x += 1;
     }
 
-    this.global_position = this.global_position.add(moveVec);
-    this.checkCollision(engine);
-    if (this.isColliding()) {
-      this.global_position = this.global_position.sub(moveVec);
+    this.checkCollision(engine, this.global_position.add(moveVec));
+    if (this.isColliding() && this.collidingWith?.type != ColliderType.TRIGGER) {
       moveVec.x = 0;
     }
 
