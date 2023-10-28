@@ -3,7 +3,6 @@ import { Vec } from './Core/Vec';
 import { Engine } from './Core/Engine';
 import testmap from './assets/maps/testmap.tmj';
 import { Player } from './Game/Player';
-import { Collider } from './Scene/Collider';
 
 const engine = new Engine('canvas', {
     debug: {

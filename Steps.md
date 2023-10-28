@@ -255,3 +255,13 @@ export class Input {
   - Add that to the types
   - Check to see if we're in a tile layer or object layer
   - Create and push all map colliders
+
+# Z-Index Layers
+
+- Split upper stuff into new layer
+- Designate foreground tag
+  - I'll use FG ...
+- Add support in importer
+  - Add a LateDraw() for FG stuff
+  - Check if layer is FG
+- Add `onLateDraw(this)` call to `Engine.ts`

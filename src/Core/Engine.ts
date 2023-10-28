@@ -66,6 +66,8 @@ export class Engine {
         this.root_node.onDraw(this);
         this.userDraw(this);
 
+        this.root_node.onLateDraw(this);
+
         window.requestAnimationFrame(this.loop.bind(this));
     }
 }
