@@ -265,3 +265,17 @@ export class Input {
   - Add a LateDraw() for FG stuff
   - Check if layer is FG
 - Add `onLateDraw(this)` call to `Engine.ts`
+
+# Interactions
+
+- In Tiled
+  - Create new "Entities" layer
+  - Create a switch with name "Switch01"
+    - Class "switch"
+- Add support in importer
+  - Check if entity by `type != ""`
+  - Create entity according to `EntityRegistry` which should be passed in.
+- Create `EntityRegistry`
+  - Add (string , ()=>Node)
+  - Get (Node from String)
+- Refactor Nodes to support a "Generator" function along with arbitrary properties

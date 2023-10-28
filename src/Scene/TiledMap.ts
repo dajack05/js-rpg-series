@@ -1,4 +1,5 @@
 import { Engine } from "../Core/Engine";
+import { EntityRegistry } from "../Core/EntityRegistry";
 import { Vec } from "../Core/Vec";
 import { Collider } from "./Collider";
 import Node from "./Node";
@@ -54,6 +55,7 @@ export class TiledMap extends Node {
   private tilesetSprite = new Sprite();
   private mapData: TiledData | null = null;
   colliders: Collider[] = [];
+  entities: Node[] = [];
 
   loadTMJ(map: string): void {
     this.mapData = JSON.parse(map) as TiledData;
@@ -66,14 +68,16 @@ export class TiledMap extends Node {
 
     const tileset = this.mapData.tilesets[0];
 
-    this.tilesetSprite = new Sprite("tilemap");
+    this.tilesetSprite = new Sprite({
+      name: "tilemap",
+      sheet_config: {
+        cols: tileset.columns,
+        rows: tileset.tilecount / tileset.columns,
+      },
+      img_path: tileset.image,
+    });
     this.tilesetSprite.parent = this;
 
-    this.tilesetSprite.load(tileset.image);
-    this.tilesetSprite.spriteSheet = {
-      cols: tileset.columns,
-      rows: tileset.tilecount / tileset.columns,
-    };
     this.tilesetSprite.addAnimation(
       "_",
       new Animation(0, tileset.tilecount, 1.0)
@@ -84,13 +88,21 @@ export class TiledMap extends Node {
       if (!layer.objects) continue;
 
       for (const object of layer.objects) {
-        const collider = new Collider(object.name);
+        if (object.type == "") {
+          const collider = new Collider({ name: object.name });
 
-        collider.extents = new Vec(object.width, object.height).divScalar(2);
-        collider.position = new Vec(object.x, object.y).add(collider.extents);
+          collider.extents = new Vec(object.width, object.height).divScalar(2);
+          collider.position = new Vec(object.x, object.y).add(collider.extents);
 
-        this.addChild(collider);
-        this.colliders.push(collider);
+          this.addChild(collider);
+          this.colliders.push(collider);
+        } else {
+          console.log(`Processing "${object.type}"`);
+          const ent = EntityRegistry.Get(object.type);
+          ent.position = new Vec(object.x, object.y);
+          ent.name = object.name;
+          this.entities.push(ent);
+        }
       }
     }
   }

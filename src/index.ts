@@ -15,10 +15,12 @@ engine.root_node.position = new Vec(400, 400);
 const player = new Player();
 player.position = new Vec(100, 100);
 
-const map = new TiledMap("Map");
+const map = new TiledMap({name:"Map"});
 map.scale = new Vec(2, 2);
 map.loadTMJ(testmap);
 map.colliders.forEach(c => engine.addCollider(c));
+map.entities.forEach(e => engine.root_node.addChild(e));
+engine.root_node.debugPrint();
 
 engine.root_node.addChild(map);
 engine.root_node.addChild(player);

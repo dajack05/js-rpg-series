@@ -1,6 +1,19 @@
 import { Context, Engine } from "../Core/Engine";
 import { Vec } from "../Core/Vec";
 
+export type NodeProperties = {
+  name?: string;
+  position?: {
+    x: number;
+    y: number;
+  };
+  scale?: {
+    x: number;
+    y: number;
+  };
+  rotation?: number;
+};
+
 export default class Node {
   name: string;
 
@@ -15,8 +28,20 @@ export default class Node {
   parent: Node | null = null;
   children: Node[] = [];
 
-  constructor(name: string = "") {
-    this.name = name;
+  constructor(properties: NodeProperties = {}) {
+    this.name = properties.name || "";
+    this.a = properties.rotation || 0;
+
+    if (properties.position) {
+      this.position = new Vec(properties.position.x, properties.position.y);
+    }
+    if (properties.scale) {
+      this.scale = new Vec(properties.scale.x, properties.scale.y);
+    }
+  }
+
+  static Generate(properties: unknown): Node {
+    return new Node(properties as NodeProperties);
   }
 
   debugPrint() {

@@ -113,7 +113,7 @@
         {
          "draworder":"topdown",
          "id":4,
-         "name":"Object Layer 1",
+         "name":"Colliders",
          "objects":[
                 {
                  "height":32,
@@ -274,9 +274,32 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":6,
+         "name":"Entities",
+         "objects":[
+                {
+                 "gid":124,
+                 "height":16,
+                 "id":29,
+                 "name":"Switch01",
+                 "rotation":0,
+                 "type":"switch",
+                 "visible":true,
+                 "width":16,
+                 "x":112,
+                 "y":64
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":6,
- "nextobjectid":29,
+ "nextlayerid":7,
+ "nextobjectid":30,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
