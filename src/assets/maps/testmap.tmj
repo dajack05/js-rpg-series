@@ -291,6 +291,18 @@
                  "width":16,
                  "x":112,
                  "y":64
+                }, 
+                {
+                 "gid":124,
+                 "height":16,
+                 "id":30,
+                 "name":"Switch01",
+                 "rotation":0,
+                 "type":"switch",
+                 "visible":true,
+                 "width":16,
+                 "x":131,
+                 "y":126
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -299,7 +311,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":30,
+ "nextobjectid":31,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

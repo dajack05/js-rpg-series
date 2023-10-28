@@ -1,25 +1,26 @@
 import Node from "../Scene/Node";
+import { TiledObjectData } from "../Scene/TiledMap";
+
+export type EntityGeneratorFunction = (
+  properties: TiledObjectData
+) => Node | null;
 
 export class EntityRegistry {
-  private static keys: string[] = [];
-  private static generators: (() => Node)[] = [];
+  private static generators: EntityGeneratorFunction[] = [];
 
-  static Add(key: string, generator: () => Node) {
-    const _key = key.toUpperCase();
-    if (this.keys.includes(_key)) {
-      this.generators[this.keys.indexOf(_key)] = generator;
-    } else {
-      this.keys.push(_key);
-      this.generators.push(generator);
-    }
+  static AddGenerator(generator: EntityGeneratorFunction) {
+    this.generators.push(generator);
   }
 
-  static Get(key: string): Node {
-    const _key = key.toUpperCase();
-    if (this.keys.includes(_key)) {
-      return this.generators[this.keys.indexOf(_key)]();
-    } else {
-      return new Node({name:"NULL NODE"});
+  static GetEntity(properties: TiledObjectData): Node {
+    let node = new Node();
+    for (const gen of this.generators) {
+      const n = gen(properties);
+      if (n) {
+        node = n;
+        break;
+      }
     }
+    return node;
   }
 }

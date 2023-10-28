@@ -1,27 +1,31 @@
 import { Context, Engine } from "../Core/Engine";
 import Node, { NodeProperties } from "./Node";
 
-export class Animation {
+export type Animation = {
+  name: string;
   start_frame: number;
   end_frame: number;
   fps: number;
   frame: number;
-  counter: number = 0.0;
+  counter: number;
   loop: boolean;
+};
 
-  constructor(
-    start_frame: number,
-    end_frame: number,
-    fps: number,
-    loop: boolean = true
-  ) {
-    this.start_frame = start_frame;
-    this.end_frame = end_frame;
-    this.fps = fps;
-    this.frame = start_frame;
-    this.loop = loop;
-  }
-}
+export const MakeAnimation = (
+  name: string,
+  start_frame: number,
+  end_frame: number,
+  loop = true,
+  fps?: number
+): Animation => ({
+  name,
+  start_frame,
+  end_frame,
+  loop,
+  fps: fps || 1.0,
+  counter: 0,
+  frame: start_frame,
+});
 
 export type SpriteSheetConfig = {
   cols: number;
@@ -40,7 +44,6 @@ export class Sprite extends Node {
 
   spriteSheet: SpriteSheetConfig;
 
-  private animationNames: string[] = [];
   private animations: Animation[] = [];
   private currentAnimation = -1;
 
@@ -62,22 +65,31 @@ export class Sprite extends Node {
     this.image.src = path;
   }
 
-  addAnimation(name: string, animation: Animation): void {
-    this.animationNames.push(name);
+  addAnimation(animation: Animation): void {
+    for (let i = 0; i < this.animations.length; i++) {
+      if (this.animations[i].name == animation.name) {
+        this.animations[i] = animation;
+        return;
+      }
+    }
+
     this.animations.push(animation);
   }
 
   playAnimation(name: string): void {
-    const i = this.animationNames.indexOf(name);
-    this.currentAnimation = i;
+    for (let i = 0; i < this.animations.length; i++) {
+      if (this.animations[i].name == name) {
+        this.currentAnimation = i;
+        return;
+      }
+    }
+
+    console.error(`Failed to find animation named "${name}"`, this);
   }
 
-  getPlayingAnimation(): { name: string; animation: Animation } | null {
+  getPlayingAnimation(): Animation | null {
     if (this.currentAnimation >= 0) {
-      return {
-        name: this.animationNames[this.currentAnimation],
-        animation: this.animations[this.currentAnimation],
-      };
+      return this.animations[this.currentAnimation];
     }
     return null;
   }

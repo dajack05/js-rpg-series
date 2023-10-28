@@ -122,6 +122,7 @@ Tileset: https://opengameart.org/content/a-blocky-dungeon
   - Allow subsection rendering
     ```ts
     export class Animation {
+        name:string;
         start_frame: number;
         end_frame: number;
         fps: number;
@@ -276,6 +277,6 @@ export class Input {
   - Check if entity by `type != ""`
   - Create entity according to `EntityRegistry` which should be passed in.
 - Create `EntityRegistry`
-  - Add (string , ()=>Node)
-  - Get (Node from String)
-- Refactor Nodes to support a "Generator" function along with arbitrary properties
+ - Has a list of all know Generators
+ - Runs through them until it finds the match
+  - Or returns a blank Node

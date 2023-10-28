@@ -3,9 +3,9 @@ import { EntityRegistry } from "../Core/EntityRegistry";
 import { Vec } from "../Core/Vec";
 import { Collider } from "./Collider";
 import Node from "./Node";
-import { Animation, Sprite } from "./Sprite";
+import { Animation, MakeAnimation, Sprite } from "./Sprite";
 
-type TiledObjectData = {
+export type TiledObjectData = {
   id: number;
   name: string;
   type: string;
@@ -55,7 +55,6 @@ export class TiledMap extends Node {
   private tilesetSprite = new Sprite();
   private mapData: TiledData | null = null;
   colliders: Collider[] = [];
-  entities: Node[] = [];
 
   loadTMJ(map: string): void {
     this.mapData = JSON.parse(map) as TiledData;
@@ -79,8 +78,7 @@ export class TiledMap extends Node {
     this.tilesetSprite.parent = this;
 
     this.tilesetSprite.addAnimation(
-      "_",
-      new Animation(0, tileset.tilecount, 1.0)
+      MakeAnimation("_", 0, tileset.tilecount, false)
     );
     this.tilesetSprite.playAnimation("_");
 
@@ -98,10 +96,10 @@ export class TiledMap extends Node {
           this.colliders.push(collider);
         } else {
           console.log(`Processing "${object.type}"`);
-          const ent = EntityRegistry.Get(object.type);
+          const ent = EntityRegistry.GetEntity(object);
           ent.position = new Vec(object.x, object.y);
           ent.name = object.name;
-          this.entities.push(ent);
+          this.addChild(ent);
         }
       }
     }

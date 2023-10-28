@@ -3,26 +3,20 @@ import { Vec } from "../Core/Vec";
 
 export type NodeProperties = {
   name?: string;
-  position?: {
-    x: number;
-    y: number;
-  };
-  scale?: {
-    x: number;
-    y: number;
-  };
+  position?: Vec;
+  scale?: Vec;
   rotation?: number;
 };
 
 export default class Node {
   name: string;
 
-  position = new Vec();
+  position: Vec;
   global_position = new Vec();
 
   a = 0.0;
 
-  scale = new Vec(1, 1);
+  scale: Vec;
   global_scale = new Vec(1, 1);
 
   parent: Node | null = null;
@@ -31,13 +25,8 @@ export default class Node {
   constructor(properties: NodeProperties = {}) {
     this.name = properties.name || "";
     this.a = properties.rotation || 0;
-
-    if (properties.position) {
-      this.position = new Vec(properties.position.x, properties.position.y);
-    }
-    if (properties.scale) {
-      this.scale = new Vec(properties.scale.x, properties.scale.y);
-    }
+    this.position = properties.position || new Vec(0, 0);
+    this.scale = properties.scale || new Vec(1, 1);
   }
 
   static Generate(properties: unknown): Node {
