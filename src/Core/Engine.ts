@@ -50,13 +50,14 @@ export class Engine {
   }
 
   broadcast(type: string, payload: unknown) {
+    console.info("BROADCAST", type, payload);
 
     // Check for Engine specific ones first
-    if(type.toUpperCase() == "STOP"){
+    if (type.toUpperCase() == "STOP") {
       window.location.reload();
     }
 
-    this.root_node.onReceivedBroadcast({ type, payload });
+    this.root_node.onReceivedBroadcast(this, { type, payload });
   }
 
   removeCollider(collider: Collider) {

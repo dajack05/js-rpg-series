@@ -1,6 +1,7 @@
 import { Broadcast } from "../Core/Broadcast";
 import { Context, Engine } from "../Core/Engine";
 import { Vec } from "../Core/Vec";
+import { TiledObjectData } from "./TiledMap";
 
 export type NodeProperties = {
   name?: string;
@@ -23,6 +24,13 @@ export default class Node {
   parent: Node | null = null;
   children: Node[] = [];
 
+  static Generate(objData: TiledObjectData): Node {
+    return new Node({
+      name: `${objData.id}${objData.name}`,
+      position: new Vec(objData.x, objData.y),
+    });
+  }
+
   constructor(properties: NodeProperties = {}) {
     this.name = properties.name || "";
     this.a = properties.rotation || 0;
@@ -30,21 +38,17 @@ export default class Node {
     this.scale = properties.scale || new Vec(1, 1);
   }
 
-  static Generate(properties: unknown): Node {
-    return new Node(properties as NodeProperties);
-  }
-
-  onReceivedBroadcast(broadcast: Broadcast) {
+  onReceivedBroadcast(engine: Engine, broadcast: Broadcast): void {
     for (const child of this.children) {
-      child.onReceivedBroadcast(broadcast);
+      child.onReceivedBroadcast(engine, broadcast);
     }
   }
 
-  debugPrint() {
+  debugPrint(): void {
     console.log(this.name, this);
   }
 
-  addChild(child: Node) {
+  addChild(child: Node): void {
     child.parent = this;
     if (!this.children.includes(child)) {
       this.children.push(child);

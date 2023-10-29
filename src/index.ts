@@ -14,15 +14,7 @@ const engine = new Engine("canvas", {
   },
 });
 
-EntityRegistry.AddGenerator((objData) => {
-  if (objData.type == "switch") {
-    return new Switch({
-      name: objData.name,
-      position: new Vec(objData.x, objData.y),
-    });
-  }
-  return null;
-});
+EntityRegistry.AddGenerator("switch", Switch.Generate);
 
 engine.root_node.position = new Vec(400, 400);
 

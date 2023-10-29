@@ -6,21 +6,20 @@ export type EntityGeneratorFunction = (
 ) => Node | null;
 
 export class EntityRegistry {
-  private static generators: EntityGeneratorFunction[] = [];
+  private static generators: Map<string, EntityGeneratorFunction> = new Map<
+    string,
+    EntityGeneratorFunction
+  >();
 
-  static AddGenerator(generator: EntityGeneratorFunction) {
-    this.generators.push(generator);
+  static AddGenerator(key: string, generator: EntityGeneratorFunction) {
+    this.generators.set(key, generator);
   }
 
   static GetEntity(properties: TiledObjectData): Node {
-    let node = new Node();
-    for (const gen of this.generators) {
-      const n = gen(properties);
-      if (n) {
-        node = n;
-        break;
-      }
+    const generator = this.generators.get(properties.type);
+    if (generator != undefined) {
+      return generator(properties) || new Node();
     }
-    return node;
+    return new Node();
   }
 }

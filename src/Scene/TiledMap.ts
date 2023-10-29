@@ -5,6 +5,12 @@ import { Collider } from "./Collider";
 import Node from "./Node";
 import { Animation, MakeAnimation, Sprite } from "./Sprite";
 
+type TiledObjectPropertyData = {
+  name: string;
+  type: string;
+  value: string;
+};
+
 export type TiledObjectData = {
   id: number;
   name: string;
@@ -14,6 +20,7 @@ export type TiledObjectData = {
   y: number;
   width: number;
   height: number;
+  properties?: TiledObjectPropertyData[];
 };
 
 type TiledLayerData = {
@@ -96,10 +103,7 @@ export class TiledMap extends Node {
           this.colliders.push(collider);
         } else {
           console.log(`Processing "${object.type}"`);
-          const ent = EntityRegistry.GetEntity(object);
-          ent.position = new Vec(object.x, object.y);
-          ent.name = object.name;
-          this.addChild(ent);
+          this.addChild(EntityRegistry.GetEntity(object));
         }
       }
     }

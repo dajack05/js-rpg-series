@@ -295,3 +295,4 @@ export class Input {
 
 - We're gonna need a way to communicate...
   - Create broadcast system
+  - Add a broadcast to the entity in Tiled

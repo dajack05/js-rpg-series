@@ -285,6 +285,12 @@
                  "height":16,
                  "id":29,
                  "name":"Switch01",
+                 "properties":[
+                        {
+                         "name":"triggers",
+                         "type":"object",
+                         "value":30
+                        }],
                  "rotation":0,
                  "type":"switch",
                  "visible":true,
