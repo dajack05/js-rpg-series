@@ -16,7 +16,7 @@ export class Engine {
   ctx: Context;
 
   camera_position = new Vec(-window.innerWidth / 2, -window.innerHeight / 2);
-  root_node = new Node({name:"Root"});
+  root_node = new Node({ name: "Root" });
 
   colliders: Collider[] = [];
   settings: EngineSettings;
@@ -47,6 +47,16 @@ export class Engine {
     if (!this.colliders.includes(collider)) {
       this.colliders.push(collider);
     }
+  }
+
+  broadcast(type: string, payload: unknown) {
+
+    // Check for Engine specific ones first
+    if(type.toUpperCase() == "STOP"){
+      window.location.reload();
+    }
+
+    this.root_node.onReceivedBroadcast({ type, payload });
   }
 
   removeCollider(collider: Collider) {

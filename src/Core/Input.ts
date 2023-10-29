@@ -7,8 +7,8 @@ export class Input {
     if (!Input.didInit) {
       Input.Init();
     }
-    if(this.lockedKeys.get(key) == true){
-        return false;
+    if (this.lockedKeys.get(key) == true) {
+      return false;
     }
     return Input.downKeys.get(key) || false;
   }
@@ -18,16 +18,19 @@ export class Input {
       return;
     }
 
-    document.addEventListener("keydown", (e) => this.downKeys.set(e.key, true));
+    document.addEventListener("keydown", (e) => {
+      console.log(e.key);
+      this.downKeys.set(e.key, true);
+    });
     document.addEventListener("keyup", (e) => {
-        this.downKeys.set(e.key, false);
-        this.lockedKeys.set(e.key, false);
+      this.downKeys.set(e.key, false);
+      this.lockedKeys.set(e.key, false);
     });
 
     Input.didInit = true;
   }
 
-  static LockKey(key:string){
+  static LockKey(key: string) {
     this.lockedKeys.set(key, true);
   }
 }

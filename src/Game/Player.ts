@@ -44,6 +44,11 @@ export class Player extends Collider {
   }
 
   override onUpdate(engine: Engine): void {
+
+    if(Input.IsKeyPressed('Escape')){
+      engine.broadcast("stop",{});
+    }
+
     let moveVec = new Vec();
 
     this.sprite.playAnimation(Anim.IDLE);

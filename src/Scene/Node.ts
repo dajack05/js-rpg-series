@@ -1,3 +1,4 @@
+import { Broadcast } from "../Core/Broadcast";
 import { Context, Engine } from "../Core/Engine";
 import { Vec } from "../Core/Vec";
 
@@ -31,6 +32,12 @@ export default class Node {
 
   static Generate(properties: unknown): Node {
     return new Node(properties as NodeProperties);
+  }
+
+  onReceivedBroadcast(broadcast: Broadcast) {
+    for (const child of this.children) {
+      child.onReceivedBroadcast(broadcast);
+    }
   }
 
   debugPrint() {

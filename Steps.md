@@ -292,3 +292,6 @@ export class Input {
     - Add "show" prop to Sprites
   - Is On? Is Useable?
     - Gonna need a way to lock keys.
+
+- We're gonna need a way to communicate...
+  - Create broadcast system
