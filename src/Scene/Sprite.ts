@@ -35,12 +35,14 @@ export type SpriteSheetConfig = {
 export type SpriteProperties = NodeProperties & {
   sheet_config?: SpriteSheetConfig;
   img_path?: string;
+  show?: boolean;
 };
 
 export class Sprite extends Node {
   image = new Image();
 
   private isReady = false;
+  show: boolean;
 
   spriteSheet: SpriteSheetConfig;
 
@@ -58,6 +60,7 @@ export class Sprite extends Node {
     }
 
     this.spriteSheet = properties.sheet_config || { cols: 1, rows: 1 };
+    this.show = properties.show != undefined ? properties.show : true;
   }
 
   load(path: string): void {
@@ -76,10 +79,13 @@ export class Sprite extends Node {
     this.animations.push(animation);
   }
 
-  playAnimation(name: string): void {
+  playAnimation(name: string, reset = false): void {
     for (let i = 0; i < this.animations.length; i++) {
       if (this.animations[i].name == name) {
         this.currentAnimation = i;
+        if(reset){
+          this.animations[this.currentAnimation].frame = this.animations[this.currentAnimation].start_frame;
+        }
         return;
       }
     }
@@ -108,7 +114,7 @@ export class Sprite extends Node {
           if (anim.frame >= anim.end_frame) {
             anim.frame = anim.loop ? anim.start_frame : anim.end_frame;
           }
-        }else{
+        } else {
           anim.frame--;
           anim.counter = 0.0;
           if (anim.frame < anim.end_frame) {
@@ -120,7 +126,7 @@ export class Sprite extends Node {
   }
 
   drawFrame(context: Context, frame: number) {
-    if (this.isReady) {
+    if (this.isReady && this.show) {
       const sub_width = this.image.width / this.spriteSheet.cols;
       const sub_height = this.image.height / this.spriteSheet.rows;
 

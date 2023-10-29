@@ -287,3 +287,8 @@ export class Input {
   - Collider needs to be a trigger
     - Add ColliderType enum
     - Replace isDynamic with enum
+  - Shows "E" when player is triggering it
+    - Add second sprite
+    - Add "show" prop to Sprites
+  - Is On? Is Useable?
+    - Gonna need a way to lock keys.

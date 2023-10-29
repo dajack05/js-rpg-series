@@ -63,21 +63,23 @@ export class Collider extends Node {
 
   checkCollision(engine: Engine, at?: Vec): void {
     this.collidingWith = null;
-    const pos = at || this.global_position.clone();
+    const pos = at || this.global_position.add(this.offset);
     for (const other of engine.colliders) {
       if (other === this) continue;
 
+      const pos2 = other.global_position.add(other.offset);
+
       const isInX =
         pos.x + this.offset.x - this.extents.x * this.global_scale.x <
-          other.global_position.x + other.extents.x * other.global_scale.x &&
+          pos2.x + other.extents.x * other.global_scale.x &&
         pos.x + this.offset.x + this.extents.x * this.global_scale.x >
-          other.global_position.x - other.extents.x * other.global_scale.x;
+          pos2.x - other.extents.x * other.global_scale.x;
 
       const isInY =
         pos.y + this.offset.y - this.extents.y * this.global_scale.y <
-          other.global_position.y + other.extents.y * other.global_scale.y &&
+          pos2.y + other.extents.y * other.global_scale.y &&
         pos.y + this.offset.y + this.extents.y * this.global_scale.y >
-          other.global_position.y - other.extents.y * other.global_scale.y;
+          pos2.y - other.extents.y * other.global_scale.y;
 
       if (isInX && isInY) {
         this.collidingWith = other;
