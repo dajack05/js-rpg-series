@@ -1,16 +1,18 @@
 import { Broadcast } from "../Core/Broadcast";
-import { Context, Engine } from "../Core/Engine";
+import { Engine } from "../Core/Engine";
 import { Vec } from "../Core/Vec";
 import { TiledObjectData } from "./TiledMap";
 
 export type NodeProperties = {
+  active?: boolean;
   name?: string;
   position?: Vec;
   scale?: Vec;
   rotation?: number;
 };
 
-export default class Node {
+export class Node {
+  active: boolean;
   name: string;
 
   position: Vec;
@@ -32,6 +34,7 @@ export default class Node {
   }
 
   constructor(properties: NodeProperties = {}) {
+    this.active = properties.active != undefined ? properties.active : true;
     this.name = properties.name || "";
     this.a = properties.rotation || 0;
     this.position = properties.position || new Vec(0, 0);
@@ -55,6 +58,12 @@ export default class Node {
     }
   }
 
+  addChildren(children: Node[]): void {
+    for (const child of children) {
+      this.addChild(child);
+    }
+  }
+
   removeChild(child: Node) {
     if (this.children.includes(child)) {
       child.parent = null;
@@ -63,6 +72,13 @@ export default class Node {
   }
 
   onUpdate(engine: Engine) {
+    if (!this.active) {
+      for (const child of this.children) {
+        child.active = this.active;
+      }
+      return;
+    }
+
     this.global_scale = (this.parent?.global_scale || new Vec(1, 1)).mult(
       this.scale
     );
@@ -76,12 +92,16 @@ export default class Node {
   }
 
   onDraw(engine: Engine) {
+    if (!this.active) return;
+
     for (const child of this.children) {
       child.onDraw(engine);
     }
   }
 
   onLateDraw(engine: Engine) {
+    if (!this.active) return;
+
     for (const child of this.children) {
       child.onLateDraw(engine);
     }

@@ -2,8 +2,8 @@ import { Engine } from "../Core/Engine";
 import { EntityRegistry } from "../Core/EntityRegistry";
 import { Vec } from "../Core/Vec";
 import { Collider } from "./Collider";
-import Node from "./Node";
-import { Animation, MakeAnimation, Sprite } from "./Sprite";
+import { Node } from "./Node";
+import { MakeAnimation, Sprite } from "./Sprite";
 
 type TiledObjectPropertyData = {
   name: string;
@@ -132,6 +132,7 @@ export class TiledMap extends Node {
 
   onDraw(engine: Engine): void {
     if (this.mapData == null) return;
+    if(!this.active) return;
 
     for (const layer of this.mapData.layers) {
       if (!layer.name.startsWith("FG")) {
@@ -144,6 +145,7 @@ export class TiledMap extends Node {
 
   onLateDraw(engine: Engine): void {
     if (this.mapData == null) return;
+    if(!this.active) return;
 
     for (const layer of this.mapData.layers) {
       if (layer.name.startsWith("FG")) {

@@ -122,7 +122,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":256,
+                 "width":208,
                  "x":0,
                  "y":0
                 }, 
@@ -268,6 +268,17 @@
                  "width":16,
                  "x":48,
                  "y":144
+                }, 
+                {
+                 "height":32,
+                 "id":32,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":224,
+                 "y":0
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -289,7 +300,7 @@
                         {
                          "name":"triggers",
                          "type":"object",
-                         "value":30
+                         "value":31
                         }],
                  "rotation":0,
                  "type":"switch",
@@ -309,6 +320,18 @@
                  "width":16,
                  "x":131,
                  "y":126
+                }, 
+                {
+                 "gid":173,
+                 "height":16,
+                 "id":31,
+                 "name":"door01",
+                 "rotation":0,
+                 "type":"door",
+                 "visible":true,
+                 "width":16,
+                 "x":208,
+                 "y":32
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -317,7 +340,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":31,
+ "nextobjectid":33,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

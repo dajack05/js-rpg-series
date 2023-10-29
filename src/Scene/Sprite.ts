@@ -1,5 +1,5 @@
 import { Context, Engine } from "../Core/Engine";
-import Node, { NodeProperties } from "./Node";
+import { Node , NodeProperties } from "./Node";
 
 export type Animation = {
   name: string;
@@ -35,14 +35,12 @@ export type SpriteSheetConfig = {
 export type SpriteProperties = NodeProperties & {
   sheet_config?: SpriteSheetConfig;
   img_path?: string;
-  show?: boolean;
 };
 
 export class Sprite extends Node {
   image = new Image();
 
   private isReady = false;
-  show: boolean;
 
   spriteSheet: SpriteSheetConfig;
 
@@ -60,7 +58,6 @@ export class Sprite extends Node {
     }
 
     this.spriteSheet = properties.sheet_config || { cols: 1, rows: 1 };
-    this.show = properties.show != undefined ? properties.show : true;
   }
 
   load(path: string): void {
@@ -103,6 +100,8 @@ export class Sprite extends Node {
   override onUpdate(engine: Engine): void {
     super.onUpdate(engine);
 
+    if(!this.active) return;
+    
     if (this.currentAnimation >= 0 && this.animations.length > 0) {
       const anim = this.animations[this.currentAnimation];
       anim.counter += engine.getDelta();
@@ -126,7 +125,7 @@ export class Sprite extends Node {
   }
 
   drawFrame(context: Context, frame: number) {
-    if (this.isReady && this.show) {
+    if (this.isReady) {
       const sub_width = this.image.width / this.spriteSheet.cols;
       const sub_height = this.image.height / this.spriteSheet.rows;
 
@@ -154,6 +153,7 @@ export class Sprite extends Node {
   }
 
   override onDraw(engine: Engine): void {
+    if(!this.active) return;
     this.drawFrame(
       engine.ctx,
       this.animations[this.currentAnimation]?.frame || 0

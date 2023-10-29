@@ -1,4 +1,4 @@
-import Node from "../Scene/Node";
+import { Node } from "../Scene/Node";
 import { TiledObjectData } from "../Scene/TiledMap";
 
 export type EntityGeneratorFunction = (

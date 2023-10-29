@@ -1,4 +1,4 @@
 export type Broadcast = {
-  type: string;
+  tag: string;
   payload: unknown;
 };

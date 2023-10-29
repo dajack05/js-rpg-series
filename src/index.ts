@@ -7,6 +7,7 @@ import { EntityRegistry } from "./Core/EntityRegistry";
 import { Sprite } from "./Scene/Sprite";
 import img from "./assets/images/player.png";
 import { Switch } from "./Game/Switch";
+import { Door } from "./Game/Door";
 
 const engine = new Engine("canvas", {
   debug: {
@@ -15,6 +16,7 @@ const engine = new Engine("canvas", {
 });
 
 EntityRegistry.AddGenerator("switch", Switch.Generate);
+EntityRegistry.AddGenerator("door", Door.Generate);
 
 engine.root_node.position = new Vec(400, 400);
 

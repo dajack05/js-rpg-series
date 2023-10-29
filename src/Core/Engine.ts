@@ -1,5 +1,6 @@
 import { Collider } from "../Scene/Collider";
-import Node from "../Scene/Node";
+import { Node } from "../Scene/Node";
+import { Broadcast } from "./Broadcast";
 import { EntityRegistry } from "./EntityRegistry";
 import { Vec } from "./Vec";
 
@@ -49,15 +50,10 @@ export class Engine {
     }
   }
 
-  broadcast(type: string, payload: unknown) {
-    console.info("BROADCAST", type, payload);
+  broadcast(broadcast:Broadcast) {
+    console.info("BROADCAST", broadcast);
 
-    // Check for Engine specific ones first
-    if (type.toUpperCase() == "STOP") {
-      window.location.reload();
-    }
-
-    this.root_node.onReceivedBroadcast(this, { type, payload });
+    this.root_node.onReceivedBroadcast(this, broadcast);
   }
 
   removeCollider(collider: Collider) {

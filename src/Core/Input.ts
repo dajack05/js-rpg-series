@@ -18,10 +18,7 @@ export class Input {
       return;
     }
 
-    document.addEventListener("keydown", (e) => {
-      console.log(e.key);
-      this.downKeys.set(e.key, true);
-    });
+    document.addEventListener("keydown", (e) => this.downKeys.set(e.key, true));
     document.addEventListener("keyup", (e) => {
       this.downKeys.set(e.key, false);
       this.lockedKeys.set(e.key, false);

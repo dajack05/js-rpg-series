@@ -1,6 +1,6 @@
 import { Engine } from "../Core/Engine";
 import { Vec } from "../Core/Vec";
-import Node, { NodeProperties } from "./Node";
+import { Node , NodeProperties } from "./Node";
 
 export enum ColliderType {
   STATIC,
@@ -45,6 +45,7 @@ export class Collider extends Node {
 
   onDraw(engine: Engine): void {
     super.onDraw(engine);
+    if(!this.active) return;
 
     if (engine.settings.debug.collider) {
       const position = this.global_position.add(this.offset);
