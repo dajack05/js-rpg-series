@@ -55,7 +55,7 @@ export class Door extends Node {
     this.collider = new Collider({
       name: `${properties.name}_collider`,
       collider_type: ColliderType.STATIC,
-      extents: new Vec(2, 2),
+      extents: new Vec(8, 8),
       offset: new Vec(0, 0),
     });
 

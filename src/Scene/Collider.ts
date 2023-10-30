@@ -71,6 +71,8 @@ export class Collider extends Node {
     for (const other of engine.colliders) {
       if (other === this) continue;
 
+      if(!other.active) continue;
+
       // If we're a trigger, and the other is NOT dynamic:
       //  Move along.
       if (
