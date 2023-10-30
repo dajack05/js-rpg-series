@@ -21,7 +21,11 @@ export class Player extends Collider {
   sprite = new Sprite({ name: "Player Sprite" });
 
   constructor(properties: NodeProperties = {}) {
-    super({ ...properties, name: "Player" });
+    super({
+      ...properties,
+      name: "Player",
+      collider_type: ColliderType.DYNAMIC,
+    });
     this.addChild(this.sprite);
 
     this.sprite.load(playerSheet);
@@ -44,7 +48,6 @@ export class Player extends Collider {
   }
 
   override onUpdate(engine: Engine): void {
-
     let moveVec = new Vec();
 
     this.sprite.playAnimation(Anim.IDLE);
@@ -59,7 +62,10 @@ export class Player extends Collider {
     }
 
     this.checkCollision(engine, this.global_position.add(moveVec));
-    if (this.isColliding() && this.collidingWith?.type != ColliderType.TRIGGER) {
+    if (
+      this.isColliding() &&
+      this.collidingWith?.type != ColliderType.TRIGGER
+    ) {
       moveVec.y = 0;
     }
 
@@ -73,7 +79,10 @@ export class Player extends Collider {
     }
 
     this.checkCollision(engine, this.global_position.add(moveVec));
-    if (this.isColliding() && this.collidingWith?.type != ColliderType.TRIGGER) {
+    if (
+      this.isColliding() &&
+      this.collidingWith?.type != ColliderType.TRIGGER
+    ) {
       moveVec.x = 0;
     }
 

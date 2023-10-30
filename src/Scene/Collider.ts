@@ -1,6 +1,6 @@
 import { Engine } from "../Core/Engine";
 import { Vec } from "../Core/Vec";
-import { Node , NodeProperties } from "./Node";
+import { Node, NodeProperties } from "./Node";
 
 export enum ColliderType {
   STATIC,
@@ -45,7 +45,7 @@ export class Collider extends Node {
 
   onDraw(engine: Engine): void {
     super.onDraw(engine);
-    if(!this.active) return;
+    if (!this.active) return;
 
     if (engine.settings.debug.collider) {
       const position = this.global_position.add(this.offset);
@@ -63,10 +63,21 @@ export class Collider extends Node {
   isColliding = () => this.collidingWith != null;
 
   checkCollision(engine: Engine, at?: Vec): void {
+    // No need to check static bodies
+    if (this.type === ColliderType.STATIC) return;
+
     this.collidingWith = null;
     const pos = at || this.global_position.add(this.offset);
     for (const other of engine.colliders) {
       if (other === this) continue;
+
+      // If we're a trigger, and the other is NOT dynamic:
+      //  Move along.
+      if (
+        this.type == ColliderType.TRIGGER &&
+        other.type !== ColliderType.DYNAMIC
+      )
+        continue;
 
       const pos2 = other.global_position.add(other.offset);
 

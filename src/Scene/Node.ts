@@ -51,6 +51,17 @@ export class Node {
     console.log(this.name, this);
   }
 
+  getTree(): { [key: string]: any } {
+    let tree: { [key: string]: any } = {};
+    for (const child of this.children) {
+      if(!tree[this.name]){
+        tree[this.name] = {};
+      }
+      tree[this.name][child.name] = child.getTree();
+    }
+    return tree;
+  }
+
   addChild(child: Node): void {
     child.parent = this;
     if (!this.children.includes(child)) {

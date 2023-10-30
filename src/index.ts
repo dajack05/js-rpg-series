@@ -27,10 +27,12 @@ const map = new TiledMap({ name: "Map" });
 map.scale = new Vec(2, 2);
 map.loadTMJ(testmap);
 map.colliders.forEach((c) => engine.addCollider(c));
-engine.root_node.debugPrint();
 
 engine.root_node.addChild(map);
 engine.root_node.addChild(player);
+
+// engine.root_node.debugPrint();
+console.log(engine.root_node.getTree());
 
 engine.userUpdate = (engine: Engine) => {
   engine.camera_position = player.position

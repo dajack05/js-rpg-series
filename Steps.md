@@ -299,3 +299,5 @@ export class Input {
 
 - Now we need to create a Door
   - Tie it into a switch
+  - Doors could be activatable OR triggered only
+  - Limit triggers to ONLY detecting dynamic colliders
