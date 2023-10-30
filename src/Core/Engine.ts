@@ -1,14 +1,13 @@
 import { Collider } from "../Scene/Collider";
 import { Node } from "../Scene/Node";
 import { Broadcast } from "./Broadcast";
-import { EntityRegistry } from "./EntityRegistry";
 import { Vec } from "./Vec";
 
 export type Context = CanvasRenderingContext2D;
 
 export type EngineSettings = {
-  debug: {
-    collider: boolean;
+  debug?: {
+    collider?: boolean;
   };
 };
 
@@ -21,6 +20,8 @@ export class Engine {
 
   colliders: Collider[] = [];
   settings: EngineSettings;
+
+  clearColor = "#000000";
 
   userUpdate = (engine: Engine) => {};
   userDraw = (engine: Engine) => {};
@@ -69,7 +70,8 @@ export class Engine {
     this.root_node.onUpdate(this);
     this.userUpdate(this);
 
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = this.clearColor;
+    this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
     this.root_node.onDraw(this);
     this.userDraw(this);
 

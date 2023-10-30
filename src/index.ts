@@ -11,9 +11,10 @@ import { Door } from "./Game/Door";
 
 const engine = new Engine("canvas", {
   debug: {
-    collider: true,
+    // collider: true,
   },
 });
+engine.clearColor = "#2F283A"
 
 EntityRegistry.AddGenerator("switch", Switch.Generate);
 EntityRegistry.AddGenerator("door", Door.Generate);
