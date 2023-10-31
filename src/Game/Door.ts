@@ -98,12 +98,12 @@ export class Door extends Node {
 
     if (this.canOpen) {
       this.useSprite.active = this.trigger.isColliding();
-    }
 
-    if (this.trigger.isColliding() && Input.IsKeyPressed("e")) {
-      Input.LockKey("e");
-      this.isOpen = !this.isOpen;
-      this.onStateChange();
+      if (this.trigger.isColliding() && Input.IsKeyPressed("e")) {
+        Input.LockKey("e");
+        this.isOpen = !this.isOpen;
+        this.onStateChange();
+      }
     }
   }
 

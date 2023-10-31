@@ -109,6 +109,15 @@ export class TiledMap extends Node {
     }
   }
 
+  getPoint(name:string):Vec|null{
+    for(const c of this.children){
+      if(c.name === name){
+        return c.position.mult(this.scale);
+      }
+    }
+    return null;
+  }
+
   private drawLayer(engine: Engine, layer: TiledLayerData): void {
     if (!this.mapData) return;
 

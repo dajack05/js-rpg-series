@@ -302,3 +302,7 @@ export class Input {
   - Doors could be activatable OR triggered only
   - Limit triggers to ONLY detecting dynamic colliders
   - Collision should ONLY happen if the collider is active
+
+# Make a test map
+
+- Make it!
