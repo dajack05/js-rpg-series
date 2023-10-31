@@ -1,13 +1,11 @@
 import { TiledMap } from "./Scene/TiledMap";
 import { Vec } from "./Core/Vec";
 import { Engine } from "./Core/Engine";
-import testmap from "./assets/maps/testmap.tmj";
 import { Player } from "./Game/Player";
 import { EntityRegistry } from "./Core/EntityRegistry";
-import { Sprite } from "./Scene/Sprite";
-import img from "./assets/images/player.png";
 import { Switch } from "./Game/Switch";
 import { Door } from "./Game/Door";
+import testmap from "./assets/maps/testmap.tmj";
 
 const engine = new Engine("canvas", {
   debug: {
@@ -25,7 +23,7 @@ const player = new Player();
 player.position = new Vec(100, 100);
 
 const map = new TiledMap({ name: "Map" });
-map.scale = new Vec(2, 2);
+map.scale = new Vec(3, 3);
 map.loadTMJ(testmap);
 map.colliders.forEach((c) => engine.addCollider(c));
 
